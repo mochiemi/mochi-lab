@@ -16,7 +16,7 @@ coverage
 
 .test-comps
 .test-data
-
+folders.txt
 
 .vscode/*
 !.vscode/extensions.json
