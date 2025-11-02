@@ -1,0 +1,104 @@
+{
+  "abouts": {
+    "contact": {
+      "header": {
+        "title": "Vamos Conversar!",
+        "description": "Seja para tirar dúvidas, dar sugestões ou apenas para dizer olá.",
+        "contact": {
+          "email": {
+            "title": "Email",
+            "description": "Para conversas diretas e colaborações"
+          },
+          "github": {
+            "title": "GitHub",
+            "description": "Meu repositório de código e outros projetos"
+          },
+          "linkedin": {
+            "title": "LinkedIn",
+            "description": "Meu perfil profissional e experiências"
+          }
+        },
+        "interests": {
+          "responseTime": "Tento responder em alguns dias (às vezes esqueço de ver meu email, mensagens do telefone...) - obrigada pela paciência!"
+        },
+        "funFact": {
+          "title": "Curiosidade",
+          "description": "O nome 'Mochiemi' vem de 'mochi' (a sobremesa japonesa fofa) + 'emi' (as últimas letras do meu nome 'Tiemi' (千恵美) ). Gosto de usar esse apelido na maioria dos meus usuários na web 🍡"
+        }
+      },
+      "form": {
+        "title": "Envie-me uma mensagem",
+        "description": "Prefere escrever diretamente? Use o formulário abaixo e entrarei em contato o mais breve possível.",
+        "warning": " Desculpe! Este recurso não está disponível ainda. Para enviar diretamente um email você pode clicar no card ao lado. ",
+        "fields": {
+          "name": {
+            "label": "Seu Nome",
+            "placeholder": ""
+          },
+          "email": {
+            "label": "Seu Email",
+            "placeholder": ""
+          },
+          "message": {
+            "label": "Sua Mensagem",
+            "placeholder": "Sobre o que você gostaria de conversar?"
+          }
+        },
+        "actions": {
+          "send": "Enviar Mensagem",
+          "reset": "Limpar Formulário"
+        },
+        "validation": {
+          "required": "Por favor, preencha todos os campos obrigatórios"
+        },
+        "success": "Obrigada pela sua mensagem! Entrarei em contato em breve."
+      }
+    }},
+    "about": {
+    "title": "Sobre o Mochi Lab",
+    "subtitle": "'Continue a nadar' - Dory, Procurando",
+    "information": "Informações do Projeto",
+    "welcome": "Olá! Eu sou a Mochiemi 👋",
+    "description": "Bem-vindo ao meu playground criativo! O Mochi Lab é onde eu experimento com tecnologias web modernas, aprendo a construir componentes reutilizáveis e páginas responsivas. Como desenvolvedora estou constantemente aprendendo e melhorando.",
+    "techStack": "Tecnologias",
+    "techDescription": "Stacks e ferramentas que venho adquirindo",
+    "funFacts": "Outras Curiosidades Sobre Mim",
+    "fact1": {
+      "title": "Apaixonada por Gatos",
+      "description": "Quando criança sempre quis ter gatos, mas minha mãe nunca deixou. Hoje tenho 5 lindos gatos e minha mãe chama eles de 'netinhos' as vezes."
+    },
+    "fact2": {
+      "title": "Casual Gamer",
+      "description": "Gosto muito de jogos como Pokémon, Stardew, Rune Factory, entre outros. Também gosto muito de construir ou contar histórias (alô Rimworld)."
+    },
+    "fact3": {
+      "title": "Inspiração",
+      "description": "Gosto muito de utilizar Mods em jogos (modificações não oficiais), e foi isso que me inspirou inicialmente a estudar programação."
+    },
+    "fact4": {
+      "title": "Ex-'mediciner'",
+      "description": "Por muitos anos fiz faculdade de medicina, ainda gosto muito de estudar sobre (principalmente farmacologia), mas já não penso em trabalhar na prática."
+    },
+    "features": {
+      "title": "E o que faço por aqui?",
+      "fastNavigation": {
+        "title": "Navegação Rápida",
+        "description": "Procuro estudar sobre como descomplicar rotas de navegação e performance otimizada"
+      },
+      "components": {
+        "title": "Biblioteca de Componentes",
+        "description": "Vou construindo e aumentando a coleção de componentes Vue reutilizáveis com TypeScript"
+      },
+      "modernDesign": {
+        "title": "Design Moderno",
+        "description": "Tento aplicar boas práticas de desenvolvimento e tento criar um design responsivo com CSS e recursos de acessibilidade"
+      },
+      "internationalization": {
+        "title": "Internacionalização",
+        "description": "Ao mesmo tempo que treino meu inglês vou explorando técnicas de implementar i18n"
+      }
+    },
+    "backToHome": "Voltar para Início",
+    "getInTouch": "Contato"
+  }
+  }

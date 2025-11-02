@@ -1,0 +1,153 @@
+{
+  "common": {
+    "locale": "en",
+    "language": "EN",
+    "readMore": "Read More",
+    "back": "Back",
+    "backToHome": "Back to Home",
+    "featured": "Featured"
+  },
+  "home": {
+    "welcome": "Welcome to",
+    "description": "A creative playground for modern web development experiments, component design, and interactive experiences built with curiosity for learning.",
+    "explore": "Explore Lab",
+    "components": "View Components",
+    "tooltip": "Click to learn more about this lab and its scientist!",
+    "todayIs": "Today is",
+    "featured": {
+      "title": "Components",
+      "description": "Discover the UI components library"
+    },
+    "latest": {
+      "title": "Latest Content",
+      "description": "Check out newest blog posts, updates, and experiments",
+      "preview": "Not yet fully implemented"
+    },
+    "interactive": {
+      "title": "Interactive Demos",
+      "description": "Fun experiments and interactive components to play with",
+      "fun": "Just for fun!"
+    },
+    "quickLinks": {
+      "title": "Quick Navigation",
+      "description": "Explore different sections of the lab",
+      "components": "Component Library",
+      "blog": "Blog & Articles",
+      "icons": "Icons Library",
+      "quiz": "Pokémon Quiz",
+      "about": "About Project",
+      "contact": "Contact Me"
+    }
+  },
+  "blog": {
+    "title": "Mochi Blog",
+    "description": "This is an experimental blog. Created to study data fetching and data management.",
+    "description2": "(The texts are from JsonPlaceHolder for now)",
+    "by": "By {author}",
+    "minRead": "{minutes} min read",
+    "backToPosts": "See all posts",
+    "category": "Category",
+    "readingTime": "Reading Time",
+    "like": "Like",
+    "share": "Share",
+    "postNotFound": "Post Not Found",
+    "postNotFoundDesc": "The blog post you're looking for doesn't exist or may have been moved.",
+    "loading": "Loading posts...",
+    "loadingPost": "Loading post...",
+    "errorTitle": "Error Loading Posts",
+    "errorLoadingPost": "Error Loading Post",
+    "retry": "Try Again",
+    "noPosts": "No Posts Found",
+    "noPostsDesc": "There are no blog posts available at the moment.",
+    "previous": "Previous",
+    "next": "Next",
+    "showingPosts": "Showing {start}-{end} of {total} posts",
+    "backToBlog": "Back to Blog",
+    "readMore": "Read More"
+  },
+  "nav": {
+    "home": "Home",
+    "blog": "Blog",
+    "about": "About",
+    "aboutThis": "The Lab",
+    "projects": "Other Projects",
+    "library": "Library",
+    "components": "Components",
+    "icons": "Icons",
+    "more": "Interactive",
+    "contact": "Contact",
+    "toggleMenu": "Toggle menu",
+    "pokeform": "Pokémon Quiz",
+    "iList": "Interactive List"
+  },
+  "toTop": {
+    "ariaLabel": "Scroll to top"
+  },
+  "msgError": {
+    "email": "Sorry but this email is invalid!"
+  },
+  "iconsLibrary": {
+    "title": "Icons Library",
+    "description": "Complete catalog of available icons. I use for remember their names. Icons from package: ",
+    "searchPlaceholder": "Search icons by name...",
+    "clear": "Clear",
+    "copyTooltip": "Copy icon name",
+    "copySuccess": "Icon name copied to clipboard!",
+    "copyError": "Error copying icon name",
+    "noResults": {
+      "title": "No icons found",
+      "description": "Try adjusting filters or search"
+    },
+
+    "categories": {
+      "Navigation": "Navigation",
+      "Communication": "Communication",
+      "UI_Actions": "UI & Actions",
+      "Directional": "Directional",
+      "Settings": "Settings",
+      "Animals": "Animals",
+      "Social": "Social",
+      "Weather": "Weather",
+      "Ideas": "Ideas",
+      "People": "People",
+      "Fun": "Fun",
+      "Food_Drink": "Food & Drink",
+      "Technology": "Technology",
+      "Health": "Health",
+      "Location": "Location",
+      "Science": "Science",
+      "Media": "Media",
+      "Education": "Education",
+      "Calendar": "Calendar",
+      "Development": "Development",
+      "Forms": "Forms",
+      "Actions": "Actions"
+    }
+  },
+  "interactiveList": {
+    "title": "Task List",
+    "description": "You can add and remove list items. With conclusion checkbox and some status badges.",
+    "placeholder": "Write a new item/task...",
+    "add": "Add",
+    "delete": "Delete",
+    "done": "Check",
+    "undo": "Uncheck",
+    "total": "Total",
+    "concluded": "Concluded",
+    "pending": "Pending",
+    "noitem": "There is no item on list"
+  },
+  "inConstruction": {
+    "title": "Under Construction",
+    "message": "This page is currently being built!",
+    "note": "Meanwhile, feel free to explore other sections of Mochi Lab!"
+  },
+  "myCats": {
+"title": "Introducing my cats",
+"romeow": "The oldest and fattest",
+"pure": "Addicted to drinking tap water",
+"hana": "My husband's darling",
+"morgan": "Looks mischievous but is the silliest",
+"gina": "Likes to sleep in strange positions"
+}
+}

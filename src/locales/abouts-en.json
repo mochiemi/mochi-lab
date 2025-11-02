@@ -1,0 +1,105 @@
+{
+  "abouts": {
+    "contact": {
+      "header": {
+        "title": "Let's Connect!",
+        "description": "Whether you have questions, suggestions, or just want to say hello. Though I'm not a native English speaker, writing and reading may be understandable.",
+        "contact": {
+          "email": {
+            "title": "Email",
+            "description": "For direct conversations and collaborations"
+          },
+          "github": {
+            "title": "GitHub",
+            "description": "My code repository and other projects"
+          },
+          "linkedin": {
+            "title": "LinkedIn",
+            "description": "My professional profile and experience"
+          }
+        },
+        "interests": {
+          "title": "Interests",
+          "responseTime": "I try to respond within a few days (sometimes I just forget to see my email, phone messages...) - thanks for your patience!"
+        },
+        "funFact": {
+          "title": "Fun fact",
+          "description": "The name 'Mochiemi' comes from 'mochi' (the cute Japanese dessert) + 'emi' (the last letters from my Name 'Tiemi' (千恵美) ). I like to use this nickname in most my usernames across the web 🍡"
+        }
+      },
+      "form": {
+        "title": "Send me a message",
+        "description": "Prefer to write directly? Use the form below and I'll get back to you as soon as possible.",
+        "warning": "Sorry! This feature is not yet available. To send an email directly, you can click on the left card.",
+        "fields": {
+          "name": {
+            "label": "Your Name",
+            "placeholder": ""
+          },
+          "email": {
+            "label": "Your Email",
+            "placeholder": ""
+          },
+          "message": {
+            "label": "Your Message",
+            "placeholder": "What would you like to talk about?"
+          }
+        },
+        "actions": {
+          "send": "Send Message",
+          "reset": "Clear Form"
+        },
+        "validation": {
+          "required": "Please fill in all required fields"
+        },
+        "success": "Thank you for your message! I'll get back to you soon."
+      }
+    }},
+    "about": {
+    "title": "About Mochi Lab",
+    "subtitle": "'Just keep swimming' - Dory, Finding",
+    "information": "Project Information",
+    "welcome": "Hi! I'm Mochiemi 👋",
+    "description": "Welcome to my creative playground! Mochi Lab is where I experiment with modern web technologies, learn to build reusable components and responsive pages. As a developer I'm constantly learning and improving.",
+    "techStack": "Technologies",
+    "techDescription": "Stacks and tools I've been acquiring",
+    "funFacts": "Other Fun Facts About Me",
+    "fact1": {
+        "title": "Cat Lover",
+        "description": "As a child I always wanted to have cats, but my mother never allowed it. Today I have 5 beautiful cats and she sometimes calls them 'grandchildren'."
+    },
+    "fact2": {
+        "title": "Casual Gamer",
+        "description": "I really enjoy games like Pokémon, Stardew, Rune Factory, among others. I also really enjoy building or telling stories (hello Rimworld)."
+    },
+    "fact3": {
+        "title": "Inspiration",
+        "description": "I really enjoy using Mods in games (unofficial modifications), and that's what initially inspired me to study programming."
+    },
+    "fact4": {
+        "title": "Ex-'Med Student'",
+        "description": "For many years I attended medical school. I still really enjoy studying about it (especially pharmacology), but I no longer think about working in practice."
+    }
+  },
+    "features": {
+        "title": "And what do I do here?",
+        "fastNavigation": {
+            "title": "Fast Navigation",
+            "description": "I study how to simplify navigation routes and optimized performance"
+        },
+        "components": {
+            "title": "Component Library",
+            "description": "I build and grow the collection of reusable Vue components with TypeScript"
+        },
+        "modernDesign": {
+            "title": "Modern Design",
+            "description": "I try to apply development best practices and create responsive design with CSS and accessibility features"
+        },
+        "internationalization": {
+            "title": "Internationalization",
+            "description": "While practicing my English I explore techniques to implement i18n"
+        }
+    },
+    "backToHome": "Back to Home",
+    "getInTouch": "Contact"
+}

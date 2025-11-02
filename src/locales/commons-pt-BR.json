@@ -1,0 +1,159 @@
+{
+  "common": {
+    "locale": "pt-BR",
+    "language": "PT",
+    "readMore": "Continue lendo",
+    "back": "Voltar",
+    "backToHome": "Voltar ao Início",
+    "featured": "Destaque"
+  },
+  "home": {
+    "welcome": "Bem-vindo ao",
+    "description": "Um playground criativo para experimentos de desenvolvimento web moderno, design de componentes e experiências interativas construídas com a curiosidade pelo aprendizado.",
+    "explore": "Explorar Laboratório",
+    "components": "Ver Componentes",
+    "tooltip": "Clique para saber mais sobre este laboratório e sua cientista!",
+    "todayIs": "Hoje é",
+    "featured": {
+      "title": "Componentes",
+      "description": "Veja a biblioteca de componentes UI usados aqui"
+    },
+    "latest": {
+      "title": "Conteúdo Recente",
+      "description": "Confira os posts mais novos, atualizações e experimentos",
+      "preview": "Ainda não está completamente implementado"
+    },
+    "stats": {
+      "title": "Estatísticas do Projeto",
+      "description": "Progresso atual e métricas de desenvolvimento",
+      "components": "Componentes",
+      "languages": "Idiomas"
+    },
+    "interactive": {
+      "title": "Demonstrações Interativas",
+      "description": "Experimentos divertidos e componentes interativos para testar",
+      "fun": "Apenas por diversão!"
+    },
+    "quickLinks": {
+      "title": "Navegação Rápida",
+      "description": "Explore diferentes seções do laboratório",
+      "components": "Biblioteca de Componentes",
+      "blog": "Blog & Artigos",
+      "icons": "Biblioteca de Ícones",
+      "quiz": "Quiz Pokémon",
+      "about": "Sobre o Projeto",
+      "contact": "Entre em Contato"
+    }
+  },
+  "blog": {
+    "title": "Mochi Blog",
+    "description": "Este é um blog experimental. Criado para estudar data fetching e estrutura de dados.",
+    "description2": "(Por enquanto contém apenas conteúdo do JsonPlaceHolder API)",
+    "by": "Por {author}",
+    "minRead": "{minutes} min",
+    "backToPosts": "Ver todos posts",
+    "category": "Categoria",
+    "readingTime": "Tempo de Leitura",
+    "postNotFound": "Post Não Encontrado",
+    "postNotFoundDesc": "O post que você está procurando não existe ou pode ter sido movido.",
+    "like": "Curtir",
+    "share": "Compartilhar",
+    "loading": "Carregando posts...",
+    "loadingPost": "Carregando post...",
+    "errorTitle": "Erro ao Carregar Posts",
+    "errorLoadingPost": "Erro ao Carregar Post",
+    "retry": "Tentar Novamente",
+    "noPosts": "Nenhum Post Encontrado",
+    "noPostsDesc": "Não há posts disponíveis no momento.",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "showingPosts": "Mostrando {start}-{end} de {total} posts",
+    "backToBlog": "Voltar ao Blog",
+    "readMore": "Ler Mais"
+  },
+  "nav": {
+    "home": "Início",
+    "blog": "Blog",
+    "about": "Sobre",
+    "aboutThis": "O Lab",
+    "projects": "Outros Projetos",
+    "library": "Biblioteca",
+    "components": "Componentes",
+    "icons": "Ícones",
+    "more": "Interativo",
+    "contact": "Contato",
+    "toggleMenu": "Alternar menu",
+    "pokeform": "Pokémon Quiz",
+    "iList": "Lista Interativa"
+  },
+  "toTop": {
+    "ariaLabel": "Voltar ao topo"
+  },
+  "msgError": {
+    "email": "Desculpe, mas o email é invalido!"
+  },
+  "iconsLibrary": {
+    "title": "Biblioteca de Ícones",
+    "description": "Catálogo dos ícones disponíveis no projeto. Uso para lembrar os nomes deles. Ícones selecionados do pacote: ",
+    "searchPlaceholder": "Buscar ícones por nome...",
+    "clear": "Limpar",
+    "copyTooltip": "Copiar nome do ícone",
+    "copySuccess": "Nome do ícone copiado para a área de transferência!",
+    "copyError": "Erro ao copiar o nome do ícone",
+    "noResults": {
+      "title": "Nenhum ícone encontrado",
+      "description": "Tente ajustar os filtros ou a busca"
+    },
+
+    "categories": {
+      "Navigation": "Navegação",
+      "Communication": "Comunicação",
+      "UI_Actions": "UI & Ações",
+      "Directional": "Direcionais",
+      "Settings": "Configurações",
+      "Animals": "Animais",
+      "Social": "Social",
+      "Weather": "Tempo",
+      "Ideas": "Ideias",
+      "People": "Pessoas",
+      "Fun": "Diversão",
+      "Food_Drink": "Comida & Bebida",
+      "Technology": "Tecnologia",
+      "Health": "Saúde",
+      "Location": "Localização",
+      "Science": "Ciência",
+      "Media": "Mídia",
+      "Education": "Educação",
+      "Calendar": "Calendário",
+      "Development": "Desenvolvimento",
+      "Forms": "Formulários",
+      "Actions": "Ações"
+    }
+  },
+  "interactiveList": {
+    "title": "Lista de Tarefas",
+    "description": "Você pode adicionar e remover itens da lista. Possui check de conclusão e indicadores de status.",
+    "placeholder": "Escreva uma nova tarefa/item...",
+    "add": "Adicionar",
+    "delete": "Remover",
+    "done": "Feito",
+    "undo": "Desfazer",
+    "total": "Total",
+    "concluded": "Concluído",
+    "pending": "Pendente",
+    "noitem": "Nenhum item na lista"
+  },
+    "inConstruction": {
+    "title": "Em construção",
+    "message": "Esta págiga ainda está sendo contruída!",
+    "note": "Enquanto isso, sinta-se a vontade para explorar outras seções do Mochi Lab!"
+  },
+  "myCats":  {
+    "title": "Apresentando meus gatos",
+    "romeow": "O mais velho e gordo",
+    "pure": "Viciada em beber água da torneira",
+    "hana": "A xodó do meu esposo",
+    "morgan": "Parece trevoso mas é o mais bobo",
+    "gina": "Gosta de dormir em posições estranhas"
+  }
+}

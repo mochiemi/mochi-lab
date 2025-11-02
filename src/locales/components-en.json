@@ -1,0 +1,473 @@
+{
+  "components": {
+     "header": {
+    "title": "Component Library",
+    "description": "Design System components catalog with variants and exemples of use. Built using Vuejs."
+      },
+    "carousel": {
+      "title": "Carousel",
+      "description": "Carousel component for displaying content in slides with smooth navigation.",
+      "warning": "Not fully optimized but its mostly working. May have bugs",
+      "demos": {
+        "basic": {
+          "title": "Basic Carousel",
+          "carouselTitle": "Featured Projects"
+        },
+        "autoplay": {
+          "title": "Carousel with Autoplay",
+          "carouselTitle": "Testimonials"
+        },
+        "multiple": {
+          "title": "Carousel with Multiple Slides",
+          "carouselTitle": "Our Services"
+        },
+        "images": {
+          "title": "Image Carousel",
+          "carouselTitle": "Project Gallery"
+        },
+        "disabled": {
+          "title": "Disabled Carousel",
+          "carouselTitle": "Carousel without Controls"
+        }
+      },
+      "demoControls": {
+        "title": "Demo Controls",
+        "enableAutoplay": "Enable Autoplay",
+        "disableAutoplay": "Disable Autoplay",
+        "reset": "Reset Carousel",
+        "currentSlide": "Current Slide: {current}"
+      },
+      "slides": {
+        "basic": {
+          "project1": {
+            "title": "MochiLab Logo",
+            "description": "Modern and responsive design for visual identity",
+            "action": "View Project"
+          },
+          "project2": {
+            "title": "Mochi Profile",
+            "description": "Professional and creative profile photo",
+            "action": "View Details"
+          },
+          "project3": {
+            "title": "Professional Selfie",
+            "description": "Profile photo for professional social networks",
+            "action": "Download"
+          }
+        },
+        "testimonials": {
+          "testimonial1": {
+            "content": "Excellent work on creating the components! The library is very well organized and documented.",
+            "author": "John Silva",
+            "role": "Frontend Developer"
+          },
+          "testimonial2": {
+            "content": "Loved the variety of components and ease of customization. Integrated perfectly into our project.",
+            "author": "Mary Santos",
+            "role": "Product Manager"
+          },
+          "testimonial3": {
+            "content": "The components are very intuitive and the documentation is clear. Congratulations on the work!",
+            "author": "Peter Costa",
+            "role": "UX Designer"
+          }
+        },
+        "services": {
+          "service1": {
+            "title": "UI/UX Design",
+            "description": "Creation of modern and intuitive interfaces"
+          },
+          "service2": {
+            "title": "Development",
+            "description": "Implementation of reusable components"
+          },
+          "service3": {
+            "title": "Testing",
+            "description": "Quality and performance assurance"
+          },
+          "service4": {
+            "title": "Documentation",
+            "description": "Complete guides for developers"
+          },
+          "learnMore": "Learn More"
+        },
+        "images": {
+          "image1": {
+            "title": "Colorful Logo",
+            "description": "Color version of the visual identity"
+          },
+          "image2": {
+            "title": "Creative Profile",
+            "description": "Customized profile photo"
+          },
+          "image3": {
+            "title": "Selfie",
+            "description": "Professional photo for networks"
+          }
+        }
+      },
+      "documentation": {
+        "title": "Documentation",
+        "props": {
+          "propstitle": "Carousel Props",
+          "slides": "List of slides to display",
+          "title": "Carousel title",
+          "autoplay": "Activates automatic playback",
+          "autoplayInterval": "Autoplay interval in milliseconds",
+          "showControls": "Shows navigation buttons",
+          "showIndicators": "Shows slide indicators",
+          "showStatus": "Shows autoplay status",
+          "loop": "Allows infinite looping",
+          "slidesPerView": "Number of visible slides",
+          "size": "Size of the slide cards",
+          "cardVariant": "Visual variant of the slide cards"
+        },
+        "events": {
+          "title": "Events",
+          "slideChange": "Emitted when the slide changes",
+          "slideAction": "Emitted when slide action is clicked"
+        },
+        "slots": {
+          "title": "Slots",
+          "slide": "Custom content for each slide",
+          "header": "Custom carousel header"
+        },
+        "usage": {
+          "title": "Usage Examples",
+          "basicExample": {
+            "title": "Basic Usage"
+          },
+          "customSlide": {
+            "title": "Custom Slide Content"
+          }
+        }
+      }
+    },
+    "tabs": {
+       "layout": {
+        "title": "Layout",
+        "description": "Structural components for organizing content and layout",
+        "cards": {
+          "title": "Card",
+          "description": "Versatile containers for grouping related content",
+          "examples": {
+            "basic": "Basic Card",
+            "clickable": "Clickable Card",
+            "loading": "Loading Card",
+            "withFooter": "Card with Footer",
+            "basicContent": "This is a simple card with basic title and content.",
+            "clickableContent": "Click this card to see interaction. The card has hover effect and is fully clickable.",
+            "loadingContent": "Content loading... Shows a spinner while loading.",
+            "footerContent": "Card with main content and footer area for actions.",
+            "interactive": "Interactive",
+            "cancel": "Cancel",
+            "save": "Save",
+            "action": "Action"
+          }
+        },
+        "progress": {
+          "title": "Progress Bars",
+          "description": "Display progress indicators for tasks, uploads, and completion states",
+          "examples": {
+            "basic": "Basic Progress Bar",
+            "variants": "Progress Variants",
+            "sizes": "Different Sizes",
+            "effects": "Visual Effects",
+            "interactive": "Interactive Demo",
+            "withDescriptions": "With Descriptions",
+            "title1": "Documentation Progress",
+            "description1": "35% of documentation completed. 12 sections remaining.",
+            "title2": "Test Coverage",
+            "description2": "75% test coverage achieved. Goal: 90%"
+          }
+        },
+        "lists": {
+          "title": "List",
+          "description": "Flexible list components with various display options and interactions",
+          "examples": {
+            "basic": "Basic List",
+            "ordered": "Ordered List",
+            "clickable": "Clickable List",
+            "withActions": "List with Actions",
+            "styled": "Styled List",
+            "customBullet": "Custom Bullet List"
+          },
+          "items": {
+            "basic": {
+              "item1": "First item in the list",
+              "item2": "Second item with description",
+              "item2Description": "Additional information about this item",
+              "item3": "Third item with meta",
+              "item3Meta": "Meta information",
+              "item4": "Fourth item with icon"
+            },
+            "ordered": {
+              "item1": "First step in the process",
+              "item2": "Second step with details",
+              "item2Description": "Important details for this step",
+              "item3": "Third and final step"
+            },
+            "clickable": {
+              "item1": "Clickable item 1",
+              "item2": "Clickable item 2",
+              "item2Description": "This item can be clicked",
+              "item3": "Disabled item",
+              "item4": "Clickable item 3"
+            },
+            "withActions": {
+              "item1": "Item with actions",
+              "item1Description": "This item has action buttons",
+              "item2": "Another item",
+              "item2Description": "With different actions"
+            },
+            "styled": {
+              "item1": "Styled item 1",
+              "item1Description": "Primary variant with stripes",
+              "item2": "Styled item 2",
+              "item2Description": "With border and background",
+              "item3": "Styled item 3",
+              "item3Description": "Alternating colors"
+            },
+            "customBullet": {
+              "item1": "Custom bullet item 1",
+              "item2": "Custom bullet item 2",
+              "item2Description": "Using custom image as bullet",
+              "item3": "Custom bullet item 3"
+            }
+          },
+          "actions": {
+            "edit": "Edit",
+            "delete": "Delete",
+            "view": "View",
+            "share": "Share"
+          }
+        }
+      },
+      "navigation": {
+        "title": "Navigation",
+        "description": "Components for user navigation and menu systems",
+        "dropdown": {
+          "title": "Dropdown",
+          "description": "Dropdown menus for secondary actions and navigation",
+          "examples": {
+            "mainMenu": "Main Menu",
+            "quickActions": "Quick Actions",
+            "profile": "Profile",
+            "settings": "Settings",
+            "logout": "Logout",
+            "export": "Export",
+            "import": "Import",
+            "refresh": "Refresh"
+          }
+        },
+        "tabs": {
+          "title": "Tabs",
+          "description": "Tab navigation for organizing related content",
+          "examples": {
+            "tab1": "First Tab Content",
+            "tab2": "Second Tab Content",
+            "tab3": "Third Tab Content",
+            "tab1Content": "This is the first demo tab. You can add any content here.",
+            "tab2Content": "This is the second tab with different content.",
+            "tab3Content": "Last demo tab with more information.",
+            "action1": "Action 1",
+            "action2": "Action 2",
+            "action3": "Action 3"
+          }
+        }
+      },
+      "overlays": {
+        "title": "Overlays",
+        "description": "Modal dialogs and overlay components",
+        "modal": {
+          "title": "Modal",
+          "description": "Modal dialogs for important content or actions",
+          "examples": {
+            "basic": "Open Modal",
+            "large": "Large Modal",
+            "modalContent": "This is example content inside the modal. You can add any content here including forms, text, images, etc.",
+            "expandedContent": "This modal has large size and is ideal for more extensive content or complex forms.",
+            "name": "Name",
+            "email": "Email",
+            "enterName": "Enter your name",
+            "enterEmail": "your@email.com",
+            "confirm": "Confirm",
+            "card1": "Card 1",
+            "card2": "Card 2",
+            "card1Content": "First card content",
+            "card2Content": "Second card content"
+          }
+        },
+        "tooltip": {
+          "title": "Tooltip",
+          "description": "Contextual tips that appear on hover",
+          "examples": {
+            "top": "Tooltip Top",
+            "right": "Tooltip Right",
+            "left": "Tooltip Left",
+            "bottom": "Tooltip Bottom",
+            "topContent": "This is a top tip",
+            "rightContent": "This is a right tip",
+            "leftContent": "This is a left tip",
+            "bottomContent": "This is a bottom tip"
+          }
+        }
+      },
+      "feedback": {
+        "title": "Feedback",
+        "description": "Components for user feedback and status indicators",
+        "alert": {
+          "title": "Alert",
+          "description": "Feedback messages with different importance levels",
+          "types": {
+            "info": "Information",
+            "success": "Success",
+            "warning": "Warning",
+            "error": "Error"
+          },
+          "messages": {
+            "info": "This is an informative message for the user.",
+            "success": "Operation completed successfully.",
+            "warning": "This action requires your attention.",
+            "error": "An unexpected problem occurred.",
+            "dismissed": "Alert was closed successfully!"
+          }
+        },
+        "toast": {
+          "title": "Toast",
+          "description": "Temporary notifications appearing in different screen positions",
+          "positions": {
+            "topLeft": "Top Left",
+            "topCenter": "Top Center",
+            "topRight": "Top Right",
+            "bottomLeft": "Bottom Left",
+            "bottomCenter": "Bottom Center",
+            "bottomRight": "Bottom Right"
+          },
+          "messages": {
+            "info": "This is an informative notification.",
+            "success": "Operation completed successfully!",
+            "warning": "Attention! This action requires your confirmation.",
+            "error": "An unexpected error occurred.",
+            "custom": "Custom action completed successfully!",
+            "persistent": "This notification doesn't close automatically - click X to close."
+          },
+          "controls": {
+            "topPositions": "Top Positions",
+            "bottomPositions": "Bottom Positions",
+            "withActions": "With Actions",
+            "withIcon": "Toast with Icon",
+            "noAutoClose": "No Auto-close"
+          }
+        },
+        "loading": {
+          "title": "Loading",
+          "description": "Loading indicators with different styles and sizes",
+          "types": {
+            "circle": "Circle Animation",
+            "bounce": "Bounce Animation",
+            "withText": "With Text",
+            "animationSpeed": "Animation Speed"
+          },
+          "text": {
+            "loading": "Loading...",
+            "processing": "Processing...",
+            "slow": "Slow",
+            "normal": "Normal",
+            "fast": "Fast"
+          }
+        }
+      },
+      "forms": {
+        "title": "Forms",
+        "description": "Form controls and input components",
+        "button": {
+          "title": "Button",
+          "description": "Interactive buttons with multiple style variations and states",
+          "variants": {
+            "primary": "Primary",
+            "secondary": "Secondary",
+            "outline": "Outline",
+            "danger": "Danger"
+          },
+          "sizes": {
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+          },
+          "states": {
+            "disabled": "Disabled",
+            "loading": "Loading"
+          }
+        },
+        "formControls": {
+          "title": "Form Controls",
+          "description": "Essential components for building forms",
+          "checkbox": {
+            "default": "Default checkbox",
+            "checked": "Checked checkbox",
+            "disabled": "Disabled checkbox",
+            "disabledChecked": "Disabled checked"
+          },
+          "radio": {
+            "option1": "Option 1",
+            "option2": "Option 2",
+            "option3": "Option 3",
+            "selected": "Selected value: {value}"
+          },
+          "switch": {
+            "off": "Switch off",
+            "on": "Switch on",
+            "disabled": "Disabled switch",
+            "disabledOn": "Disabled switch on"
+          }
+        },
+        "inputFields": {
+          "title": "Input Fields",
+          "description": "Input fields with validation and visual states",
+          "input": {
+            "fullName": "Full name",
+            "email": "Email",
+            "password": "Password",
+            "withError": "Field with error",
+            "valid": "Valid field",
+            "disabled": "Disabled field",
+            "enterName": "Enter your name",
+            "enterEmail": "your@email.com",
+            "enterPassword": "Your password",
+            "required": "This field is required",
+            "everythingOk": "Everything ok!",
+            "notEditable": "Not editable"
+          },
+          "textarea": {
+            "message": "Message",
+            "withCounter": "With character counter (limit: 50)",
+            "withError": "Field with error",
+            "disabled": "Disabled field",
+            "enterMessage": "Type your message here...",
+            "enterLimited": "Type up to 50 characters...",
+            "errorMessage": "Message too short",
+            "initialText": "Initial text to demonstrate counter...",
+            "disabledText": "Disabled text"
+          },
+          "select": {
+            "selectOption": "Select an option",
+            "defaultValue": "Selection with default value",
+            "withError": "Field with error",
+            "disabled": "Disabled field",
+            "choose": "Choose...",
+            "selectionRequired": "Selection required",
+            "selectedValue": "Selected value {index}: {value}"
+          },
+          "options": {
+            "option1": "Option 1",
+            "option2": "Option 2",
+            "option3": "Option 3",
+            "option4": "Option 4 (disabled)",
+            "option5": "Option 5"
+          }
+        }
+      }
+    }
+  }
+}

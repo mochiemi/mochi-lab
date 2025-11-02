@@ -1,0 +1,87 @@
+{
+  "title": "Which Pokémon Are You?",
+  "description": "Discover which Pokémon matches your personality in this PMD(Pokemon Mystery Dungeon) inspired quiz!",
+  "introduction":"Hi, welcome to Pokeforms! This is just a page to test progress bar and inputs. There will be 5 questions to answer.",
+  "introduction2": "On the end you'll have an email form, do not expect to receive any email, because the system is not implemented yet. Sorry for the incovenience.",
+  "haveFun": "Still, I wish you have a good time here!",
+  "start": "Start",
+  "loading": "Loading your Pokémon adventure...",
+  "progress": "Progress",
+  "question": "Question",
+  "previous": "Previous",
+  "next": "Next",
+  "seeResults": "See Results",
+  "yourPokemon": "Your Pokémon is...",
+  "shareResults": "Share Results",
+  "restartQuiz": "Restart Quiz",
+  "recipientEmail": "Recipient Email",
+  "emailPlaceholder": "friend@example.com",
+  "personalMessage": "Personal Message",
+  "messagePlaceholder": "Hey! I discovered I'm a {pokemon}! Take the quiz to find out which Pokémon you are...",
+  "cancel": "Cancel",
+  "sendEmail": "Send Email",
+  "emailSuccess": "Email not sent because is not implemented yet!",
+  "questions": {
+    "q1": "What is your preferred approach to challenging situations?",
+    "q2": "How would you describe yourself in a group of friends?",
+    "q3": "Which environment do you prefer to relax and recharge?",
+    "q4": "Which of these qualities best describes your greatest talent?",
+    "q5": "How do you usually make important life decisions?"
+  },
+  "options": {
+    "brave1": "Face them head-on with courage and determination",
+    "wise1": "Plan carefully and analyze all options",
+    "friendly1": "Seek help and collaboration with others",
+    "mysterious1": "Follow my intuition and natural instinct",
+    "brave2": "The natural leader who takes initiative",
+    "wise2": "The wise counselor who always has good insights",
+    "friendly2": "The loyal and trustworthy friend of everyone",
+    "mysterious2": "The free spirit who is a bit mysterious",
+    "brave3": "Mountains and open areas with wide views",
+    "wise3": "Libraries, museums or quiet places to think",
+    "friendly3": "Parks or squares full of people and friends",
+    "mysterious3": "Serene forests or places with mystery",
+    "brave4": "Physical strength and unshakable determination",
+    "wise4": "Sharp intelligence and strategic thinking",
+    "friendly4": "Natural empathy and communication skills",
+    "mysterious4": "Creativity and adaptability",
+    "brave5": "With courage and conviction, trusting my judgment",
+    "wise5": "By carefully analyzing all pros and cons",
+    "friendly5": "By consulting close people and considering opinions",
+    "mysterious5": "By following my heart and intuitive feelings"
+  },
+  "pokemon": {
+    "pikachu": {
+      "name": "Pikachu",
+      "description": "You are energetic, friendly and love making new friends! Like Pikachu, you bring joy to everyone around you and have a loyal heart. Your sociable and optimistic nature makes you always desired company."
+    },
+    "charizard": {
+      "name": "Charizard", 
+      "description": "You are brave, determined and a natural leader! Like Charizard, you face challenges head-on and inspire others with your strength. Your confidence and ambition lead you to great achievements."
+    },
+    "alakazam": {
+      "name": "Alakazam",
+      "description": "You are intelligent, strategic and always think before acting! Like Alakazam, your wisdom and planning are your greatest strengths. Your sharp mind solves problems that others consider impossible."
+    },
+    "gengar": {
+      "name": "Gengar",
+      "description": "You are mysterious, creative and have a free spirit! Like Gengar, you see the world uniquely and surprise everyone with your adaptability. Your humor and mystery make you fascinating."
+    },
+    "lucario": {
+      "name": "Lucario",
+      "description": "You are wise, perceptive and have strong intuition! Like Lucario, you can sense others' emotions and act with wisdom. Your combination of strength and sensitivity is admirable."
+    },
+    "eevee": {
+      "name": "Eevee", 
+      "description": "You are adaptable, friendly and have incredible potential! Like Eevee, you easily connect with everyone and adapt to any situation. Your versatility opens many possibilities."
+    },
+    "dragonite": {
+      "name": "Dragonite",
+      "description": "You are powerful but gentle, a true hero! Like Dragonite, you combine impressive strength with a kind heart. Your protective nature inspires confidence in everyone."
+    },
+    "mew": {
+      "name": "Mew",
+      "description": "You are enigmatic, playful and full of surprises! Like Mew, your curious nature and unique abilities make you special. You see magic where others see only the ordinary."
+    }
+  }
+}

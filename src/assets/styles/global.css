@@ -1,0 +1,247 @@
+:root {
+  
+  --turquoise-10: #e9f6f4;
+  --turquoise-20: #a8dadc;
+  --turquoise-30: #72d1c6;
+  --turquoise-40: #4ac4b5;
+  --turquoise-50: #2a9d8f;
+  --turquoise-60: #257e76;
+  --turquoise-70: #33645f;
+  --turquoise-80: #1b3f3b;
+  --turquoise-90: #15312f;
+  
+  --rose-10: #ffe9ee;
+  --rose-20: #ffcad5;
+  --rose-30: #ffa2b6;
+  --rose-40: #ff8aa4;
+  --rose-50: #da6e85;
+  --rose-60: #c45970;
+  --rose-70: #9e4659;
+  --rose-80: #6b3440;
+  --rose-90: #47232b;
+  
+  --gray-10: #ece8f0;
+  --gray-20: #cec7d1;
+  --gray-30: #a7a4aa;
+  --gray-40: #88838b;
+  --gray-50: #736e77;
+  --gray-60: #615e64;
+  --gray-70: #48414d;
+  --gray-80: #342f38;
+  --gray-90: #252129;
+  --white: #f3f3f3;
+  --black: #0f0f0f;
+  --accent: #ff6d99;
+  --clovergreen: #1c9466;
+
+  --primary: var(--turquoise-50);
+  --secondary: var(--rose-50);
+  --title-primary: var(--turquoise-50);
+  --title-secondary: var(--rose-60);
+
+  --text-primary: var(--gray-90);
+  --text-secondary: var(--turquoise-80);
+
+  --bg-primary: var(--turquoise-20);
+  --bg-secondary: var(--rose-20);
+
+  --surface: var(--white);
+  --surface-contrast: white;
+  --inner-surface: var(--gray-10);
+  --disabled-surface: var(--gray-40);
+  --turquoise-surface: var(--turquoise-10);
+
+  --border: var(--gray-30);
+  --border-primary: var(--turquoise-80);
+  --border-secondary: var(--rose-80);
+  --border-strong: var(--rose-50);
+  
+  --shadow: rgba(92, 0, 46, 0.15);
+  --shadow-hover: rgba(92, 0, 46, 0.30);
+
+  --gradient-bg: linear-gradient(
+    45deg,
+    var(--white) 0%,
+    var(--turquoise-10) 20%,
+    var(--rose-10) 40%,
+    var(--white) 60%,
+    var(--turquoise-20) 80%,
+    var(--rose-20) 100%
+  );
+
+  --gradient-primary: linear-gradient(45deg, var(--turquoise-10) 0%, var(--turquoise-20) 100%);
+  --gradient-secondary: linear-gradient(10deg, var(--rose-10) 0%, var(--rose-20) 100%);
+  --gradient-mix: linear-gradient(10deg, var(--turquoise-30) 0%, var(--rose-30) 100%);
+  --gradient-surface: linear-gradient(45deg, var(--turquoise-10) 0%, var(--rose-10) 100%);
+  --gradient-surface-1: linear-gradient(45deg, var(--surface) 0%, var(--turquoise-10) 100%);
+  --gradient-surface-2: linear-gradient(45deg, var(--surface) 0%, var(--rose-10) 100%);
+  
+  --link-color: var(--turquoise-60);
+  --link-hover: var(--rose-50);
+  --focus: var(--clovergreen);
+}
+
+.dark-theme {
+  --primary: var(--turquoise-60);
+  --secondary: var(--rose-60);
+  --title-primary: var(--turquoise-40);
+  --title-secondary: var(--rose-40);
+
+  --text-primary: var(--white);
+  --text-secondary: var(--turquoise-20);
+  --surface: var(--gray-90);
+  --surface-contrast: black;
+  --inner-surface: var(--gray-80);
+
+  --bg-primary: var(--turquoise-80);
+  --bg-secondary: var(--rose-80);
+
+  --border: var(--gray-30);
+  --border-primary: var(--turquoise-20);
+  --border-secondary: var(--rose-20);
+  --border-strong: var(--rose-50);
+  
+  --shadow: rgba(0, 255, 234, 0.2);
+  --shadow-hover: rgba(0, 255, 234, 0.5);
+
+  --gradient-bg: linear-gradient(
+    45deg,
+    var(--gray-90) 0%,
+    var(--turquoise-90) 20%,
+    var(--rose-90) 40%,
+    var(--gray-80) 60%,
+    var(--turquoise-80) 80%,
+    var(--rose-80) 100%
+    );
+
+  
+  --gradient-primary: linear-gradient(45deg, var(--turquoise-80) 0%, var(--turquoise-60) 100%);
+  --gradient-secondary: linear-gradient(10deg, var(--rose-80) 0%, var(--rose-60) 100%);
+  --gradient-mix: linear-gradient(10deg, var(--turquoise-60) 0%, var(--rose-70) 100%);
+  --gradient-surface: linear-gradient(45deg, var(--turquoise-90) 0%, var(--rose-90) 100%);
+  --gradient-surface-1: linear-gradient(45deg, var(--surface) 0%, var(--turquoise-90) 100%);
+  --gradient-surface-2: linear-gradient(45deg, var(--surface) 0%, var(--rose-90) 100%);
+  
+  --link-color: var(--turquoise-40);
+  --link-hover: var(--rose-40);
+  --focus: var(--accent);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+  @font-face {
+  font-family: 'Sour Gummy';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/sourgummy/v3/8AtGGs2gPYuNDii97MjjBrLbYfdJvDU5AZfP5opPVCC4oC5ANR1NFMRk8FqN.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/quicksand/v37/6xKtdSZaM9iE8KbpRA_hK1QN.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+  html.dark-theme {
+  color-scheme: dark;
+}
+
+html:not(.dark-theme) {
+  color-scheme: light;
+}
+
+body {
+  font-family: 'Quicksand', Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+::selection {
+  background-color: var(--rose-20);
+  color: var(--gray-90);
+}
+
+:focus {
+  outline: 2px solid var(--turquoise-40);
+  }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+h1, h2 {
+  font-family: 'Sour Gummy', cursive;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--secondary);
+    text-shadow: 
+    1px 1px 0 var(--border-secondary),
+    -1px 1px 0 var(--border-secondary),
+    1px -1px 0 var(--border-secondary),
+    -1px -1px 0 var(--border-secondary),
+    0px 1px 0 var(--border-secondary),
+    0px -1px 0 var(--border-secondary),
+    1px 0px 0 var(--border-secondary),
+    -1px 0px 0 var(--border-secondary);
+}
+
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+}
+
+h3, h4 {
+  font-weight: 700;}
+
+h3 {
+  font-size: 1.5rem;}
+
+h4 {
+  font-size: 1.3rem;}
+
+ a {
+  color:var(--link-color);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.5s ease;
+}
+  a:hover {
+    color: var(--link-hover);
+    text-decoration: underline;
+  }
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;}
+
+  h2{
+    font-size: 1.6rem;}
+
+  h3 {
+    font-size: 1.3rem;}
+
+  h4 {
+    font-size: 1.1rem;}
+
+
+  }
