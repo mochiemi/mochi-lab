@@ -1,0 +1,211 @@
+
+@import url('./fonts.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Comfortaa", sans-serif;
+  font-weight: 400;
+  font-size: 1em;
+}
+
+
+::selection {
+  background-color: var(--rose);
+  color: var(--white);
+}
+
+:focus {
+  outline: 3px solid var(--focus);
+  }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1em;
+}
+
+h1 {
+  font-family: "Gloria Hallelujah", cursive;
+  font-weight: 700;
+  font-size: 2.2em;
+  margin-bottom: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+  color: var(--title-secondary);   
+}
+
+h2 {
+  font-family: "Gloria Hallelujah", cursive;
+  font-size: 1.8em;
+  margin-bottom: 0.75em;
+  color: var(--secondary);
+}
+
+h3, h4 {
+  font-family: "Shantell Sans", cursive;
+  font-style: normal;
+  font-weight: 500;}
+
+h3 {
+  font-size: 2em;
+  color:var(--primary);}
+
+h4 {
+  font-size: 1.2em;
+  color: var(--title-secondary);}
+
+h5, h6 {
+  font-family: "Comic Neue", cursive;
+}
+  h5 {
+    font-size: 1em;
+  }
+
+  h6 {
+    font-size: 0.8em;
+  }
+
+  hr {
+    border: none;
+    width: 100%;
+    border-bottom: 2px dashed var(--border-contrast);
+  }
+
+ a {
+  
+  font-family: 'Comic Neue', cursive;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.1em;
+  color:var(--link-color);
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: 1.5px;
+  transition: all 0.5s ease;
+}
+  a:hover {
+    color: var(--link-hover);
+    text-decoration: underline;
+  }
+
+  a:active {
+    color: var(--link-active);
+  }
+
+
+blockquote {
+  margin: 10px 0;
+  padding: 10px 20px;
+  background-color: var(--surface-secondary);
+  border-left: 4px solid var(--strong-rose);
+  font-family: 'Annie Use Your Telescope';
+  font-size: 1.4em;
+  line-height: 1;
+
+}
+
+q {
+    font-family: 'Annie Use Your Telescope';
+    font-size: 1.4em;
+}
+
+cite {
+    font-family: 'Annie Use Your Telescope';
+    font-size: 1.3em;
+    font-style: italic;
+}
+
+pre {
+  background-color: black;
+  color: var(--white);
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+code {
+  background-color: #eee;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-family: 'Comic Neue';
+  font-style: italic;
+  font-weight: 300;
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+kbd {
+  background-color: #eee;
+  border-radius: 3px;
+  border: 1px solid #b4b4b4;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  color: #333;
+  display: inline-block;
+  font-size: 0.85em;
+  font-weight: 700;
+  padding: 2px 5px;
+}
+
+mark {
+  background-color: yellow;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+dt {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+dd {
+  margin-left: 20px;
+}
+
+details {
+  padding: 10px;
+  border-radius: 5px;
+}
+
+summary {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2em;}
+
+  h2{
+    font-size: 1.6em;}
+
+  h3 {
+    font-size: 1.3em;}
+
+  h4 {
+    font-size: 1.1em;}
+  }

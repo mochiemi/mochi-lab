@@ -1,0 +1,474 @@
+{
+  
+  "components": {
+    "header": {
+      "title": "Biblioteca de Componentes",
+      "description": "Catálogo dos componentes do Design System, com variantes e exemplos de uso. Feito em Vuejs."
+    },
+    "carousel": {
+      "title": "Carrossel",
+      "description": "Componente de carrossel para exibir conteúdo em slides com navegação suave.",
+      "warning": "Não está totalmente otimizado, maior parte funcionando mas pode conter bugs",
+      "demos": {
+        "basic": {
+          "title": "Carrossel Básico",
+          "carouselTitle": "Projetos em Destaque"
+        },
+        "autoplay": {
+          "title": "Carrossel com Autoplay",
+          "carouselTitle": "Depoimentos"
+        },
+        "multiple": {
+          "title": "Carrossel com Múltiplos Slides",
+          "carouselTitle": "Nossos Serviços"
+        },
+        "images": {
+          "title": "Carrossel de Imagens",
+          "carouselTitle": "Galeria de Projetos"
+        },
+        "disabled": {
+          "title": "Carrossel Desabilitado",
+          "carouselTitle": "Carrossel sem Controles"
+        }
+      },
+      "demoControls": {
+        "title": "Controles de Demonstração",
+        "enableAutoplay": "Ativar Autoplay",
+        "disableAutoplay": "Desativar Autoplay",
+        "reset": "Resetar Carrossel",
+        "currentSlide": "Slide Atual: {current}"
+      },
+      "slides": {
+        "basic": {
+          "project1": {
+            "title": "Logo MochiLab",
+            "description": "Design moderno e responsivo para identidade visual",
+            "action": "Ver Projeto"
+          },
+          "project2": {
+            "title": "Perfil Mochi",
+            "description": "Foto de perfil profissional e criativa",
+            "action": "Ver Detalhes"
+          },
+          "project3": {
+            "title": "Selfie Profissional",
+            "description": "Foto de perfil para redes sociais profissionais",
+            "action": "Download"
+          }
+        },
+        "testimonials": {
+          "testimonial1": {
+            "content": "Excelente trabalho na criação dos componentes! A biblioteca está muito bem organizada e documentada.",
+            "author": "João Silva",
+            "role": "Desenvolvedor Frontend"
+          },
+          "testimonial2": {
+            "content": "Adorei a variedade de componentes e a facilidade de customização. Integrou perfeitamente no nosso projeto.",
+            "author": "Maria Santos",
+            "role": "Product Manager"
+          },
+          "testimonial3": {
+            "content": "Os componentes são muito intuitivos e a documentação é clara. Parabéns pelo trabalho!",
+            "author": "Pedro Costa",
+            "role": "UX Designer"
+          }
+        },
+        "services": {
+          "service1": {
+            "title": "Design UI/UX",
+            "description": "Criação de interfaces modernas e intuitivas"
+          },
+          "service2": {
+            "title": "Desenvolvimento",
+            "description": "Implementação de componentes reutilizáveis"
+          },
+          "service3": {
+            "title": "Testes",
+            "description": "Garantia de qualidade e performance"
+          },
+          "service4": {
+            "title": "Documentação",
+            "description": "Guias completos para desenvolvedores"
+          },
+          "learnMore": "Saiba Mais"
+        },
+        "images": {
+          "image1": {
+            "title": "Logo Colorido",
+            "description": "Versão colorida da identidade visual"
+          },
+          "image2": {
+            "title": "Perfil Criativo",
+            "description": "Foto de perfil personalizada"
+          },
+          "image3": {
+            "title": "Selfie",
+            "description": "Foto profissional para redes"
+          }
+        }
+      },
+      "documentation": {
+        "title": "Documentação",
+        "props": {
+          "propstitle": "Props do Carousel",
+          "slides": "Lista de slides para exibir",
+          "title": "Título do carrossel",
+          "autoplay": "Ativa reprodução automática",
+          "autoplayInterval": "Intervalo do autoplay em milissegundos",
+          "showControls": "Mostra botões de navegação",
+          "showIndicators": "Mostra indicadores de slide",
+          "showStatus": "Mostra status do autoplay",
+          "loop": "Permite looping infinito",
+          "slidesPerView": "Número de slides visíveis",
+          "size": "Tamanho dos cards de slide",
+          "cardVariant": "Variante visual dos cards de slide"
+        },
+        "events": {
+          "title": "Eventos",
+          "slideChange": "Emitido quando o slide muda",
+          "slideAction": "Emitido quando ação do slide é clicada"
+        },
+        "slots": {
+          "title": "Slots",
+          "slide": "Conteúdo personalizado para cada slide",
+          "header": "Cabeçalho personalizado do carrossel"
+        },
+        "usage": {
+          "title": "Exemplos de Uso",
+          "basicExample": {
+            "title": "Uso Básico"
+          },
+          "customSlide": {
+            "title": "Conteúdo de Slide Personalizado"
+          }
+        }
+      }
+    },
+    "tabs": {
+       "layout": {
+        "title": "Layout",
+        "description": "Componentes estruturais para organizar conteúdo e layout",
+        "cards": {
+          "title": "Card",
+          "description": "Containers versáteis para agrupar conteúdo relacionado",
+          "examples": {
+            "basic": "Card Básico",
+            "clickable": "Card Clicável",
+            "loading": "Card Carregando",
+            "withFooter": "Card com Footer",
+            "basicContent": "Este é um card simples com título e conteúdo básico.",
+            "clickableContent": "Clique neste card para ver a interação. O card tem efeito hover e é totalmente clicável.",
+            "loadingContent": "Conteúdo sendo carregado... Mostra um spinner enquanto carrega.",
+            "footerContent": "Card com conteúdo principal e área de footer para ações.",
+            "interactive": "Interativo",
+            "cancel": "Cancelar",
+            "save": "Salvar",
+            "action": "Ação"
+          }
+        },
+        "progress": {
+          "title": "Barras de Progresso",
+          "description": "Exiba indicadores de progresso para tarefas, uploads e estados de conclusão",
+          "examples": {
+            "basic": "Barra de Progresso Básica",
+            "variants": "Variantes de Progresso",
+            "sizes": "Tamanhos Diferentes",
+            "effects": "Efeitos Visuais",
+            "interactive": "Demo Interativa",
+            "withDescriptions": "Com Descrições",
+            "title1": "Progresso da documentação",
+            "description1": "35% da documentação completa. 12 partes faltando.",
+            "title2": "Teste de cobertura",
+            "description2": "75% de cobertura alcançada. Objetivo: 90%"
+          }
+        },
+        "lists": {
+          "title": "Lista",
+          "description": "Componentes de lista flexíveis com várias opções de exibição e interações",
+          "examples": {
+            "basic": "Lista Básica",
+            "ordered": "Lista Ordenada",
+            "clickable": "Lista Clicável",
+            "withActions": "Lista com Ações",
+            "styled": "Lista Estilizada",
+            "customBullet": "Lista com Marcador Personalizado"
+          },
+          "items": {
+            "basic": {
+              "item1": "Primeiro item da lista",
+              "item2": "Segundo item com descrição",
+              "item2Description": "Informações adicionais sobre este item",
+              "item3": "Terceiro item com meta",
+              "item3Meta": "Informação meta",
+              "item4": "Quarto item com ícone"
+            },
+            "ordered": {
+              "item1": "Primeiro passo do processo",
+              "item2": "Segundo passo com detalhes",
+              "item2Description": "Detalhes importantes para este passo",
+              "item3": "Terceiro e último passo"
+            },
+            "clickable": {
+              "item1": "Item clicável 1",
+              "item2": "Item clicável 2",
+              "item2Description": "Este item pode ser clicado",
+              "item3": "Item desabilitado",
+              "item4": "Item clicável 3"
+            },
+            "withActions": {
+              "item1": "Item com ações",
+              "item1Description": "Este item tem botões de ação",
+              "item2": "Outro item",
+              "item2Description": "Com ações diferentes"
+            },
+            "styled": {
+              "item1": "Item estilizado 1",
+              "item1Description": "Variante primária com listras",
+              "item2": "Item estilizado 2",
+              "item2Description": "Com borda e fundo",
+              "item3": "Item estilizado 3",
+              "item3Description": "Cores alternadas"
+            },
+            "customBullet": {
+              "item1": "Item com marcador personalizado 1",
+              "item2": "Item com marcador personalizado 2",
+              "item2Description": "Usando imagem personalizada como marcador",
+              "item3": "Item com marcador personalizado 3"
+            }
+          },
+          "actions": {
+            "edit": "Editar",
+            "delete": "Excluir",
+            "view": "Visualizar",
+            "share": "Compartilhar"
+          }
+        }
+      },
+      "navigation": {
+        "title": "Navegação",
+        "description": "Componentes para navegação do usuário e sistemas de menu",
+        "dropdown": {
+          "title": "Dropdown",
+          "description": "Menus suspensos para ações e navegação secundária",
+          "examples": {
+            "mainMenu": "Menu Principal",
+            "quickActions": "Ações Rápidas",
+            "profile": "Perfil",
+            "settings": "Configurações",
+            "logout": "Sair",
+            "export": "Exportar",
+            "import": "Importar",
+            "refresh": "Atualizar"
+          }
+        },
+        "tabs": {
+          "title": "Tabs",
+          "description": "Navegação por abas para organizar conteúdo relacionado",
+          "examples": {
+            "tab1": "Conteúdo da Primeira Aba",
+            "tab2": "Conteúdo da Segunda Aba",
+            "tab3": "Conteúdo da Terceira Aba",
+            "tab1Content": "Esta é a primeira aba de demonstração. Você pode adicionar qualquer conteúdo aqui.",
+            "tab2Content": "Esta é a segunda aba com conteúdo diferente.",
+            "tab3Content": "Última aba de demonstração com mais informações.",
+            "action1": "Ação 1",
+            "action2": "Ação 2",
+            "action3": "Ação 3"
+          }
+        }
+      },
+      "overlays": {
+        "title": "Overlays",
+        "description": "Diálogos modais e componentes de sobreposição",
+        "modal": {
+          "title": "Modal",
+          "description": "Diálogos modais para conteúdo importante ou ações",
+          "examples": {
+            "basic": "Abrir Modal",
+            "large": "Modal Grande",
+            "modalContent": "Este é um conteúdo de exemplo dentro do modal. Você pode adicionar qualquer conteúdo aqui, incluindo formulários, textos, imagens, etc.",
+            "expandedContent": "Este modal tem tamanho grande e é ideal para conteúdo mais extenso ou formulários complexos.",
+            "name": "Nome",
+            "email": "E-mail",
+            "enterName": "Digite seu nome",
+            "enterEmail": "seu@email.com",
+            "confirm": "Confirmar",
+            "card1": "Card 1",
+            "card2": "Card 2",
+            "card1Content": "Conteúdo do primeiro card",
+            "card2Content": "Conteúdo do segundo card"
+          }
+        },
+        "tooltip": {
+          "title": "Tooltip",
+          "description": "Dicas contextuais que aparecem ao passar o mouse",
+          "examples": {
+            "top": "Tooltip Top",
+            "right": "Tooltip Right",
+            "left": "Tooltip Left",
+            "bottom": "Tooltip Bottom",
+            "topContent": "Esta é uma dica no topo",
+            "rightContent": "Esta é uma dica na direita",
+            "leftContent": "Esta é uma dica na esquerda",
+            "bottomContent": "Esta é uma dica na base"
+          }
+        }
+      },
+      "feedback": {
+        "title": "Feedback",
+        "description": "Componentes para feedback do usuário e indicadores de status",
+        "alert": {
+          "title": "Alert",
+          "description": "Mensagens de feedback com diferentes níveis de importância",
+          "types": {
+            "info": "Informação",
+            "success": "Sucesso",
+            "warning": "Atenção",
+            "error": "Erro"
+          },
+          "messages": {
+            "info": "Esta é uma mensagem informativa para o usuário.",
+            "success": "Operação concluída com êxito.",
+            "warning": "Esta ação requer sua atenção.",
+            "error": "Ocorreu um problema inesperado.",
+            "dismissed": "Alert foi fechado com sucesso!"
+          }
+        },
+        "toast": {
+          "title": "Toast",
+          "description": "Notificações temporárias que aparecem em diferentes posições da tela",
+          "positions": {
+            "topLeft": "Topo Esquerda",
+            "topCenter": "Topo Centro",
+            "topRight": "Topo Direita",
+            "bottomLeft": "Base Esquerda",
+            "bottomCenter": "Base Centro",
+            "bottomRight": "Base Direita"
+          },
+          "messages": {
+            "info": "Esta é uma notificação informativa.",
+            "success": "Operação realizada com sucesso!",
+            "warning": "Atenção! Esta ação requer sua confirmação.",
+            "error": "Ocorreu um erro inesperado.",
+            "custom": "Ação personalizada realizada com sucesso!",
+            "persistent": "Esta notificação não fecha automaticamente - clique no X para fechar."
+          },
+          "controls": {
+            "topPositions": "Posições Superiores",
+            "bottomPositions": "Posições Inferiores",
+            "withActions": "Com Ações",
+            "withIcon": "Toast com Ícone",
+            "noAutoClose": "Sem Auto-fechar"
+          }
+        },
+        "loading": {
+          "title": "Loading",
+          "description": "Indicadores de carregamento com diferentes estilos e tamanhos",
+          "types": {
+            "circle": "Circle Animation",
+            "bounce": "Bounce Animation",
+            "withText": "With Text",
+            "animationSpeed": "Animation Speed"
+          },
+          "text": {
+            "loading": "Carregando...",
+            "processing": "Processando...",
+            "slow": "Lento",
+            "normal": "Normal",
+            "fast": "Rápido"
+          }
+        }
+      },
+      "forms": {
+        "title": "Formulários",
+        "description": "Controles de formulário e componentes de entrada",
+        "button": {
+          "title": "Button",
+          "description": "Botões interativos com múltiplas variações de estilo e estado",
+          "variants": {
+            "primary": "Primary",
+            "secondary": "Secondary",
+            "outline": "Outline",
+            "danger": "Danger"
+          },
+          "sizes": {
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+          },
+          "states": {
+            "disabled": "Disabled",
+            "loading": "Loading"
+          }
+        },
+        "formControls": {
+          "title": "Controles de Formulário",
+          "description": "Componentes essenciais para construção de formulários",
+          "checkbox": {
+            "default": "Checkbox padrão",
+            "checked": "Checkbox marcado",
+            "disabled": "Checkbox desabilitado",
+            "disabledChecked": "Checkbox desabilitado marcado"
+          },
+          "radio": {
+            "option1": "Opção 1",
+            "option2": "Opção 2",
+            "option3": "Opção 3",
+            "selected": "Valor selecionado: {value}"
+          },
+          "switch": {
+            "off": "Switch desligado",
+            "on": "Switch ligado",
+            "disabled": "Switch desabilitado",
+            "disabledOn": "Switch desabilitado ligado"
+          }
+        },
+        "inputFields": {
+          "title": "Campos de Entrada",
+          "description": "Campos de entrada com validação e estados visuais",
+          "input": {
+            "fullName": "Nome completo",
+            "email": "E-mail",
+            "password": "Senha",
+            "withError": "Campo com erro",
+            "valid": "Campo válido",
+            "disabled": "Campo desabilitado",
+            "enterName": "Digite seu nome",
+            "enterEmail": "seu@email.com",
+            "enterPassword": "Sua senha",
+            "required": "Este campo é obrigatório",
+            "everythingOk": "Tudo certo!",
+            "notEditable": "Não editável"
+          },
+          "textarea": {
+            "message": "Mensagem",
+            "withCounter": "Com contador de caracteres (limite: 50)",
+            "withError": "Campo com erro",
+            "disabled": "Campo desabilitado",
+            "enterMessage": "Digite sua mensagem aqui...",
+            "enterLimited": "Digite até 50 caracteres...",
+            "errorMessage": "Mensagem muito curta",
+            "initialText": "Texto inicial para demonstrar o contador...",
+            "disabledText": "Texto desabilitado"
+          },
+          "select": {
+            "selectOption": "Selecione uma opção",
+            "defaultValue": "Seleção com valor padrão",
+            "withError": "Campo com erro",
+            "disabled": "Campo desabilitado",
+            "choose": "Escolha...",
+            "selectionRequired": "Seleção obrigatória",
+            "selectedValue": "Valor selecionado {index}: {value}"
+          },
+          "options": {
+            "option1": "Opção 1",
+            "option2": "Opção 2",
+            "option3": "Opção 3",
+            "option4": "Opção 4 (desabilitada)",
+            "option5": "Opção 5"
+          }
+        }
+      }
+    }
+  }
+}
