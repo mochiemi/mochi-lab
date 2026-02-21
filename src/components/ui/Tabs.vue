@@ -193,7 +193,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   position: relative;
-  margin-bottom: 1em;
+  margin-bottom: 0;
 }
 
 .tabs-header-wrapper {
@@ -220,9 +220,9 @@ onBeforeUnmount(() => {
 
 .scroll-button {
   background: var(--strong-rose);
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   border-radius: 12px;
-  padding: 0.75rem;
+  padding: 0.75em;
   cursor: pointer;
   color: var(--text-secondary);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -246,11 +246,11 @@ onBeforeUnmount(() => {
 }
 
 .scroll-button-prev {
-  margin-right: 0.75rem;
+  margin-right: 0.75em;
 }
 
 .scroll-button-next {
-  margin-left: 0.75rem;
+  margin-left: 0.75em;
 }
 
 .tab-button {
@@ -271,6 +271,7 @@ onBeforeUnmount(() => {
   white-space: nowrap;
   flex-shrink: 0;
   border-radius: 12px 12px 0 0;
+  margin-bottom:0 ;
   overflow: hidden;
 }
 
@@ -310,7 +311,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   transition: transform 0.3s ease;
-  font-size: 1.2rem;
+  font-size: 1.2em;
 }
 
 .tab-active .tab-icon {
@@ -341,7 +342,7 @@ onBeforeUnmount(() => {
 .tabs-content {
   min-height: 200px;
   border-radius: 0 0 16px 16px;
-  padding: 2rem;
+  padding: 2em;
   backdrop-filter: blur(10px);
   border: 1px solid var(--border);
 }
@@ -365,13 +366,13 @@ onBeforeUnmount(() => {
   border: none;
   background: var(--inner-surface);
   border-radius: 50px;
-  padding: 0.5rem;
-  gap: 0.5rem;
+  padding: 0.5em;
+  gap: 0.5em;
 }
 
 .tabs-header.pills-variant .tab-button {
   border-radius: 50px;
-  padding: 0.875rem 1.5rem;
+  padding: 0.875em 1.5em;
 }
 
 .tabs-header.pills-variant .tab-active {
@@ -384,40 +385,39 @@ onBeforeUnmount(() => {
   display: none;
 }
 
-
 @media (max-width: 768px) {
   .scroll-button {
-    padding: 0.5rem;
+    padding: 0.5em;
     min-width: 36px;
     min-height: 36px;
   }
   
   .scroll-button-prev {
-    margin-right: 0.5rem;
+    margin-right: 0.5em;
   }
   
   .scroll-button-next {
-    margin-left: 0.5rem;
+    margin-left: 0.5em;
   }
   
   .tab-button {
-    padding: 0.875rem 1.25rem;
-    font-size: 0.9rem;
-    gap: 0.5rem;
+    padding: 0.875em 1.25em;
+    font-size: 0.9em;
+    gap: 0.5em;
   }
   
   .tabs-content {
-    padding: 1.5rem;
+    padding: 1.5em;
   }
 }
 
 @media (max-width: 480px) {
   .tab-button {
-    padding: 0.75rem 1rem;
+    padding: 0.75em 1em;
   }
   
   .tabs-content {
-    padding: 1rem;
+    padding: 1em;
   }
 }
 </style>

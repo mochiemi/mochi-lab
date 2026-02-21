@@ -24,6 +24,7 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
 import { useThemeStore } from '@/stores/theme'
+import Alert from '@/components/ui/Alert.vue';
 
 const props = defineProps({
   size: {
@@ -94,24 +95,23 @@ defineExpose({
 <style scoped>
 .alert {
   border-radius: 8px;
-  margin-bottom: 1rem;
+  margin: 1em;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
+  align-items: center;
+  gap: 1em;
   transition: all 0.3s ease;
 }
 
 .alert-info {
   background: var(--sky-blue-surface);
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   color: var(--text-secondary);
 }
 
 .alert-warning {
   background: var(--rose-surface);
   border: 2px solid var(--red);
-  border-radius: 0;
   color: var(--text-primary);
 }
 
@@ -181,4 +181,9 @@ defineExpose({
   opacity: 0;
   transform: translateY(-10px);
 }
+
+.alert{
+  padding-left: 1em;
+}
+
 </style>

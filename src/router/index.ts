@@ -35,28 +35,19 @@ const router = createRouter({
       component: () => import('@/views/BlogView.vue')
     },
     {
-  path: '/projects',
-  name: 'projects',
-  component: () => import('../views/ProjectsView.vue')
+      path: '/contact',
+      name: 'contact',
+      component: () => import('../views/ContactView.vue')
     },
     {
-  path: '/contact',
-  name: 'contact',
-  component: () => import('../views/ContactView.vue')
+      path: '/i-list',
+      name: 'interactivelist',
+      component: () => import('@/views/InteractiveListView.vue')
     },
     {
-  path: '/poke-forms',
-  name: 'pokemonquiz',
-  component: () => import('@/views/PokeFormsView.vue'),
-  meta: {
-    title: 'Pokémon Quiz'
-  }
-    },
-
-    {
-    path: '/i-list',
-    name: 'interactivelist',
-    component: () => import('@/views/InteractiveListView.vue')
+      path: '/grade-horaria',
+      name: 'gradehoraria',
+      component: () => import('@/views/GradeHorariaView.vue')
     }
   ]
 })

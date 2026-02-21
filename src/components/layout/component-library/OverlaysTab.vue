@@ -100,7 +100,7 @@ const handleModalConfirm = () => {
 }
 
 .catalog-section {
-  padding: 2rem;
+  padding: 2em;
   background: var(--surface);
   border-radius: 12px;
   border: 1px solid var(--border);
@@ -108,8 +108,8 @@ const handleModalConfirm = () => {
 }
 
 .catalog-section h2 {
-  font-size: 1.75rem;
-  margin-bottom: 1rem;
+  font-size: 1.75em;
+  margin-bottom: 1em;
   color: var(--text-primary);
   display: flex;
   align-items: center;
@@ -132,65 +132,65 @@ const handleModalConfirm = () => {
 
 .demo-controls {
   display: flex;
-  gap: 1rem;
+  gap: 1em;
   flex-wrap: wrap;
 }
 
 .modal-content {
-  padding: 1rem 0;
+  padding: 1em 0;
 }
 
 .modal-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-top: 1.5rem;
+  gap: 1em;
+  margin-top: 1.5em;
 }
 
 .modal-footer {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.75em;
   justify-content: flex-end;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.5em;
 }
 
 .content-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 1.5rem;
+  gap: 1em;
+  margin-top: 1.5em;
 }
 
 .tooltip-demo-grid {
   display: flex;
-  gap: 1rem;
+  gap: 1em;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 2rem;
-  padding: 2rem;
+  margin-bottom: 2em;
+  padding: 2em;
   background: var(--surface);
   border-radius: 8px;
   border: 1px solid var(--border);
 }
 
 .tooltip-variants {
-  margin-top: 2rem;
+  margin-top: 2em;
 }
 
 .tooltip-variants h3 {
-  margin-bottom: 1rem;
+  margin-bottom: 1em;
   color: var(--text-primary);
 }
 
 .demo-grid {
   display: flex;
-  gap: 1rem;
+  gap: 1em;
   flex-wrap: wrap;
 }
 
 @media (max-width: 768px) {
   .catalog-section {
-    padding: 1rem;
+    padding: 1em;
   }
   
   .demo-controls {

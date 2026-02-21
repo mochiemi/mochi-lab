@@ -38,8 +38,8 @@ const props = defineProps({
   },
   size: {
     type: String,
-    default: 'min',
-    validator: (value) => ['md', 'lg', 'xl'].includes(value)
+    default: 'md',
+    validator: (value) => ['min', 'md', 'lg', 'xl'].includes(value)
   },
 
   delay: {
@@ -96,7 +96,7 @@ onBeforeUnmount(() => {
   position: absolute;
   z-index: 1000;
   padding: 0.25em 0.4em;
-  font-family: 'Comic Neue';
+  font-family: 'Comic Neue', cursive;
   border-radius: 6px;
   font-size: 0.9em;
   font-weight: 400;
@@ -121,9 +121,9 @@ onBeforeUnmount(() => {
 }
 
 .tootip-md {
-  min-width: 5rem;
-  max-width: 10rem;
-  padding: 0.3rem 0.5rem;
+  min-width: 5em;
+  max-width: 10em;
+  padding: 0.3em 0.5em;
 }
 
 .tootip-lg {
@@ -133,9 +133,9 @@ onBeforeUnmount(() => {
 }
 
 .tootip-xl {
-  min-width: 20rem;
-  max-width: 30rem;
-  padding: 0.6rem 0.8rem;
+  min-width: 20em;
+  max-width: 30em;
+  padding: 0.6em 0.8em;
 }
 
 .tooltip-top {

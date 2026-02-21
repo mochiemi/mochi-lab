@@ -35,3 +35,6 @@ folders.txt
 /cypress/screenshots/
 
 __screenshots__/
+
+# Local Netlify folder
+.netlify

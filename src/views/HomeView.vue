@@ -1,8 +1,6 @@
 <template>
-<<<<<<< HEAD
   <div class="home">
-
-    <Card class="today-date" :flat="true" :padding="'medium'">
+    <Card class="today-date" :flat="true">
       <div class="date-content">
         <div class="date-text">
           <p class="today">{{ $t('home.todayIs') }}</p>
@@ -16,49 +14,320 @@
         <div class="hero-text">
           <p class="welcome">{{ $t('home.welcome') }}</p>
           <h1 class="title">Mochi Lab</h1>
-          <img class="hero-img" src="../assets/images/mochipuyu.png" />
+          <img class="hero-img" src="../assets/images/mochipuyu.png" alt="Mochi" />
           <p class="hero-description">{{ $t('home.description') }}</p>
         </div>
         <Tooltip :content="$t('home.tooltip')" position="right" size="lg" class="logo-tooltip">
-          <router-link to="/about" class="nav-brand">
-          </router-link>
+          <router-link to="/about" class="nav-brand"></router-link>
         </Tooltip>
       </div>
     </Card>
 
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="features-header">
+        <h2 class="features-title">
+          <OhVueIcon name="gi-erlenmeyer" class="features-icon" />
+          {{ $t('home.features.title') }}
+        </h2>
+        <p class="features-description">{{ $t('home.features.description') }}</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Latest Blog Post Feature -->
+        <Card class="feature-card" :padding="'normal'">
+          <template #header>
+            <div class="feature-header">
+              <div class="feature-icon-wrapper">
+                <OhVueIcon name="oi-pencil" class="feature-icon" />
+              </div>
+              <Badge v-if="latestPost" variant="primary" size="small">
+                <OhVueIcon name="oi-star" class="badge-icon" />
+                {{ $t('home.features.featured') }}
+              </Badge>
+            </div>
+            <h3 class="feature-title">{{ $t('home.features.latestPost') }}</h3>
+          </template>
+
+          <div class="feature-content">
+            <div v-if="loading" class="feature-loading">
+              <Loading size="md" :text="$t('blog.loading')" />
+            </div>
+
+            <div v-else-if="error" class="feature-error">
+              <OhVueIcon name="hi-exclamation-circle" class="error-icon-small" />
+              <span>{{ error }}</span>
+            </div>
+
+            <div v-else-if="latestPost" class="post-preview">
+              <h4 class="post-preview-title" v-html="latestPost.title"></h4>
+              
+              <div class="post-preview-meta">
+                <div class="meta-item">
+                  <OhVueIcon name="oi-person" class="meta-icon-small" />
+                  <span>{{ latestPost.author }}</span>
+                </div>
+                <span class="separator-dot">•</span>
+                <div class="meta-item">
+                  <OhVueIcon name="bi-calendar-heart" class="meta-icon-small" />
+                  <span>{{ formatDate(latestPost.published) }}</span>
+                </div>
+              </div>
+
+              <p class="post-preview-excerpt">{{ latestPost.excerpt }}</p>
+
+              <div class="post-preview-tags" v-if="latestPost.labels && latestPost.labels.length > 0">
+                <Badge 
+                  v-for="label in latestPost.labels.slice(0, 2)" 
+                  :key="label"
+                  variant="secondary"
+                  size="small"
+                >
+                  {{ label }}
+                </Badge>
+                <span v-if="latestPost.labels.length > 2" class="more-tags">
+                  +{{ latestPost.labels.length - 2 }}
+                </span>
+              </div>
+            </div>
+
+            <div v-else class="feature-empty">
+              <OhVueIcon name="gi-cat" class="empty-icon-small" />
+              <p>{{ $t('home.features.noPosts') }}</p>
+            </div>
+          </div>
+
+          <template #footer>
+            <div class="feature-footer">
+              <Button 
+                variant="primary" 
+                size="small"
+                :disabled="!latestPost || loading"
+                @click="goToLatestPost"
+              >
+                <OhVueIcon name="fa-chevron-circle-right" class="btn-icon" />
+                {{ $t('home.features.readPost') }}
+              </Button>
+            </div>
+          </template>
+        </Card>
+
+        <!-- Schedule Feature -->
+        <Card class="feature-card" :padding="'normal'">
+          <template #header>
+            <div class="feature-header">
+              <div class="feature-icon-wrapper">
+                <OhVueIcon name="bi-calendar-heart" class="feature-icon" />
+              </div>
+              <Badge variant="secondary" size="small">
+                <OhVueIcon name="wi-time2" class="badge-icon" />
+                2026/1
+              </Badge>
+            </div>
+            <h3 class="feature-title">{{ $t('home.features.schedule') }}</h3>
+          </template>
+
+          <div class="feature-content">
+            <div class="schedule-preview">
+              <div class="schedule-stats">
+                <div class="stat-item">
+                  <span class="stat-value">5</span>
+                  <span class="stat-label">{{ $t('weekDays') }}</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-value">8+</span>
+                  <span class="stat-label">{{ $t('subjects') }}</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-value">02/03</span>
+                  <span class="stat-label">{{ $t('start') }}</span>
+                </div>
+              </div>
+
+              <div class="schedule-next-class" v-if="nextClass">
+                <p class="next-class-label">
+                  <OhVueIcon name="hi-clock" class="next-class-icon" />
+                  {{ $t('nextClass') }}:
+                </p>
+                <div class="next-class-info">
+                  <span class="next-class-day">{{ nextClass.day }}</span>
+                  <span class="next-class-time">{{ nextClass.time }}</span>
+                  <span class="next-class-subject">{{ nextClass.subject }}</span>
+                </div>
+              </div>
+
+              <div class="schedule-update">
+                <OhVueIcon name="oi-check" class="update-icon" />
+                <span>{{ $t('home.features.updated') }}: 02/03/2026</span>
+              </div>
+            </div>
+          </div>
+
+          <template #footer>
+            <div class="feature-footer">
+              <Button 
+                variant="outline" 
+                size="small"
+                @click="$router.push('/grade-horaria')"
+              >
+                <OhVueIcon name="bi-calendar-heart" class="btn-icon" />
+                {{ $t('home.features.viewSchedule') }}
+              </Button>
+            </div>
+          </template>
+        </Card>
+
+        <!-- Future Features Slot -->
+        <slot name="feature-3">
+          <Card class="feature-card future-card" :padding="'normal'">
+            <template #header>
+              <div class="feature-header">
+                <div class="feature-icon-wrapper future">
+                  <OhVueIcon name="gi-erlenmeyer" class="feature-icon future-icon" />
+                </div>
+              </div>
+              <h3 class="feature-title future-title">{{ $t('home.features.comingSoon') }}</h3>
+            </template>
+
+            <div class="feature-content future-content">
+              <OhVueIcon name="gi-pineapple" class="future-main-icon" />
+              <p>{{ $t('inConstruction.note') }}</p>
+            </div>
+          </Card>
+        </slot>
+
+        <slot name="feature-4">
+          <Card class="feature-card future-card" :padding="'normal'">
+            <template #header>
+              <div class="feature-header">
+                <div class="feature-icon-wrapper future">
+                  <OhVueIcon name="gi-coffee-cup" class="feature-icon future-icon" />
+                </div>
+              </div>
+              <h3 class="feature-title future-title">{{ $t('home.features.comingSoon') }}</h3>
+            </template>
+
+            <div class="feature-content future-content">
+              <OhVueIcon name="gi-cat" class="future-main-icon" />
+              <p>{{ $t('inConstruction.note') }}</p>
+            </div>
+          </Card>
+        </slot>
+      </div>
+    </section>
 
 
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useLanguageStore } from '@/stores/language';
 import Card from '@/components/ui/Card.vue';
+import Button from '@/components/ui/Button.vue';
+import Badge from '@/components/ui/Badge.vue';
+import Loading from '@/components/ui/Loading.vue';
 import Tooltip from '@/components/ui/Tooltip.vue';
-import { OhVueIcon } from 'oh-vue-icons';
+import { OhVueIcon } from '@/plugins/icons';
 
+// Configurações da API
+const API_KEY = import.meta.env.VITE_BLOGGER_API_KEY;
+const BLOG_ID = import.meta.env.VITE_BLOGGER_BLOG_ID;
+
+const router = useRouter();
 const languageStore = useLanguageStore();
 const today = new Date();
 
+// Estados
+const latestPost = ref(null);
+const loading = ref(true);
+const error = ref(null);
+
+// Dados da próxima aula (exemplo)
+const nextClass = {
+  day: 'Segunda',
+  time: '09:00 - 10:00',
+  subject: 'Biossegurança e Primeiros Socorros'
+};
+
+// Data formatada
 const formattedDate = computed(() => {
   const locale = languageStore.currentLanguage;
-
   const weekday = today.toLocaleDateString(locale, { weekday: 'long' });
   const date = today.toLocaleDateString(locale, {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
-
   return `${weekday}, ${date}`;
 });
 
+// Helper para limpar HTML
+const stripHtml = (html) => {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || '';
+};
 
+// Buscar último post
+const fetchLatestPost = async () => {
+  try {
+    loading.value = true;
+    error.value = null;
+
+    const url = `https://www.googleapis.com/blogger/v3/blogs/${BLOG_ID}/posts?key=${API_KEY}&maxResults=1`;
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch latest post');
+    }
+
+    const data = await response.json();
+    
+    if (data.items && data.items.length > 0) {
+      const item = data.items[0];
+      const plainTextExcerpt = stripHtml(item.content).substring(0, 120);
+      
+      latestPost.value = {
+        id: item.id,
+        title: item.title,
+        excerpt: plainTextExcerpt + (plainTextExcerpt.length >= 120 ? '...' : ''),
+        published: item.published,
+        author: item.author?.displayName || 'Mochi Lab',
+        labels: item.labels || []
+      };
+    }
+  } catch (err) {
+    error.value = err.message;
+    console.error('Error fetching latest post:', err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+// Formatar data
+const formatDate = (dateString) => {
+  return new Date(dateString).toLocaleDateString(languageStore.currentLanguage, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+};
+
+// Navegar para último post
+const goToLatestPost = () => {
+  if (latestPost.value) {
+    router.push(`/post/${latestPost.value.id}`);
+  }
+};
+
+onMounted(() => {
+  fetchLatestPost();
+});
 </script>
 
 <style scoped>
-
 .home {
   max-width: 1400px;
   margin: 0 auto;
@@ -66,13 +335,14 @@ const formattedDate = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1em;
+  gap: 1.5em;
   letter-spacing: 1px;
 }
 
+/* Hero Card (existing styles) */
 .hero-card {
   width: min(95dvw, 1000px);
-  margin: 1em auto;
+  margin: 0 auto;
   background: var(--rose-surface);
   overflow: hidden;
 }
@@ -98,7 +368,7 @@ const formattedDate = computed(() => {
   font-size: 4cqmax;
   color: var(--title-secondary);
   font-family: 'Finger Paint';
-  margin-bottom: 1em;
+  margin-bottom: 0;
   text-shadow:
     2px 2px 0 var(--primary),
     -2px 2px 0 var(--primary),
@@ -114,15 +384,10 @@ const formattedDate = computed(() => {
   max-width: 500px;
 }
 
-.hero-actions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.hero-img{
+.hero-img {
   display: inline-block;
   max-width: 50dvw;
+  margin-left: -5em;
   transition: all 0.5s ease;
 }
 
@@ -140,7 +405,7 @@ const formattedDate = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 1em;
 }
 
 .date-text p {
@@ -159,7 +424,300 @@ const formattedDate = computed(() => {
   margin-bottom: 1em;
 }
 
+/* Features Section */
+.features-section {
+  width: min(95dvw, 1200px);
+  margin: 2em auto;
+}
 
+.features-header {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+.features-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  color: var(--title-primary);
+  font-size: 2em;
+  margin-bottom: 0.5em;
+}
+
+.features-icon {
+  color: var(--primary);
+  font-size: 1.2em;
+}
+
+.features-description {
+  color: var(--text-secondary);
+  font-size: 1.1em;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5em;
+}
+
+.feature-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px var(--shadow-hover);
+}
+
+.feature-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
+.feature-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-icon-wrapper.future {
+  background: var(--surface-secondary);
+  opacity: 0.7;
+}
+
+.feature-icon {
+  font-size: 1.8em;
+  color: var(--primary);
+}
+
+.feature-icon.future-icon {
+  color: var(--text-disabled);
+}
+
+.feature-title {
+  color: var(--title-primary);
+  font-size: 1.3em;
+  margin: 0.5em 0;
+}
+
+.feature-title.future-title {
+  color: var(--text-disabled);
+}
+
+.feature-content {
+  flex: 1;
+  margin: 1em 0;
+}
+
+.feature-loading,
+.feature-error,
+.feature-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 2em;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.error-icon-small {
+  color: var(--error);
+  font-size: 1.2em;
+}
+
+.empty-icon-small {
+  color: var(--text-disabled);
+  font-size: 2em;
+}
+
+/* Post Preview */
+.post-preview-title {
+  color: var(--title-secondary);
+  font-size: 1.1em;
+  margin-bottom: 0.75em;
+  line-height: 1.4;
+}
+
+.post-preview-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.75em;
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.meta-icon-small {
+  font-size: 0.8em;
+  color: var(--primary);
+}
+
+.separator-dot {
+  color: var(--border);
+}
+
+.post-preview-excerpt {
+  color: var(--text-primary);
+  font-size: 0.9em;
+  line-height: 1.6;
+  margin-bottom: 1em;
+}
+
+.post-preview-tags {
+  display: flex;
+  gap: 0.3em;
+  flex-wrap: wrap;
+}
+
+.more-tags {
+  font-size: 0.75em;
+  color: var(--text-secondary);
+  padding: 0.15em 0.3em;
+  background: var(--inner-surface);
+  border-radius: 4px;
+}
+
+/* Schedule Preview */
+.schedule-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+}
+
+.schedule-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5em;
+  text-align: center;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+.stat-value {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: var(--title-primary);
+}
+
+.stat-label {
+  font-size: 0.75em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.schedule-next-class {
+  padding: 1em;
+  background: var(--inner-surface);
+  border-radius: 8px;
+}
+
+.next-class-label {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  margin-bottom: 0.5em;
+}
+
+.next-class-icon {
+  color: var(--primary);
+}
+
+.next-class-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+.next-class-day {
+  font-weight: 700;
+  color: var(--title-secondary);
+}
+
+.next-class-time {
+  font-size: 0.85em;
+  color: var(--primary);
+}
+
+.next-class-subject {
+  font-size: 0.9em;
+  color: var(--text-primary);
+}
+
+.schedule-update {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.8em;
+  color: var(--text-secondary);
+  padding: 0.5em;
+  background: var(--surface-secondary);
+  border-radius: 6px;
+}
+
+.update-icon {
+  color: var(--green);
+}
+
+/* Future Card */
+.future-card {
+  opacity: 0.8;
+  background: var(--surface-secondary);
+  border-style: dashed;
+}
+
+.future-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  padding: 1.5em;
+  text-align: center;
+  color: var(--text-disabled);
+}
+
+.future-main-icon {
+  font-size: 3em;
+  color: var(--border);
+}
+
+.feature-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.badge-icon {
+  margin-right: 0.25em;
+}
+
+.btn-icon {
+  margin-right: 0.5em;
+}
+
+/* Responsividade */
 @media (max-width: 1080px) {
   .hero-content {
     grid-template-columns: 1fr;
@@ -170,8 +728,9 @@ const formattedDate = computed(() => {
   .hero-text {
     text-align: center;
   }
-  .hero-actions {
-    justify-content: center;
+
+  .features-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 }
 
@@ -183,46 +742,65 @@ const formattedDate = computed(() => {
   }
 
   .hero-card,
-  .today-date {
+  .today-date,
+  .features-section {
     width: 95dvw;
-    margin: 0.25em auto;
   }
 
   .hero-content {
     padding: 1em;
   }
 
-  .home-grid {
-    grid-template-columns: 1fr;
-    gap: 1em;
+  .hero-img {
+    margin-left: -2em;
   }
-
-  .hero-img{
-    display: inline-block;
-
-}
 
   .title {
     font-size: 2.5em;
   }
 
-  .links-grid {
-    grid-template-columns: 1fr;
+  .feature-card {
+    background-color: var(--sky-blue-surface);
   }
 
-  .link-button {
-    justify-content: center;
+  .features-title {
+    font-size: 1.2em;
   }
 
+  .features-description {
+    font-size: 0.9em;
+  }
+
+  .stat-value {
+    font-size: 1em;
+  }
 }
 
 @media (max-width: 480px) {
   .home {
     padding: 0.25em;
   }
+  
   .hero-content {
     padding: 0.5em;
   }
-}
 
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .post-preview-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25em;
+  }
+
+  .separator-dot {
+    display: none;
+  }
+
+  .schedule-stats {
+    gap: 0.25em;
+  }
+}
 </style>

@@ -5,7 +5,8 @@
     "readMore": "Read More",
     "back": "Back",
     "backToHome": "Back to Home",
-    "featured": "Featured"
+    "featured": "Featured",
+    "cancel": "Cancel"
   },
   "home": {
     "welcome": "Welcome to",
@@ -23,20 +24,18 @@
       "description": "Check out newest blog posts, updates, and experiments",
       "preview": "Not yet fully implemented"
     },
-    "interactive": {
-      "title": "Interactive Demos",
-      "description": "Fun experiments and interactive components to play with",
-      "fun": "Just for fun!"
-    },
-    "quickLinks": {
-      "title": "Quick Navigation",
-      "description": "Explore different sections of the lab",
-      "components": "Component Library",
-      "blog": "Blog & Articles",
-      "icons": "Icons Library",
-      "quiz": "Pokémon Quiz",
-      "about": "About Project",
-      "contact": "Contact Me"
+    "features": {
+      "title": "Lab Features",
+      "description": "Explore what Mochi Lab has to offer",
+      "latestPost": "Latest Blog Post",
+      "readPost": "Read Post",
+      "noPosts": "No posts available",
+      "schedule": "Class Schedule",
+      "scheduleDesc": "Check your current semester schedule",
+      "viewSchedule": "View Schedule",
+      "comingSoon": "Coming Soon",
+      "featured": "Featured",
+      "updated": "Updated"
     }
   },
   "blog": {
@@ -63,7 +62,32 @@
     "next": "Next",
     "showingPosts": "Showing {start}-{end} of {total} posts",
     "backToBlog": "Back to Blog",
-    "readMore": "Read More"
+    "readMore": "Read More",
+    "filterByTags": "Filter by tags:",
+    "clearFilters": "Clear filters",
+    "noPostsForTags": "No posts found with the selected tags.",
+    "publishedOn": "Published on",
+    "updatedOn": "Updated on",
+    "tags": "Tags",
+    "loadingComments": "Loading comments...",
+    "errorLoadingComments": "Error loading comments",
+    "noComments": "No comments yet",
+    "beFirstToComment": "Be the first to leave a comment!",
+    "reply": "Reply",
+    "writeReply": "Write your reply...",
+    "sendReply": "Send Reply",
+    "leaveComment": "Leave a comment",
+    "name": "Name",
+    "yourName": "Your name",
+    "email": "Email",
+    "yourEmail": "your.email@example.com",
+    "website": "Website (optional)",
+    "yourWebsite": "https://example.com",
+    "comment": "Comment",
+    "writeComment": "Write your comment...",
+    "publishComment": "Publish Comment",
+    "commentSent": "Your comment has been sent and is awaiting moderation.",
+    "author": "Author"
   },
   "nav": {
     "home": "Home",
@@ -82,9 +106,6 @@
   },
   "toTop": {
     "ariaLabel": "Scroll to top"
-  },
-  "msgError": {
-    "email": "Sorry but this email is invalid!"
   },
   "iconsLibrary": {
     "title": "Icons Library",
@@ -143,11 +164,19 @@
     "note": "Meanwhile, feel free to explore other sections of Mochi Lab!"
   },
   "myCats": {
-"title": "Introducing my cats",
-"romeow": "The oldest and fattest",
-"pure": "Addicted to drinking tap water",
-"hana": "My husband's darling",
-"morgan": "Looks mischievous but is the silliest",
-"gina": "Likes to sleep in strange positions"
-}
+    "title": "Introducing my cats",
+    "romeow": "The oldest and fattest",
+    "pure": "Addicted to drinking tap water",
+    "hana": "My husband's darling",
+    "morgan": "Looks mischievous but is the silliest",
+    "gina": "Likes to sleep in strange positions"
+  },
+  "footer": {
+    "toolTip": {
+      "github": "Github",
+      "linkedin": "LinkedIn",
+      "blogger": "Blogger",
+      "portfolio": "Portfolio"
+    }
+  }
 }

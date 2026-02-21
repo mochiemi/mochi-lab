@@ -49,8 +49,12 @@
       </div>
     </div>
 
-    <transition name="mobile-menu">
-      <div v-if="isMobileMenuOpen" class="mobile-menu">
+    <transition 
+      name="mobile-menu"
+      @before-leave="beforeLeave"
+      @after-leave="afterLeave"
+    >
+      <div v-if="isMobileMenuOpen" class="mobile-menu" key="mobile-menu">
         <div class="mobile-menu-content">
           <Accordion
             :items="accordionItems"
@@ -84,12 +88,11 @@ import Accordion from '@/components/ui/Accordion.vue'
 import ThemeToggle from './ThemeToggle.vue'
 import LanguageToggle from './LanguageToggle.vue'
 import { OhVueIcon } from 'oh-vue-icons'
-import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { navigationConfig } from '@/config/navigation.js'
 import '@/assets/styles/variables.css'
 import '@/assets/styles/fonts.css'
-
 
 const { t } = useI18n()
 const isMobileMenuOpen = ref(false)
@@ -107,11 +110,25 @@ const toggleMobileMenu = () => {
 }
 
 const closeMobileMenu = () => {
-  isMobileMenuOpen.value = false
+  if (isMobileMenuOpen.value) {
+    isMobileMenuOpen.value = false
+  }
+}
+
+const beforeLeave = (el) => {
+  if (el) {
+    el.style.position = 'absolute'
+  }
+}
+
+const afterLeave = (el) => {
+  if (el) {
+    el.style.position = ''
+  }
 }
 
 const handleResize = () => {
-  if (window.innerWidth > 800) {
+  if (window.innerWidth > 800 && isMobileMenuOpen.value) {
     closeMobileMenu()
   }
 }
@@ -295,7 +312,7 @@ onBeforeUnmount(() => {
 }
 
 .mobile-menu-content {
-  padding: 1rem;
+  padding: 1em;
 }
 
 .mobile-accordion {
@@ -305,28 +322,28 @@ onBeforeUnmount(() => {
 .mobile-accordion-content {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  padding: 0.5rem 0;
+  gap: 0.25em;
+  padding: 0.5em 0;
 }
 
 .mobile-menu-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.25rem;
+  gap: 1em;
+  padding: 1em 1.25em;
   text-decoration: none;
   color: var(--text-primary);
   border-radius: 12px;
   transition: all 0.3s ease;
   font-weight: 500;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.25em;
   border-bottom: 2px dashed (--text-contrast);
-  background: var(--inner-surface);
+  background: transparent;
 }
 
 .mobile-menu-item:hover,
 .mobile-menu-item.router-link-active {
-  background: var(--gradient-primary);
+  background-color: var(--navbar-surface);
   color: var(--text-secondary);
   transform: translateX(8px);
   border-color: var(--secondary);
@@ -334,7 +351,7 @@ onBeforeUnmount(() => {
 }
 
 .mobile-menu-icon {
-  font-size: 1.2rem;
+  font-size: 1.2em;
   width: 24px;
   text-align: center;
   color: var(--strong-rose);
@@ -368,7 +385,7 @@ onBeforeUnmount(() => {
 }
 
 .dropdown-icon {
-  font-size: 1.1rem;
+  font-size: 1.1em;
   width: 20px;
   color: var(--rose);
   text-align: center;
@@ -460,11 +477,11 @@ onBeforeUnmount(() => {
   }
   
   .desktop-nav {
-    gap: 1rem;
+    gap: 1em;
   }
   
   .nav-brand {
-    font-size: 1.3rem;
+    font-size: 1.3em;
   }
 }
 

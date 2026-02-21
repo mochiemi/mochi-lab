@@ -10,7 +10,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import logoImage from '@/assets/images/mochilab-logo.png'
+import logoImage from '@/assets/svg/mochilab-logo-color.svg'
 
 const props = defineProps({
   size: {

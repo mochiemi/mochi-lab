@@ -85,7 +85,7 @@ const handleClick = () => {
 
 <style scoped>
 .card {
-  padding: 0.5em;
+  padding: 0.75em;
   font-size: 1.1em;
   font-family: inherit;
   line-height: 1.2;
@@ -115,11 +115,9 @@ const handleClick = () => {
   margin-bottom: 1em;
   padding-bottom: 0.75em;
   border-bottom: 2px solid var(--border-strong);
-  font-size: 2em;
 }
 
 .card-title {
-  font-size: 0.8em;
   color: var(--title-primary);
   margin: 0;
 }

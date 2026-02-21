@@ -25,11 +25,6 @@ export const navigationConfig = [
         icon: 'gi-erlenmeyer'
       },
       {
-        path: '/projects',
-        labelKey: 'nav.projects',
-        icon: 'hi-light-bulb'
-      },
-      {
         path: '/contact',
         labelKey: 'nav.contact',
         icon: 'fa-regular-paper-plane'
@@ -57,14 +52,14 @@ export const navigationConfig = [
     labelKey: 'nav.more',
     items: [
       {
-        path: '/poke-forms',
-        labelKey: 'nav.pokeform',
-        icon: 'md-catchingpokemon-twotone'
-      },
-      {
         path: '/i-list',
         labelKey: 'nav.iList',
         icon: 'bi-card-checklist'
+      },
+      {
+        path: '/grade-horaria',
+        labelKey: 'Grade Horária',
+        icon: 'bi-calendar-heart'
       }
     ]
   }

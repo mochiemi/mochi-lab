@@ -1,11 +1,12 @@
 {
   "common": {
     "locale": "pt-BR",
-    "language": "PT",
+    "language": "PTBR",
     "readMore": "Continue lendo",
     "back": "Voltar",
     "backToHome": "Voltar ao Início",
-    "featured": "Destaque"
+    "featured": "Destaque",
+    "cancel": "Cancelar"
   },
   "home": {
     "welcome": "Sejam Bem Vindes ao",
@@ -18,32 +19,20 @@
       "title": "Componentes",
       "description": "Veja a biblioteca de componentes UI usados aqui"
     },
-    "latest": {
-      "title": "Conteúdo Recente",
-      "description": "Confira os posts mais novos, atualizações e experimentos",
-      "preview": "Ainda não está completamente implementado"
-    },
-    "stats": {
-      "title": "Estatísticas do Projeto",
-      "description": "Progresso atual e métricas de desenvolvimento",
-      "components": "Componentes",
-      "languages": "Idiomas"
-    },
-    "interactive": {
-      "title": "Demonstrações Interativas",
-      "description": "Experimentos divertidos e componentes interativos para testar",
-      "fun": "Apenas por diversão!"
-    },
-    "quickLinks": {
-      "title": "Navegação Rápida",
-      "description": "Explore diferentes seções do laboratório",
-      "components": "Biblioteca de Componentes",
-      "blog": "Blog & Artigos",
-      "icons": "Biblioteca de Ícones",
-      "quiz": "Quiz Pokémon",
-      "about": "Sobre o Projeto",
-      "contact": "Entre em Contato"
+    "features": {
+      "title": "Recursos do Lab",
+      "description": "Explore o que o Mochi Lab tem a oferecer",
+      "latestPost": "Último Post do Blog",
+      "readPost": "Ler Post",
+      "noPosts": "Nenhum post disponível",
+      "schedule": "Grade Horária",
+      "scheduleDesc": "Confira sua grade do semestre atual",
+      "viewSchedule": "Ver Grade",
+      "comingSoon": "Em Breve",
+      "featured": "Destaque",
+      "updated": "Atualizado"
     }
+
   },
   "blog": {
     "title": "Mochi Blog",
@@ -69,7 +58,32 @@
     "next": "Próximo",
     "showingPosts": "Mostrando {start}-{end} de {total} posts",
     "backToBlog": "Voltar ao Blog",
-    "readMore": "Ler Mais"
+    "readMore": "Ler Mais",
+    "filterByTags": "Filtrar por tags:",
+    "clearFilters": "Limpar filtros",
+    "noPostsForTags": "Nenhum post encontrado com as tags selecionadas.",
+    "publishedOn": "Publicado em",
+    "updatedOn": "Atualizado em",
+    "tags": "Tags",
+    "loadingComments": "Carregando comentários...",
+    "errorLoadingComments": "Erro ao carregar comentários",
+    "noComments": "Nenhum comentário ainda",
+    "beFirstToComment": "Seja o primeiro a comentar!",
+    "reply": "Responder",
+    "writeReply": "Escreva sua resposta...",
+    "sendReply": "Enviar Resposta",
+    "leaveComment": "Deixar um comentário",
+    "name": "Nome",
+    "yourName": "Seu nome",
+    "email": "E-mail",
+    "yourEmail": "seu.email@exemplo.com",
+    "website": "Site (opcional)",
+    "yourWebsite": "https://exemplo.com",
+    "comment": "Comentário",
+    "writeComment": "Escreva seu comentário...",
+    "publishComment": "Publicar Comentário",
+    "commentSent": "Seu comentário foi enviado e está aguardando moderação.",
+    "author": "Autor"
   },
   "nav": {
     "home": "Início",
@@ -83,14 +97,11 @@
     "more": "Interativo",
     "contact": "Contato",
     "toggleMenu": "Alternar menu",
-    "pokeform": "Pokémon Quiz",
+    "pokeform": "Testes HTML",
     "iList": "Lista Interativa"
   },
   "toTop": {
     "ariaLabel": "Voltar ao topo"
-  },
-  "msgError": {
-    "email": "Desculpe, mas o email é invalido!"
   },
   "iconsLibrary": {
     "title": "Biblioteca de Ícones",
@@ -143,17 +154,25 @@
     "pending": "Pendente",
     "noitem": "Nenhum item na lista"
   },
-    "inConstruction": {
+  "inConstruction": {
     "title": "Em construção",
-    "message": "Esta págiga ainda está sendo contruída!",
+    "message": "Esta página ainda está sendo construída!",
     "note": "Enquanto isso, sinta-se a vontade para explorar outras seções do Mochi Lab!"
   },
-  "myCats":  {
+  "myCats": {
     "title": "Apresentando meus gatos",
     "romeow": "O mais velho e gordo",
     "pure": "Viciada em beber água da torneira",
     "hana": "A xodó do meu esposo",
     "morgan": "Parece trevoso mas é o mais bobo",
     "gina": "Gosta de dormir em posições estranhas"
+  },
+  "footer": {
+    "toolTip": {
+      "github": "Github",
+      "linkedin": "LinkedIn",
+      "blogger": "Blogger",
+      "portfolio": "Portfolio"
+    }
   }
 }

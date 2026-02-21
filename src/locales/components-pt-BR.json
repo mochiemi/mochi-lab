@@ -1,9 +1,132 @@
 {
-  
   "components": {
     "header": {
       "title": "Biblioteca de Componentes",
       "description": "Catálogo dos componentes do Design System, com variantes e exemplos de uso. Feito em Vuejs."
+    },
+    "list": {
+      "empty": "Nenhum item para exibir",
+      "loading": "Carregando itens...",
+      "items": "itens",
+      "selected": "selecionados",
+      "actions": {
+        "edit": "Editar",
+        "delete": "Excluir",
+        "view": "Visualizar",
+        "share": "Compartilhar",
+        "copy": "Copiar",
+        "move": "Mover",
+        "archive": "Arquivar"
+      },
+      "filters": {
+        "all": "Todos",
+        "active": "Ativos",
+        "completed": "Concluídos",
+        "high": "Alta Prioridade"
+      },
+      "sort": {
+        "created": "Data de Criação",
+        "text": "Texto",
+        "priority": "Prioridade",
+        "placeholder": "Ordenar por..."
+      },
+      "search": {
+        "placeholder": "Pesquisar itens..."
+      },
+      "stats": {
+        "total": "Total",
+        "completed": "Concluídos",
+        "pending": "Pendentes",
+        "highPriority": "Alta Prioridade",
+        "progress": "Progresso Geral"
+      },
+      "metadata": {
+        "created": "Criado em",
+        "category": "Categoria",
+        "general": "Geral"
+      },
+      "priority": {
+        "high": "Alta",
+        "medium": "Média",
+        "low": "Baixa"
+      },
+      "edit": {
+        "title": "Editar Item",
+        "placeholder": "Digite o texto do item...",
+        "save": "Salvar",
+        "cancel": "Cancelar"
+      },
+      "delete": {
+        "title": "Excluir Item",
+        "confirmation": "Tem certeza que deseja excluir este item?",
+        "confirm": "Excluir",
+        "cancel": "Cancelar"
+      },
+      "messages": {
+        "added": "Item adicionado com sucesso!",
+        "deleted": "Item excluído com sucesso!",
+        "updated": "Item atualizado com sucesso!",
+        "completed": "Item marcado como concluído!",
+        "uncompleted": "Item marcado como pendente!",
+        "bulkCompleted": "Itens selecionados marcados como concluídos!",
+        "bulkDeleted": "Itens selecionados excluídos com sucesso!"
+      },
+      "selection": {
+        "selected": "selecionados",
+        "selectAll": "Selecionar Todos",
+        "clear": "Limpar",
+        "complete": "Concluir",
+        "delete": "Excluir"
+      }
+    },
+    "table": {
+      "empty": "Nenhum dado para exibir",
+      "loading": "Carregando dados...",
+      "showing": "Mostrando",
+      "of": "de",
+      "items": "itens",
+      "selected": "selecionados",
+      "columns": {
+        "id": "ID",
+        "name": "Nome",
+        "email": "E-mail",
+        "role": "Função",
+        "status": "Status",
+        "progress": "Progresso",
+        "tasks": "Tarefas",
+        "department": "Departamento",
+        "location": "Localização",
+        "product": "Produto",
+        "category": "Categoria",
+        "price": "Preço",
+        "stock": "Estoque",
+        "joined": "Data de Entrada",
+        "actions": "Ações"
+      },
+      "actions": {
+        "edit": "Editar",
+        "delete": "Excluir",
+        "view": "Visualizar",
+        "share": "Compartilhar",
+        "export": "Exportar",
+        "import": "Importar",
+        "refresh": "Atualizar",
+        "filter": "Filtrar",
+        "download": "Download"
+      },
+      "status": {
+        "active": "Ativo",
+        "inactive": "Inativo",
+        "pending": "Pendente",
+        "completed": "Concluído",
+        "cancelled": "Cancelado"
+      },
+      "pagination": {
+        "previous": "Anterior",
+        "next": "Próximo",
+        "page": "Página",
+        "of": "de"
+      }
     },
     "carousel": {
       "title": "Carrossel",
@@ -145,7 +268,7 @@
       }
     },
     "tabs": {
-       "layout": {
+      "layout": {
         "title": "Layout",
         "description": "Componentes estruturais para organizar conteúdo e layout",
         "cards": {
@@ -191,7 +314,8 @@
             "clickable": "Lista Clicável",
             "withActions": "Lista com Ações",
             "styled": "Lista Estilizada",
-            "customBullet": "Lista com Marcador Personalizado"
+            "customBullet": "Lista com Marcador Personalizado",
+            "withSelection": "Lista com Seleção"
           },
           "items": {
             "basic": {
@@ -241,6 +365,50 @@
             "delete": "Excluir",
             "view": "Visualizar",
             "share": "Compartilhar"
+          }
+        },
+        "tables": {
+          "title": "Tabela",
+          "description": "Tabelas de dados com ordenação, paginação e recursos interativos",
+          "tabs": {
+            "basic": "Básico",
+            "advanced": "Avançado",
+            "interactive": "Interativo",
+            "paginated": "Paginado",
+            "actions": "Ações"
+          },
+          "columns": {
+            "id": "ID",
+            "name": "Nome",
+            "email": "E-mail",
+            "role": "Função",
+            "status": "Status",
+            "progress": "Progresso",
+            "tasks": "Tarefas",
+            "department": "Departamento",
+            "location": "Localização",
+            "product": "Produto",
+            "category": "Categoria",
+            "price": "Preço",
+            "stock": "Estoque",
+            "joined": "Data de Entrada",
+            "actions": "Ações"
+          },
+          "actions": {
+            "edit": "Editar",
+            "delete": "Excluir",
+            "view": "Visualizar",
+            "share": "Compartilhar"
+          },
+          "examples": {
+            "basic": "Tabela Básica",
+            "striped": "Tabela Listrada",
+            "badges": "Tabela com Badges e Progresso",
+            "sortable": "Tabela Ordenável",
+            "clickable": "Linhas Clicáveis",
+            "selectable": "Linhas Selecionáveis",
+            "paginated": "Tabela Paginada",
+            "withActions": "Tabela com Ações"
           }
         }
       },

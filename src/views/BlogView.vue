@@ -8,6 +8,33 @@
       </template>
     </Card>
 
+    <!-- Filtro de Tags -->
+    <Card v-if="availableTags.length > 0" class="tags-filter-card">
+      <div class="tags-filter">
+        <span class="filter-label">{{ $t('blog.filterByTags') }}:</span>
+        <div class="tags-list">
+          <Badge 
+            v-for="tag in availableTags" 
+            :key="tag"
+            :variant="selectedTags.includes(tag) ? 'primary' : 'secondary'"
+            @click="toggleTag(tag)"
+            class="clickable-badge"
+          >
+            {{ tag }}
+          </Badge>
+          <Button 
+            v-if="selectedTags.length > 0"
+            variant="secondary" 
+            size="small"
+            @click="clearFilters"
+          >
+            <OhVueIcon name="oi-x-circle" class="btn-icon" />
+            {{ $t('blog.clearFilters') }}
+          </Button>
+        </div>
+      </div>
+    </Card>
+
     <div v-if="loading" class="loading-state">
       <Card>
         <div class="loading-content">
@@ -23,7 +50,7 @@
           <OhVueIcon name="hi-exclamation-circle" class="error-icon" />
           <h3>{{ $t('blog.errorTitle') }}</h3>
           <p>{{ error }}</p>
-          <Button @click="fetchPosts(currentPage)" variant="primary">
+          <Button @click="fetchPosts()" variant="primary">
             <OhVueIcon name="hi-refresh" class="btn-icon" />
             {{ $t('blog.retry') }}
           </Button>
@@ -33,15 +60,15 @@
 
     <div v-else class="posts-grid">
       <Card 
-        v-for="post in posts" 
+        v-for="post in filteredPosts" 
         :key="post.id" 
         class="post-card"
         :clickable="true"
-        @click="$router.push(`/post/${post.slug}`)"
+        @click="$router.push(`/post/${post.id}`)"
       >
         <template #header>
           <div class="post-header">
-            <h3 class="post-title">{{ post.title }}</h3>
+            <h3 class="post-title" v-html="post.title"></h3>
             <Badge v-if="post.featured" variant="primary">
               <OhVueIcon name="oi-star" class="badge-icon" />
               {{ $t('common.featured') }}
@@ -57,7 +84,7 @@
           <span class="separator">•</span>
           <div class="meta-item">
             <OhVueIcon name="bi-calendar-heart" class="icon" />
-            <span>{{ formatDate(post.date) }}</span>
+            <span>{{ formatDate(post.published) }}</span>
           </div>
           <span class="separator">•</span>
           <div class="meta-item">
@@ -66,7 +93,23 @@
           </div>
         </div>
 
-        <p class="post-excerpt">{{ post.excerpt }}</p>
+        <div class="post-excerpt" v-html="post.excerpt"></div>
+
+        <div class="post-tags" v-if="post.labels && post.labels.length > 0">
+          <Badge 
+            v-for="label in post.labels.slice(0, 3)" 
+            :key="label"
+            variant="secondary"
+            size="small"
+            @click.stop="filterByTag(label)"
+            class="tag-badge"
+          >
+            {{ label }}
+          </Badge>
+          <span v-if="post.labels.length > 3" class="more-tags">
+            +{{ post.labels.length - 3 }}
+          </span>
+        </div>
 
         <template #footer>
           <div class="post-footer">
@@ -79,22 +122,24 @@
       </Card>
     </div>
 
-
-    <div v-if="!loading && !error && posts.length === 0" class="no-posts">
+    <div v-if="!loading && !error && filteredPosts.length === 0" class="no-posts">
       <Card>
         <div class="no-posts-content">
           <OhVueIcon name="gi-cat" class="no-posts-icon" />
           <h3>{{ $t('blog.noPosts') }}</h3>
-          <p>{{ $t('blog.noPostsDesc') }}</p>
+          <p>{{ selectedTags.length > 0 ? $t('blog.noPostsForTags') : $t('blog.noPostsDesc') }}</p>
+          <Button v-if="selectedTags.length > 0" @click="clearFilters" variant="primary">
+            {{ $t('blog.clearFilters') }}
+          </Button>
         </div>
       </Card>
     </div>
 
-
-    <div v-if="!loading && !error && totalPages > 1" class="pagination">
+    <!-- Paginação com tokens -->
+    <div v-if="!loading && !error && (prevPageToken || nextPageToken)" class="pagination">
       <Button 
-        :disabled="currentPage === 1"
-        @click="goToPage(currentPage - 1)"
+        :disabled="!prevPageToken"
+        @click="goToPage('prev')"
         variant="outline"
         size="small"
       >
@@ -102,30 +147,17 @@
         {{ $t('blog.previous') }}
       </Button>
 
-      <div class="page-numbers">
-        <button
-          v-for="page in visiblePages"
-          :key="page"
-          @click="goToPage(page)"
-          :class="['page-btn', { active: page === currentPage }]"
-        >
-          {{ page }}
-        </button>
-        
-        <span v-if="showEllipsis" class="ellipsis">...</span>
-        
-        <button
-          v-if="showLastPage"
-          @click="goToPage(totalPages)"
-          :class="['page-btn', { active: totalPages === currentPage }]"
-        >
-          {{ totalPages }}
-        </button>
+      <div class="page-info">
+        {{ $t('blog.showingPosts', { 
+          start: startItem, 
+          end: endItem, 
+          total: filteredTotalPosts 
+        }) }}
       </div>
 
       <Button 
-        :disabled="currentPage === totalPages"
-        @click="goToPage(currentPage + 1)"
+        :disabled="!nextPageToken"
+        @click="goToPage('next')"
         variant="outline"
         size="small"
       >
@@ -133,152 +165,244 @@
         <OhVueIcon name="fa-chevron-circle-right" class="btn-icon" />
       </Button>
     </div>
-
-
-    <div v-if="!loading && !error && posts.length > 0" class="page-info">
-      {{ $t('blog.showingPosts', { 
-        start: startItem, 
-        end: endItem, 
-        total: totalPosts 
-      }) }}
-    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useLanguageStore } from '@/stores/language.ts';
 import Card from '@/components/ui/Card.vue';
 import Button from '@/components/ui/Button.vue';
 import Badge from '@/components/ui/Badge.vue';
 import Loading from '@/components/ui/Loading.vue';
-import { OhVueIcon } from 'oh-vue-icons';
+import { OhVueIcon } from '@/plugins/icons';
 
+// Configurações da API do Blogger (via .env)
+const API_KEY = import.meta.env.VITE_BLOGGER_API_KEY;
+const BLOG_ID = import.meta.env.VITE_BLOGGER_BLOG_ID;
+const POSTS_PER_PAGE = 6;
+
+const route = useRoute();
+const router = useRouter();
 const languageStore = useLanguageStore();
-const currentLanguage = computed(() => languageStore.currentLanguage);
 
-
-const currentPage = ref(1);
-const postsPerPage = ref(6);
-const totalPosts = ref(0);
+// Estados
 const posts = ref([]);
+const allPosts = ref([]);
 const loading = ref(true);
 const error = ref(null);
+const totalPosts = ref(0);
+const filteredTotalPosts = ref(0);
+const nextPageToken = ref(null);
+const prevPageToken = ref(null);
+const currentPageTokens = ref([]);
+const selectedTags = ref([]);
+const availableTags = ref([]);
 
+// Inicializar tags da URL
+const initTagsFromUrl = () => {
+  const tagParam = route.query.tag;
+  if (tagParam) {
+    selectedTags.value = [decodeURIComponent(tagParam)];
+  } else {
+    selectedTags.value = [];
+  }
+};
 
-const totalPages = computed(() => {
-  return Math.ceil(totalPosts.value / postsPerPage.value);
+// Computed para posts filtrados por tags
+const filteredPosts = computed(() => {
+  if (selectedTags.value.length === 0) {
+    filteredTotalPosts.value = posts.value.length;
+    return posts.value;
+  }
+  
+  const filtered = posts.value.filter(post => 
+    post.labels && selectedTags.value.every(tag => post.labels.includes(tag))
+  );
+  filteredTotalPosts.value = filtered.length;
+  return filtered;
 });
 
+// Extrair todas as tags disponíveis
+const extractAvailableTags = (postsList) => {
+  const tags = new Set();
+  postsList.forEach(post => {
+    if (post.labels && post.labels.length > 0) {
+      post.labels.forEach(tag => tags.add(tag));
+    }
+  });
+  availableTags.value = Array.from(tags).sort();
+};
+
+// Toggle tag
+const toggleTag = (tag) => {
+  const index = selectedTags.value.indexOf(tag);
+  if (index === -1) {
+    selectedTags.value.push(tag);
+  } else {
+    selectedTags.value.splice(index, 1);
+  }
+  
+  // Atualizar URL
+  updateUrlWithTags();
+};
+
+// Filtrar por tag (substitui seleção atual)
+const filterByTag = (tag) => {
+  selectedTags.value = [tag];
+  updateUrlWithTags();
+};
+
+// Limpar filtros
+const clearFilters = () => {
+  selectedTags.value = [];
+  updateUrlWithTags();
+};
+
+// Atualizar URL com tags selecionadas
+const updateUrlWithTags = () => {
+  const query = { ...route.query };
+  if (selectedTags.value.length === 1) {
+    query.tag = encodeURIComponent(selectedTags.value[0]);
+  } else {
+    delete query.tag;
+  }
+  router.replace({ query });
+};
+
+// Computed para exibição
 const startItem = computed(() => {
-  return (currentPage.value - 1) * postsPerPage.value + 1;
+  return (currentPageTokens.value.length * POSTS_PER_PAGE) + 1;
 });
 
 const endItem = computed(() => {
-  const end = currentPage.value * postsPerPage.value;
-  return end > totalPosts.value ? totalPosts.value : end;
+  return Math.min(startItem.value + posts.value.length - 1, totalPosts.value);
 });
 
+// Função para extrair texto puro do HTML
+const stripHtml = (html) => {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || '';
+};
 
-const visiblePages = computed(() => {
-  const pages = [];
-  const maxVisiblePages = 5;
-  
-  let startPage = Math.max(1, currentPage.value - Math.floor(maxVisiblePages / 2));
-  let endPage = Math.min(totalPages.value, startPage + maxVisiblePages - 1);
-  
-  if (endPage - startPage + 1 < maxVisiblePages) {
-    startPage = Math.max(1, endPage - maxVisiblePages + 1);
-  }
-  
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(i);
-  }
-  
-  return pages;
-});
-
-const showEllipsis = computed(() => {
-  return visiblePages.value[visiblePages.value.length - 1] < totalPages.value - 1;
-});
-
-const showLastPage = computed(() => {
-  return visiblePages.value[visiblePages.value.length - 1] < totalPages.value;
-});
-
-
-const calculateReadingTime = (content) => {
-  const wordsPerMinute = 100;
-  const wordCount = content.split(/\s+/).length;
+// Calcular tempo de leitura
+const calculateReadingTime = (htmlContent) => {
+  const text = stripHtml(htmlContent);
+  const wordsPerMinute = 200;
+  const wordCount = text.split(/\s+/).length;
   return Math.ceil(wordCount / wordsPerMinute);
 };
 
-
-const fetchPosts = async (page = 1) => {
+// Buscar posts
+const fetchPosts = async (pageToken = null) => {
   try {
     loading.value = true;
     error.value = null;
     
-    const response = await fetch(
-      `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=${postsPerPage.value}`
-    );
+    let url = `https://www.googleapis.com/blogger/v3/blogs/${BLOG_ID}/posts?key=${API_KEY}&maxResults=${POSTS_PER_PAGE}`;
     
-    if (!response.ok) {
-      throw new Error('Failed to fetch posts');
+    if (pageToken) {
+      url += `&pageToken=${pageToken}`;
     }
     
-
-    const totalCount = response.headers.get('x-total-count');
-    totalPosts.value = totalCount ? parseInt(totalCount) : 100;
+    const response = await fetch(url);
     
-    const apiPosts = await response.json();
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error?.message || 'Falha ao buscar posts');
+    }
     
-
-    posts.value = apiPosts.map(post => {
-      const readingTime = calculateReadingTime(post.body);
+    const data = await response.json();
+    
+    // Mapear posts
+    const mappedPosts = data.items.map(item => {
+      const plainTextExcerpt = stripHtml(item.content).substring(0, 150);
       
       return {
-        id: post.id,
-        slug: `post-${post.id}`,
-        title: post.title.charAt(0).toUpperCase() + post.title.slice(1),
-        excerpt: post.body.substring(0, 120) + '...',
-        content: post.body,
-        date: new Date(2024, 0, post.id).toISOString().split('T')[0],
-        author: `Author ${post.userId}`,
-        featured: post.id % 5 === 0,
-        readingTime: readingTime
+        id: item.id,
+        title: item.title,
+        content: item.content,
+        excerpt: plainTextExcerpt + (plainTextExcerpt.length >= 150 ? '...' : ''),
+        published: item.published,
+        updated: item.updated,
+        author: item.author?.displayName || 'Mochi Lab',
+        authorId: item.author?.id,
+        authorImage: item.author?.image?.url,
+        authorUrl: item.author?.url,
+        url: item.url,
+        labels: item.labels || [],
+        featured: item.labels?.includes('Destaque') || item.labels?.includes('Featured'),
+        readingTime: calculateReadingTime(item.content),
+        repliesCount: item.replies?.totalItems || 0
       };
     });
     
-    currentPage.value = page;
+    posts.value = mappedPosts;
+    allPosts.value = mappedPosts;
+    
+    // Extrair tags disponíveis
+    extractAvailableTags(mappedPosts);
+    
+    // Atualizar paginação
+    totalPosts.value = data.totalItems;
+    nextPageToken.value = data.nextPageToken;
+    
+    // Atualizar histórico de tokens
+    if (pageToken) {
+      if (!currentPageTokens.value.includes(pageToken)) {
+        currentPageTokens.value.push(pageToken);
+      }
+    } else {
+      currentPageTokens.value = [];
+    }
+    
+    // Determinar token anterior
+    const currentIndex = currentPageTokens.value.indexOf(pageToken);
+    prevPageToken.value = currentIndex > 0 ? currentPageTokens.value[currentIndex - 1] : null;
     
   } catch (err) {
     error.value = err.message;
-    console.error('Error fetching posts:', err);
+    console.error('Erro ao buscar posts:', err);
   } finally {
     loading.value = false;
   }
 };
 
-
-const goToPage = (page) => {
-  if (page >= 1 && page <= totalPages.value && page !== currentPage.value) {
-    fetchPosts(page);
+// Navegação entre páginas
+const goToPage = (direction) => {
+  if (direction === 'next' && nextPageToken.value) {
+    fetchPosts(nextPageToken.value);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else if (direction === 'prev' && prevPageToken.value) {
+    fetchPosts(prevPageToken.value);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 };
 
-onMounted(() => {
-  fetchPosts(1);
-});
-
+// Formatar data
 const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString(currentLanguage.value, {
+  return new Date(dateString).toLocaleDateString(languageStore.currentLanguage, {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
 };
+
+// Watch para mudanças na URL
+watch(() => route.query.tag, (newTag) => {
+  if (newTag) {
+    selectedTags.value = [decodeURIComponent(newTag)];
+  } else {
+    selectedTags.value = [];
+  }
+});
+
+onMounted(() => {
+  initTagsFromUrl();
+  fetchPosts();
+});
 </script>
 
 <style scoped>
@@ -304,6 +428,39 @@ const formatDate = (dateString) => {
   font-size: 1rem;
   opacity: 0.9;
   color: var(--text-primary);
+}
+
+.tags-filter-card {
+  margin-bottom: 2rem;
+}
+
+.tags-filter {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.tags-list {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.clickable-badge {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clickable-badge:hover {
+  transform: translateY(-2px);
 }
 
 .loading-state,
@@ -395,6 +552,31 @@ const formatDate = (dateString) => {
   margin: 1rem 0;
 }
 
+.post-tags {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  margin: 0.5rem 0;
+}
+
+.tag-badge {
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.tag-badge:hover {
+  transform: translateY(-2px);
+}
+
+.more-tags {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  padding: 0.2rem 0.5rem;
+  background: var(--inner-surface);
+  border-radius: 4px;
+}
+
 .post-footer {
   display: flex;
   justify-content: flex-end;
@@ -407,44 +589,6 @@ const formatDate = (dateString) => {
   gap: 1rem;
   margin: 3rem 0;
   flex-wrap: wrap;
-}
-
-.page-numbers {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.page-btn {
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--border-color);
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 3rem;
-}
-
-.page-btn:hover:not(.active) {
-  background: var(--inner-surface);
-  border-color: var(--primary);
-}
-
-.page-btn.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-}
-
-.page-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.ellipsis {
-  padding: 0.5rem;
-  color: var(--text-secondary);
 }
 
 .page-info {
@@ -476,15 +620,6 @@ const formatDate = (dateString) => {
     gap: 1rem;
   }
   
-  .page-numbers {
-    order: -1;
-  }
-  
-  .page-btn {
-    padding: 0.4rem 0.8rem;
-    min-width: 2.5rem;
-  }
-  
   .post-header {
     flex-direction: column;
     gap: 0.5rem;
@@ -492,6 +627,11 @@ const formatDate = (dateString) => {
   
   .post-title {
     margin-right: 0;
+  }
+  
+  .tags-filter {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 

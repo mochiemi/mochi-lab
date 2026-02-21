@@ -10,6 +10,18 @@ import './assets/styles/global.css'
 
 const app = createApp(App)
 
+
+app.config.errorHandler = (err, instance, info) => {
+  if (err instanceof TypeError && 
+      err.message.includes("can't access property 'parentNode', node is null")) {
+    if (import.meta.env.DEV) {
+      console.warn('Ignorando erro de transição do menu mobile:', err)
+    }
+    return 
+  }
+  console.error(err)
+}
+
 app.component('OhVueIcon', OhVueIcon)
 
 app.use(createPinia())

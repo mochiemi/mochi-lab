@@ -12,6 +12,6 @@ import InteractiveList from '@/components/layout/misc/InteractiveList.vue';
 </script>
 <style scoped>
 .contact-view {
-  padding: 2rem 0;
+  padding: 2em 0;
 }
 </style>

@@ -402,7 +402,6 @@ onMounted(() => {
   font-size: 1.2rem;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .icons-catalog-container {
     padding: 1rem;

@@ -380,21 +380,21 @@ const resetCarousel = () => {
 .tab-content {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2em;
 }
 
 .catalog-section h2 {
-  font-size: 1.75rem;
-  margin-bottom: 1rem;
+  font-size: 1.75em;
+  margin-bottom: 1em;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.5em;
 }
 
 .section-description {
-  font-size: 1.1rem;
+  font-size: 1.1em;
   color: var(--text-secondary);
-  margin-bottom: 2rem;
+  margin-bottom: 2em;
   line-height: 1.6;
 }
 
@@ -404,20 +404,20 @@ const resetCarousel = () => {
 }
 
 .alert-icon {
-  margin: 0 0.5rem;
+  margin: 0 0.5em;
 }
 
 .component-demo {
-  padding: 1.5rem;
+  padding: 1.5em;
   background: var(--inner-surface);
   border-radius: 8px;
   border: 1px solid var(--border);
 }
 
 .component-demo h3 {
-  margin: 2rem 0 1rem;
+  margin: 2em 0 1em;
   color: var(--text-primary);
-  font-size: 1.1rem;
+  font-size: 1.1em;
 }
 
 .component-demo h3:first-child {
@@ -425,34 +425,34 @@ const resetCarousel = () => {
 }
 
 .demo-controls {
-  margin-top: 2rem;
-  padding: 1.5rem;
+  margin-top: 2em;
+  padding: 1.5em;
   background: var(--inner-surface);
-  border-radius: 8px;
+  border-radius: 50%;
   border: 1px solid var(--border);
 }
 
 .demo-controls h4 {
-  margin: 0 0 1rem 0;
+  margin: 0 0 1em 0;
   color: var(--text-primary);
 }
 
 .controls-grid {
   display: flex;
-  gap: 1rem;
+  gap: 1em;
   align-items: center;
   flex-wrap: wrap;
 }
 
 .props-documentation {
-  padding: 1.5rem;
+  padding: 1.5em;
   background: var(--inner-surface);
   border-radius: 8px;
   border: 1px solid var(--border);
 }
 
 .props-documentation h3 {
-  margin: 1.5rem 0 1rem;
+  margin: 1.5em 0 1em;
   color: var(--text-primary);
 }
 
@@ -462,16 +462,15 @@ const resetCarousel = () => {
 
 .props-grid, .events-grid, .slots-grid {
   display: grid;
-  gap: 1rem;
+  gap: 1em;
 }
 
 .prop-item, .event-item, .slot-item {
   display: grid;
   grid-template-columns: 1fr 1fr 2fr 1fr;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 1em;
+  padding: 1em;
   background: var(--surface);
-  border-radius: 6px;
   border: 1px solid var(--border);
   align-items: center;
 }
@@ -484,16 +483,16 @@ const resetCarousel = () => {
 .prop-item code, .event-item code, .slot-item code {
   background: var(--code-bg);
   color: var(--code-text);
-  padding: 0.25rem 0.5rem;
+  padding: 0.25em 0.5em;
   border-radius: 4px;
-  font-size: 0.8rem;
+  font-size: 0.8em;
   font-family: 'Fira Code', monospace;
 }
 
 .usage-examples {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.5em;
 }
 
 .example {
@@ -504,16 +503,16 @@ const resetCarousel = () => {
 }
 
 .example h4 {
-  padding: 1rem;
+  padding: 1em;
   margin: 0;
   background: var(--inner-surface);
   color: var(--text-primary);
-  font-size: 1rem;
+  font-size: 1em;
 }
 
 .example pre {
   margin: 0;
-  padding: 1rem;
+  padding: 1em;
   background: var(--code-bg);
   overflow-x: auto;
 }
@@ -521,7 +520,7 @@ const resetCarousel = () => {
 .example code {
   color: var(--code-text);
   font-family: 'Fira Code', monospace;
-  font-size: 0.9rem;
+  font-size: 0.9em;
   line-height: 1.4;
 }
 
@@ -531,13 +530,13 @@ const resetCarousel = () => {
   }
 
   .component-demo {
-    padding: 0.5rem;
+    padding: 0.5em;
   }
   
   .prop-item, .event-item, .slot-item {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 0.5rem;
+    gap: 0.5em;
   }
   
   .controls-grid {
@@ -548,16 +547,16 @@ const resetCarousel = () => {
 
 @media (max-width: 480px) {
   .component-demo {
-    padding: 0.1rem;
+    padding: 0.1em;
   }
   
   .props-documentation {
-    padding: 1rem;
+    padding: 1em;
   }
   
   .example pre {
-    padding: 0.75rem;
-    font-size: 0.8rem;
+    padding: 0.75em;
+    font-size: 0.8em;
   }
 }
 </style>

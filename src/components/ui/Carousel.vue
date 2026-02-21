@@ -443,12 +443,12 @@ onBeforeUnmount(() => {
   stopAutoplay()
 
   if (typeof window !== 'undefined') {
-    window.removeEventListener('resize', updateWindowWidth)
+    window.emoveEventListener('resize', updateWindowWidth)
   }
   
-  carouselRef.value?.removeEventListener('keydown', handleKeydown)
-  carouselRef.value?.removeEventListener('mouseenter', handleMouseEnter)
-  carouselRef.value?.removeEventListener('mouseleave', handleMouseLeave)
+  carouselRef.value?.emoveEventListener('keydown', handleKeydown)
+  carouselRef.value?.emoveEventListener('mouseenter', handleMouseEnter)
+  carouselRef.value?.emoveEventListener('mouseleave', handleMouseLeave)
 })
 </script>
 
@@ -460,7 +460,7 @@ onBeforeUnmount(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 1em;
 }
 
 .carousel-header {
@@ -472,7 +472,7 @@ onBeforeUnmount(() => {
 }
 
 .carousel-title {
-  font-size: 1.5rem;
+  font-size: 1.5em;
   color: var(--title-secondary);
   margin: 0;
   text-align: center;
@@ -496,7 +496,7 @@ onBeforeUnmount(() => {
 
 .carousel-slide {
   flex: 0 0 calc(100% / v-bind(responsiveSlidesPerView));
-  padding: 0.5rem;
+  padding: 0.5em;
   transition: all 0.3s ease;
   display: flex;
   justify-content: center;
@@ -507,7 +507,7 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1em;
   width: 100%;
 }
 
@@ -515,7 +515,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.5em;
 }
 
 .control-button {
@@ -529,17 +529,18 @@ onBeforeUnmount(() => {
 
 .carousel-indicators {
   display: flex;
-  gap: 0.5rem;
+  gap: 0;
   justify-content: center;
 }
 
 .indicator {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   border: none;
   background: var(--border);
   cursor: pointer;
+  padding:0;
   transition: all 0.3s ease;
 }
 
@@ -549,7 +550,6 @@ onBeforeUnmount(() => {
 
 .indicator-active {
   background: var(--primary);
-  transform: scale(1.2);
 }
 
 .slide-card {
@@ -579,19 +579,19 @@ onBeforeUnmount(() => {
 }
 
 .slide-card-image {
-  padding: 1rem;
+  padding: 1em;
   overflow: hidden;
 }
 
 .slide-card-testimonial {
   text-align: center;
-  padding: 2rem;
+  padding: 2em;
   justify-content: center;
 }
 
 .slide-card-service {
   text-align: center;
-  padding: 1.5rem;
+  padding: 1em;
   justify-content: flex-start;
 }
 
@@ -602,7 +602,7 @@ onBeforeUnmount(() => {
 .slide-image {
   width: 30%;
   object-fit: contain;
-  margin-bottom: 1rem;
+  margin-bottom: 1em;
   border-radius: 8px;
 }
 
@@ -640,8 +640,8 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 0.75rem;
+  gap: 0.75em;
+  padding: 0.75em;
   background: var(--inner-surface);
   border-radius: 8px;
 }
@@ -673,7 +673,7 @@ onBeforeUnmount(() => {
   }
   
   .carousel-controls-container {
-    gap: 0.75rem;
+    gap: 0.75em;
   }
   
   .carousel-controls {
@@ -695,13 +695,13 @@ onBeforeUnmount(() => {
   .slide-card-service {
     width: 100%;
     max-width: 300px;
-    padding: 1rem;
+    padding: 1em;
   }
 }
 
 @media (max-width: 480px) {
   .carousel-slide {
-    padding: 0.25rem;
+    padding: 0.25em;
   }
   
   .slide-active .slide-card {
@@ -709,7 +709,7 @@ onBeforeUnmount(() => {
   }
   
   .carousel-controls {
-    gap: 0.5rem;
+    gap: 0.5em;
   }
   
   .slide-card-small,

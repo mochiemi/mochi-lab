@@ -1,3 +1,4 @@
+// plugins/icons.ts
 import { OhVueIcon, addIcons } from "oh-vue-icons"
 import { 
   HiHome,
@@ -40,8 +41,8 @@ import {
   FaRegularCommentDots,
   HiSolidCode,
   MdLibrarybooksOutlined,
-  BiPauseFill,
   BiPlayFill,
+  BiPauseFill,
   FaRegularHeart,
   FaChevronCircleLeft,
   FaChevronCircleRight,
@@ -56,7 +57,7 @@ import {
   BiCardChecklist,
   FaQuestionCircle,
   RiDeleteBack2Line,
-  FaRedoAlt,
+  FaRedoAlt ,
   LaPuzzlePieceSolid,
   GiWorld,
   MdPlaylistaddRound,
@@ -73,8 +74,12 @@ import {
   FaPaintBrush,
   ViFileTypeVite,
   RiStethoscopeLine,
-  CoGamepad
-
+  CoGamepad,
+  LaCheeseSolid,
+  AiSciHub,
+  LaPillsSolid,
+  BiClipboardDataFill,
+  BiEyedropper
 } from "oh-vue-icons/icons"
 
 addIcons(
@@ -151,7 +156,12 @@ addIcons(
   FaPaintBrush,
   ViFileTypeVite,
   RiStethoscopeLine,
-  CoGamepad
+  CoGamepad,
+  LaCheeseSolid,
+  AiSciHub,
+  LaPillsSolid,
+  BiClipboardDataFill,
+  BiEyedropper
 )
 
 export { OhVueIcon }

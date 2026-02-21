@@ -1,4 +1,3 @@
-
 @import url('./fonts.css');
 
 * {
@@ -11,8 +10,8 @@ body {
   font-family: "Comfortaa", sans-serif;
   font-weight: 400;
   font-size: 1em;
+  line-height: 1.1;
 }
-
 
 ::selection {
   background-color: var(--rose);
@@ -21,12 +20,16 @@ body {
 
 :focus {
   outline: 3px solid var(--focus);
-  }
+}
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1em;
+}
+
+p {
+  margin-left: 0.5em;
 }
 
 h1 {
@@ -44,32 +47,35 @@ h1 {
 h2 {
   font-family: "Gloria Hallelujah", cursive;
   font-size: 1.8em;
-  margin-bottom: 0.75em;
+  margin-bottom: 0.5em;
   color: var(--secondary);
 }
 
 h3, h4 {
   font-family: "Shantell Sans", cursive;
   font-style: normal;
-  font-weight: 500;}
+  font-weight: 500;
+  margin-bottom: 0.25em;
+}
 
 h3 {
-  font-size: 2em;
+  font-size: 1.6em;
   color:var(--primary);}
 
 h4 {
-  font-size: 1.2em;
+  font-size: 1.4em;
   color: var(--title-secondary);}
 
 h5, h6 {
   font-family: "Comic Neue", cursive;
+  margin-bottom: 0.1em;
 }
   h5 {
-    font-size: 1em;
+    font-size: 1.2em;
   }
 
   h6 {
-    font-size: 0.8em;
+    font-size: 1em;
   }
 
   hr {
@@ -79,15 +85,11 @@ h5, h6 {
   }
 
  a {
-  
   font-family: 'Comic Neue', cursive;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 1.1em;
-  color:var(--link-color);
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 1em;
+  color:var(--link-color);  
   text-decoration: none;
-  letter-spacing: 1.5px;
   transition: all 0.5s ease;
 }
   a:hover {
@@ -125,18 +127,24 @@ cite {
 pre {
   background-color: black;
   color: var(--white);
-  padding: 15px;
+  padding: 1em;
   border-radius: 5px;
   overflow-x: auto;
 }
 
 code {
-  background-color: #eee;
+  background-color: black;
+  color: white;
   padding: 2px 5px;
   border-radius: 3px;
-  font-family: 'Comic Neue';
-  font-style: italic;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9em;
   font-weight: 300;
+}
+
+address {
+  font-family: 'Indie Flower', sans-serif;
+  font-size: 1.1em;
 }
 
 pre code {
@@ -146,11 +154,11 @@ pre code {
 }
 
 kbd {
-  background-color: #eee;
+  background-color: var(--rose-surface);
   border-radius: 3px;
-  border: 1px solid #b4b4b4;
+  border: 1px solid var(--border-contrast);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  color: #333;
+  color: var(--text-primary);
   display: inline-block;
   font-size: 0.85em;
   font-weight: 700;
@@ -158,31 +166,87 @@ kbd {
 }
 
 mark {
-  background-color: yellow;
+  background-color: var(--rose);
 }
 
 button {
-  background-color: #4CAF50;
+  background-color: var(--dull-blue);
   color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
+  padding: 0.5em 1em;
+  border: 2px solid var(--sky-blue);
+  border-radius: 5px;
   cursor: pointer;
-  margin-right: 10px;
-  font-size: 14px;
+  margin: 0.5em;
+  font-size: 1em;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: var(--dull-rose);
+  border: 2px solid var(--rose);
+}
+
+ol, ul {
+  list-style-position: inside;
+  font-family: 'Gloria Hallelujah', cursive;
+  font-weight: 500  ;
+  font-size: 1em;
+  line-height: 1.5;
+  margin-left: 1em;
+  
+}
+
+ul li::marker {
+	font-weight: 600;
+	color: var(--rose);
+	font-size: 1.2em;
+}
+
+li:not(:last-child) {
+  border-bottom: 1px dashed var(--border-strong-blue);
+}
+
+li:first-child {
+	margin-top: 0.5em;
+}
+
+li:last-child {
+	margin-bottom: 0.5em;
+}
+
+ul ul {
+  list-style-type: '- ';
+  padding-left: 1em;
+  font-size: 0.9em;
+  line-height: 1;
+}
+
+ul ul li:not(:last-child) {
+  border: none;
+}
+
+ul ul li:first-child {
+	margin-top: 0;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+ol li::marker {
+  color: var(--rose);
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
 dt {
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 0.5em;
+  margin-left: 0.5em;
 }
 
 dd {
-  margin-left: 20px;
+  margin-left: 1.5em;
 }
 
 details {
@@ -195,17 +259,150 @@ summary {
   cursor: pointer;
 }
 
+/* Estilos de Tabela - Mobile First */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-family: 'Comfortaa', sans-serif;
+  font-size: 0.9rem;
+  background-color: var(--surface-primary);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px var(--shadow);
+}
 
+caption {
+  padding: 0.75rem;
+  font-family: 'Gloria Hallelujah', cursive;
+  font-size: 1.1rem;
+  color: var(--title-primary);
+  background-color: var(--rose-surface);
+  border-radius: 8px 8px 0 0;
+  font-weight: 600;
+}
+
+thead {
+  background-color: var(--sky-blue-surface);
+  border-bottom: 2px solid var(--border-secondary);
+}
+
+th {
+  padding: 0.75rem 0.5rem;
+  font-family: 'Shantell Sans', cursive;
+  font-weight: 600;
+  text-align: left;
+  color: var(--title-secondary);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+  vertical-align: top;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background-color: var(--inner-surface);
+}
+
+/* Variações de tabela */
+.table-striped tbody tr:nth-child(even) {
+  background-color: var(--surface-secondary);
+}
+
+.table-bordered {
+  border: 1px solid var(--border-primary);
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid var(--border);
+}
+
+.table-compact th,
+.table-compact td {
+  padding: 0.4rem 0.3rem;
+  font-size: 0.85rem;
+}
+
+/* Responsividade - overflow horizontal em telas pequenas */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1rem 0;
+  border-radius: 8px;
+}
+
+/* Melhorias para mobile */
 @media (max-width: 768px) {
   h1 {
-    font-size: 2em;}
+    font-size: 1.8em;
+  }
 
-  h2{
-    font-size: 1.6em;}
+  h2 {
+    font-size: 1.4em;
+  }
 
   h3 {
-    font-size: 1.3em;}
+    font-size: 1.2em;
+  }
 
   h4 {
-    font-size: 1.1em;}
+    font-size: 1.1em;
   }
+
+  /* Tabelas em telas muito pequenas */
+  .table-stack thead {
+    display: none;
+  }
+
+  .table-stack tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--surface-primary);
+  }
+
+  .table-stack td {
+    display: block;
+    text-align: right;
+    padding: 0.5rem;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .table-stack td:last-child {
+    border-bottom: none;
+  }
+
+  .table-stack td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    color: var(--title-secondary);
+    font-family: 'Shantell Sans', cursive;
+    margin-right: 0.5rem;
+  }
+
+  th, td {
+    padding: 0.5rem 0.3rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  table {
+    font-size: 0.8rem;
+  }
+  
+  th, td {
+    padding: 0.4rem 0.2rem;
+  }
+}

@@ -113,8 +113,8 @@ defineExpose({
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
+  align-items: center;
+  gap: 1em;
   transition: all 0.3s ease;
   max-width: 400px;
   min-width: 300px;

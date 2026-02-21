@@ -1,9 +1,133 @@
 {
   "components": {
-     "header": {
-    "title": "Component Library",
-    "description": "Design System components catalog with variants and exemples of use. Built using Vuejs."
+    "header": {
+      "title": "Component Library",
+      "description": "Design System components catalog with variants and examples of use. Built using Vuejs."
+    },
+    "list": {
+      "empty": "No items to display",
+      "loading": "Loading items...",
+      "items": "items",
+      "selected": "selected",
+      "actions": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "view": "View",
+        "share": "Share",
+        "copy": "Copy",
+        "move": "Move",
+        "archive": "Archive"
       },
+      "filters": {
+        "all": "All",
+        "active": "Active",
+        "completed": "Completed",
+        "high": "High Priority"
+      },
+      "sort": {
+        "created": "Created Date",
+        "text": "Text",
+        "priority": "Priority",
+        "placeholder": "Sort by..."
+      },
+      "search": {
+        "placeholder": "Search items..."
+      },
+      "stats": {
+        "total": "Total",
+        "completed": "Completed",
+        "pending": "Pending",
+        "highPriority": "High Priority",
+        "progress": "Overall Progress"
+      },
+      "metadata": {
+        "created": "Created",
+        "category": "Category",
+        "general": "General"
+      },
+      "priority": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low"
+      },
+      "edit": {
+        "title": "Edit Item",
+        "placeholder": "Enter item text...",
+        "save": "Save",
+        "cancel": "Cancel"
+      },
+      "delete": {
+        "title": "Delete Item",
+        "confirmation": "Are you sure you want to delete this item?",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      },
+      "messages": {
+        "added": "Item added successfully!",
+        "deleted": "Item deleted successfully!",
+        "updated": "Item updated successfully!",
+        "completed": "Item marked as completed!",
+        "uncompleted": "Item marked as pending!",
+        "bulkCompleted": "Selected items marked as completed!",
+        "bulkDeleted": "Selected items deleted successfully!"
+      },
+      "selection": {
+        "selected": "selected",
+        "selectAll": "Select All",
+        "clear": "Clear",
+        "complete": "Complete",
+        "delete": "Delete"
+      }
+    },
+    "table": {
+      "empty": "No data to display",
+      "loading": "Loading data...",
+      "showing": "Showing",
+      "of": "of",
+      "items": "items",
+      "selected": "selected",
+      "columns": {
+        "id": "ID",
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "status": "Status",
+        "progress": "Progress",
+        "tasks": "Tasks",
+        "department": "Department",
+        "location": "Location",
+        "product": "Product",
+        "category": "Category",
+        "price": "Price",
+        "stock": "Stock",
+        "joined": "Joined Date",
+        "actions": "Actions"
+      },
+      "actions": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "view": "View",
+        "share": "Share",
+        "export": "Export",
+        "import": "Import",
+        "refresh": "Refresh",
+        "filter": "Filter",
+        "download": "Download"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "pending": "Pending",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "pagination": {
+        "previous": "Previous",
+        "next": "Next",
+        "page": "Page",
+        "of": "of"
+      }
+    },
     "carousel": {
       "title": "Carousel",
       "description": "Carousel component for displaying content in slides with smooth navigation.",
@@ -144,7 +268,7 @@
       }
     },
     "tabs": {
-       "layout": {
+      "layout": {
         "title": "Layout",
         "description": "Structural components for organizing content and layout",
         "cards": {
@@ -190,7 +314,8 @@
             "clickable": "Clickable List",
             "withActions": "List with Actions",
             "styled": "Styled List",
-            "customBullet": "Custom Bullet List"
+            "customBullet": "Custom Bullet List",
+            "withSelection": "List with Selection"
           },
           "items": {
             "basic": {
@@ -240,6 +365,50 @@
             "delete": "Delete",
             "view": "View",
             "share": "Share"
+          }
+        },
+        "tables": {
+          "title": "Table",
+          "description": "Data tables with sorting, pagination, and interactive features",
+          "tabs": {
+            "basic": "Basic",
+            "advanced": "Advanced",
+            "interactive": "Interactive",
+            "paginated": "Paginated",
+            "actions": "Actions"
+          },
+          "columns": {
+            "id": "ID",
+            "name": "Name",
+            "email": "Email",
+            "role": "Role",
+            "status": "Status",
+            "progress": "Progress",
+            "tasks": "Tasks",
+            "department": "Department",
+            "location": "Location",
+            "product": "Product",
+            "category": "Category",
+            "price": "Price",
+            "stock": "Stock",
+            "joined": "Joined Date",
+            "actions": "Actions"
+          },
+          "actions": {
+            "edit": "Edit",
+            "delete": "Delete",
+            "view": "View",
+            "share": "Share"
+          },
+          "examples": {
+            "basic": "Basic Table",
+            "striped": "Striped Table",
+            "badges": "Table with Badges & Progress",
+            "sortable": "Sortable Table",
+            "clickable": "Clickable Rows",
+            "selectable": "Selectable Rows",
+            "paginated": "Paginated Table",
+            "withActions": "Table with Actions"
           }
         }
       },
