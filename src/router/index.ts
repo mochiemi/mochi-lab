@@ -48,7 +48,12 @@ const router = createRouter({
       path: '/grade-horaria',
       name: 'gradehoraria',
       component: () => import('@/views/GradeHorariaView.vue')
-    }
+    },
+    {
+      path: '/admin/moderacao',
+      name: 'moderation',
+      component: () => import('@/views/ModerationView.vue')
+  }
   ]
 })
 

@@ -1,731 +1,266 @@
 <template>
   <div class="blog-post">
-    <Card v-if="post" :padding="'large'">
-      <template #header>
-        <div class="post-header">
-          <Button 
-            variant="secondary" 
-            size="small"
-            @click="$router.push('/blog')"
-            class="back-button"
-          >
-            <OhVueIcon name="fa-chevron-circle-left" class="btn-icon" />
-            {{ $t('blog.backToPosts') }}
-          </Button>
-        </div>
-      </template>
-
-      <article>
-        <div class="post-title-section">
-          <h1 v-html="post.title"></h1>
-        </div>
-
-        <div class="post-meta">
-          <div class="meta-item" v-if="post.author">
-            <OhVueIcon name="oi-person" class="meta-icon" />
-            <span>{{ post.author }}</span>
-          </div>
-          <div class="meta-item">
-            <OhVueIcon name="bi-calendar-heart" class="meta-icon" />
-            <span>{{ $t('blog.publishedOn') }} {{ formatDate(post.published) }}</span>
-          </div>
-          <div class="meta-item">
-            <OhVueIcon name="hi-clock" class="meta-icon" />
-            <span>{{ $t('blog.minRead', { minutes: readingTime }) }}</span>
-          </div>
-        </div>
-
-        <!-- Conteúdo do post (HTML do Blogger) -->
-        <div class="post-content" v-html="post.content"></div>
-
-        <!-- Atualizações do post -->
-        <div v-if="post.updated !== post.published" class="post-update">
-          <Alert type="info" :dismissible="false">
-            <OhVueIcon name="hi-pencil" class="update-icon" />
-            <span>{{ $t('blog.updatedOn') }} {{ formatDate(post.updated) }}</span>
-          </Alert>
-        </div>
-      </article>
-
-      <template #footer>
-        <div class="post-footer">
-          <div class="post-badges" v-if="post.labels && post.labels.length > 0">
-            <span class="footer-label">{{ $t('blog.tags') }}:</span>
-            <Badge 
-              v-for="label in post.labels" 
-              :key="label"
-              variant="secondary"
-              @click="navigateToTag(label)"
-              class="clickable-badge"
-            >
-              {{ label }}
-            </Badge>
-          </div>
-        </div>
-      </template>
+    <!-- Loading -->
+    <Card v-if="loading" class="loading-card">
+      <div class="loading-content">
+        <Loading size="large" />
+        <p>Carregando post...</p>
+      </div>
     </Card>
 
-    <!-- Seção de Comentários -->
-    <Card v-if="post" class="comments-card">
-      <template #header>
-        <div class="comments-header">
-          <h3>{{ $t('blog.comments') }} ({{ totalComments }})</h3>
-        </div>
-      </template>
+    <!-- Error -->
+    <Card v-else-if="error" class="error-card">
+      <div class="error-content">
+        <OhVueIcon name="hi-exclamation-circle" class="error-icon" />
+        <h2>Erro ao carregar</h2>
+        <p>{{ error }}</p>
+        <Button variant="primary" @click="fetchPost">Tentar novamente</Button>
+        <Button @click="$router.push('/blog')">Voltar ao Blog</Button>
+      </div>
+    </Card>
 
-      <!-- Lista de Comentários -->
-      <div class="comments-section">
-        <!-- Loading State -->
-        <div v-if="commentsLoading" class="comments-loading">
-          <Loading size="md" :text="$t('blog.loadingComments')" />
-        </div>
-
-        <!-- Error State -->
-        <div v-else-if="commentsError" class="comments-error">
-          <Alert type="error" :dismissible="false">
-            <OhVueIcon name="hi-exclamation-circle" class="alert-icon" />
-            <span>{{ $t('blog.errorLoadingComments') }}: {{ commentsError }}</span>
-          </Alert>
-          <Button @click="fetchComments" size="small" variant="secondary">
-            <OhVueIcon name="hi-refresh" class="btn-icon" />
-            {{ $t('blog.retry') }}
+    <!-- Post -->
+    <template v-else-if="post">
+      <Card :padding="'large'">
+        <template #header>
+          <Button variant="secondary" size="small" @click="$router.push('/blog')">
+            <OhVueIcon name="fa-chevron-circle-left" class="btn-icon" />
+            Voltar
           </Button>
+        </template>
+
+        <article>
+          <h1>{{ post.title }}</h1>
+          
+          <div class="post-meta">
+            <span v-if="post.author">{{ post.author }}</span>
+            <span v-if="post.published">{{ formatDate(post.published) }}</span>
+            <span v-if="readingTime">{{ readingTime }} min de leitura</span>
+          </div>
+
+          <div class="post-content" v-html="post.content"></div>
+        </article>
+      </Card>
+
+      <!-- Comments Section -->
+      <Card class="comments-card">
+        <template #header>
+          <h3>Comentários ({{ comments.length }})</h3>
+        </template>
+
+        <!-- Loading Comments -->
+        <div v-if="commentsLoading" class="comments-loading">
+          <Loading size="md" text="Carregando comentários..." />
+        </div>
+
+        <!-- Error Comments -->
+        <div v-else-if="commentsError" class="comments-error">
+          <Alert type="error">
+            <OhVueIcon name="hi-exclamation-circle" />
+            {{ commentsError }}
+          </Alert>
+          <Button @click="fetchComments" size="small">Tentar novamente</Button>
         </div>
 
         <!-- Comments List -->
-        <div v-else-if="comments.length > 0" class="comments-list">
-          <div 
-            v-for="comment in comments" 
-            :key="comment.id"
-            class="comment-item"
-          >
+        <div v-else-if="comments.length" class="comments-list">
+          <div v-for="comment in comments" :key="comment.id" class="comment-item">
             <div class="comment-header">
-              <div class="comment-author">
-                <div class="author-avatar">
-                  <OhVueIcon name="oi-person" />
-                </div>
-                <div class="author-info">
-                  <span class="author-name">{{ comment.author_name }}</span>
-                  <span class="comment-date">{{ formatCommentDate(comment.created_at) }}</span>
-                </div>
-              </div>
+              <strong>{{ comment.author_name }}</strong>
+              <small>{{ formatDate(comment.created_at) }}</small>
             </div>
-
-            <div class="comment-content">{{ comment.content }}</div>
-
-            <!-- Botão Responder -->
-            <div class="comment-footer">
-              <Button 
-                size="small" 
-                variant="secondary"
-                @click="toggleReplyForm(comment.id)"
-              >
-                <OhVueIcon name="fa-regular-comment-dots" class="btn-icon" />
-                {{ $t('blog.reply') }}
-              </Button>
-            </div>
-
-            <!-- Formulário de Resposta -->
-            <div v-if="activeReplyForm === comment.id" class="reply-form">
-              <form @submit.prevent="submitReply(comment.id)">
-                <div class="form-row">
-                  <Input
-                    v-model="replyAuthorName"
-                    :label="$t('blog.name') + ' *'"
-                    :placeholder="$t('blog.yourName')"
-                    :required="true"
-                    :error="replyNameError"
-                  />
-                </div>
-                <div class="form-row">
-                  <Input
-                    v-model="replyAuthorEmail"
-                    :label="$t('blog.email') + ' *'"
-                    type="email"
-                    :placeholder="$t('blog.yourEmail')"
-                    :required="true"
-                    :error="replyEmailError"
-                  />
-                </div>
-                <Textarea
-                  v-model="replyText"
-                  :placeholder="$t('blog.writeReply')"
-                  :rows="3"
-                  :maxlength="2000"
-                  show-counter
-                  :required="true"
-                  :error="replyContentError"
-                />
-                
-                <div class="form-actions">
-                  <Button type="submit" size="small" variant="primary" :loading="submittingReply">
-                    <OhVueIcon name="fa-regular-paper-plane" class="btn-icon" />
-                    {{ $t('blog.sendReply') }}
-                  </Button>
-                  <Button 
-                    type="button" 
-                    size="small" 
-                    variant="secondary"
-                    @click="cancelReply"
-                  >
-                    {{ $t('common.cancel') }}
-                  </Button>
-                </div>
-              </form>
-            </div>
-
-            <!-- Respostas -->
-            <div v-if="comment.replies && comment.replies.length > 0" class="replies-list">
-              <div 
-                v-for="reply in comment.replies" 
-                :key="reply.id"
-                class="reply-item"
-              >
-                <div class="reply-header">
-                  <div class="reply-author-info">
-                    <OhVueIcon name="oi-person" class="reply-avatar" />
-                    <span class="author-name">{{ reply.author_name }}</span>
-                    <span class="reply-date">{{ formatCommentDate(reply.created_at) }}</span>
-                  </div>
-                </div>
-                <div class="reply-content">{{ reply.content }}</div>
-              </div>
-            </div>
+            <p class="comment-content">{{ comment.content }}</p>
           </div>
         </div>
 
         <!-- No Comments -->
         <div v-else class="no-comments">
-          <OhVueIcon name="fa-regular-comment" class="no-comments-icon" />
-          <h3>{{ $t('blog.noComments') }}</h3>
-          <p>{{ $t('blog.beFirstToComment') }}</p>
+          <p>Seja o primeiro a comentar!</p>
         </div>
 
-        <!-- Formulário de Novo Comentário -->
-        <div class="new-comment-form">
-          <h4>{{ $t('blog.leaveComment') }}</h4>
+        <!-- Comment Form -->
+        <div class="comment-form">
+          <h4>Deixe um comentário</h4>
           <form @submit.prevent="submitComment">
-            <div class="form-row">
-              <Input
-                v-model="commentAuthorName"
-                :label="$t('blog.name') + ' *'"
-                :placeholder="$t('blog.yourName')"
-                :required="true"
-                :error="nameError"
-              />
-            </div>
-
-            <div class="form-row">
-              <Input
-                v-model="commentAuthorEmail"
-                :label="$t('blog.email') + ' *'"
-                type="email"
-                :placeholder="$t('blog.yourEmail')"
-                :required="true"
-                :error="emailError"
-              />
-            </div>
-
-            <div class="form-row">
-              <Input
-                v-model="commentAuthorUrl"
-                :label="$t('blog.website')"
-                type="url"
-                :placeholder="$t('blog.yourWebsite')"
-              />
-            </div>
-
-            <div class="form-row">
-              <Textarea
-                v-model="commentText"
-                :label="$t('blog.comment') + ' *'"
-                :placeholder="$t('blog.writeComment')"
-                :rows="5"
-                :maxlength="4000"
-                show-counter
-                :required="true"
-                :error="commentError"
-              />
-            </div>
-
-            <div class="form-actions">
-              <Button 
-                type="submit" 
-                variant="primary" 
-                :loading="submittingComment"
-                :disabled="submittingComment"
-              >
-                <OhVueIcon name="fa-regular-paper-plane" class="btn-icon" />
-                {{ $t('blog.publishComment') }}
-              </Button>
-            </div>
-
-            <!-- Mensagens de feedback -->
-            <transition name="alert-fade">
-              <Alert 
-                v-if="commentSuccess" 
-                type="success" 
-                :dismissible="true"
-                @dismiss="commentSuccess = false"
-                class="feedback-alert"
-              >
-                <OhVueIcon name="oi-check" class="alert-icon" />
-                {{ $t('blog.commentSent') }}
-              </Alert>
-            </transition>
-
-            <transition name="alert-fade">
-              <Alert 
-                v-if="submitError" 
-                type="error" 
-                :dismissible="true"
-                @dismiss="submitError = ''"
-                class="feedback-alert"
-              >
-                <OhVueIcon name="hi-exclamation-circle" class="alert-icon" />
-                {{ submitError }}
-              </Alert>
-            </transition>
+            <Input
+              v-model="form.name"
+              label="Nome *"
+              placeholder="Seu nome"
+              :error="formErrors.name"
+              required
+            />
+            <Input
+              v-model="form.email"
+              label="Email *"
+              type="email"
+              placeholder="seu@email.com"
+              :error="formErrors.email"
+              required
+            />
+            <Textarea
+              v-model="form.content"
+              label="Comentário *"
+              placeholder="Escreva aqui..."
+              :rows="4"
+              :maxlength="4000"
+              show-counter
+              :error="formErrors.content"
+              required
+            />
+            <Button 
+              type="submit" 
+              variant="primary" 
+              :loading="submitting"
+              :disabled="submitting"
+            >
+              Enviar Comentário
+            </Button>
           </form>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </template>
 
-    <!-- Estados de Carregamento e Erro -->
-    <Card v-else-if="loading" class="loading-card">
-      <div class="loading-content">
-        <Loading size="large" />
-        <p>{{ $t('blog.loadingPost') }}</p>
-      </div>
-    </Card>
-
-    <Card v-else-if="error" class="error-card">
-      <div class="error-content">
-        <OhVueIcon name="hi-exclamation-circle" class="error-icon" />
-        <h2>{{ $t('blog.errorLoadingPost') }}</h2>
-        <p>{{ error }}</p>
-        <div class="error-actions">
-          <Button variant="primary" @click="fetchPost">
-            <OhVueIcon name="hi-refresh" class="btn-icon" />
-            {{ $t('blog.retry') }}
-          </Button>
-          <Button @click="$router.push('/blog')">
-            <OhVueIcon name="oi-arrow-left" class="btn-icon" />
-            {{ $t('blog.backToPosts') }}
-          </Button>
-        </div>
-      </div>
-    </Card>
-
+    <!-- Not Found -->
     <Card v-else class="not-found-card">
-      <div class="not-found">
-        <OhVueIcon name="gi-cat" class="not-found-icon" />
-        <h2>{{ $t('blog.postNotFound') }}</h2>
-        <p>{{ $t('blog.postNotFoundDesc') }}</p>
-        <div class="not-found-actions">
-          <Button 
-            variant="primary" 
-            @click="$router.push('/blog')"
-          >
-            <OhVueIcon name="oi-arrow-left" class="btn-icon" />
-            {{ $t('blog.backToPosts') }}
-          </Button>
-        </div>
-      </div>
+      <h2>Post não encontrado</h2>
+      <Button @click="$router.push('/blog')">Voltar ao Blog</Button>
     </Card>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useLanguageStore } from '@/stores/language.ts';
-import Card from '@/components/ui/Card.vue';
-import Button from '@/components/ui/Button.vue';
-import Badge from '@/components/ui/Badge.vue';
-import Loading from '@/components/ui/Loading.vue';
-import Input from '@/components/ui/Input.vue';
-import Textarea from '@/components/ui/Textarea.vue';
-import Alert from '@/components/ui/Alert.vue';
-import { OhVueIcon } from '@/plugins/icons';
+import { ref, computed, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { supabase } from '@/lib/supabase'
+import Card from '@/components/ui/Card.vue'
+import Button from '@/components/ui/Button.vue'
+import Input from '@/components/ui/Input.vue'
+import Textarea from '@/components/ui/Textarea.vue'
+import Loading from '@/components/ui/Loading.vue'
+import Alert from '@/components/ui/Alert.vue'
+import { OhVueIcon } from '@/plugins/icons'
 
-// Configurações da API
-const API_KEY = import.meta.env.VITE_BLOGGER_API_KEY;
-const BLOG_ID = import.meta.env.VITE_BLOGGER_BLOG_ID;
+const route = useRoute()
+const router = useRouter()
+const postId = route.params.slug
 
-const route = useRoute();
-const router = useRouter();
-const languageStore = useLanguageStore();
-const postId = route.params.slug;
+// Estados
+const post = ref(null)
+const loading = ref(true)
+const error = ref(null)
+const comments = ref([])
+const commentsLoading = ref(false)
+const commentsError = ref(null)
 
-// Estados do post
-const post = ref(null);
-const loading = ref(true);
-const error = ref(null);
+// Form
+const form = ref({ name: '', email: '', content: '' })
+const formErrors = ref({ name: '', email: '', content: '' })
+const submitting = ref(false)
 
-// Estados dos comentários
-const comments = ref([]);
-const commentsLoading = ref(false);
-const commentsError = ref(null);
+const readingTime = computed(() => {
+  if (!post.value?.content) return 0
+  const text = post.value.content.replace(/<[^>]*>/g, '')
+  const words = text.split(/\s+/).filter(w => w.length > 0).length
+  return Math.ceil(words / 200) || 1
+})
 
-// Estados do formulário de comentário
-const commentAuthorName = ref('');
-const commentAuthorEmail = ref('');
-const commentAuthorUrl = ref('');
-const commentText = ref('');
-const submittingComment = ref(false);
-const commentSuccess = ref(false);
-const submitError = ref('');
-const nameError = ref('');
-const emailError = ref('');
-const commentError = ref('');
-
-// Estados do formulário de resposta
-const activeReplyForm = ref(null);
-const replyText = ref('');
-const replyAuthorName = ref('');
-const replyAuthorEmail = ref('');
-const submittingReply = ref(false);
-const replyNameError = ref('');
-const replyEmailError = ref('');
-const replyContentError = ref('');
-
-// Total de comentários
-const totalComments = computed(() => {
-  return comments.value.reduce((total, comment) => {
-    return total + 1 + (comment.replies?.length || 0);
-  }, 0);
-});
-
-// Helper para limpar HTML
-const stripHtml = (html) => {
-  const tmp = document.createElement('div');
-  tmp.innerHTML = html;
-  return tmp.textContent || tmp.innerText || '';
-};
-
-// Validar email
-const isValidEmail = (email) => {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
-};
-
-// Buscar post
+// Buscar post do Blogger
 const fetchPost = async () => {
-  if (!postId) {
-    loading.value = false;
-    return;
-  }
-
   try {
-    loading.value = true;
-    error.value = null;
+    loading.value = true
+    error.value = null
 
-    const url = `https://www.googleapis.com/blogger/v3/blogs/${BLOG_ID}/posts/${postId}?key=${API_KEY}`;
-    const response = await fetch(url);
+    const API_KEY = import.meta.env.VITE_BLOGGER_API_KEY
+    const BLOG_ID = import.meta.env.VITE_BLOGGER_BLOG_ID
     
-    if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error(languageStore.currentLanguage === 'pt-BR' ? 'Post não encontrado' : 'Post not found');
-      }
-      const errorData = await response.json();
-      throw new Error(errorData.error?.message || (languageStore.currentLanguage === 'pt-BR' ? 'Erro ao carregar o post' : 'Error loading post'));
+    const url = `https://www.googleapis.com/blogger/v3/blogs/${BLOG_ID}/posts/${postId}?key=${API_KEY}`
+    const res = await fetch(url)
+    
+    if (!res.ok) throw new Error(res.status === 404 ? 'Post não encontrado' : 'Erro ao carregar')
+    
+    const data = await res.json()
+    post.value = {
+      id: data.id,
+      title: data.title,
+      content: data.content,
+      published: data.published,
+      author: data.author?.displayName,
+      labels: data.labels || []
     }
 
-    const apiPost = await response.json();
-    
-    post.value = {
-      id: apiPost.id,
-      title: apiPost.title,
-      content: apiPost.content,
-      published: apiPost.published,
-      updated: apiPost.updated,
-      author: apiPost.author?.displayName || 'Mochi Lab',
-      authorId: apiPost.author?.id,
-      authorImage: apiPost.author?.image?.url,
-      authorUrl: apiPost.author?.url,
-      url: apiPost.url,
-      labels: apiPost.labels || [],
-    };
-
-    // Buscar comentários após carregar o post
-    await fetchComments();
-
+    await fetchComments()
   } catch (err) {
-    error.value = err.message;
-    console.error('Erro ao buscar post:', err);
+    error.value = err.message
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 
-// Buscar comentários
+// Buscar comentários do Supabase
 const fetchComments = async () => {
-  if (!post.value) return
-  
   try {
     commentsLoading.value = true
     commentsError.value = null
 
-    const response = await fetch(`/.netlify/functions/comments?postId=${postId}`)
-    
-    const contentType = response.headers.get('content-type')
-    if (!contentType || !contentType.includes('application/json')) {
-      const text = await response.text()
-      console.error('Resposta não-JSON:', text.substring(0, 200))
-      throw new Error('Resposta inválida do servidor (não é JSON)')
-    }
+    const { data, error: err } = await supabase
+      .from('comments')
+      .select('*')
+      .eq('post_id', postId)
+      .is('parent_id', null)
+      .eq('is_approved', true)
+      .order('created_at', { ascending: true })
 
-    const data = await response.json()
-    
-    if (!response.ok) {
-      throw new Error(data.error || `Erro HTTP ${response.status}`)
-    }
-
-    comments.value = data.comments || []
-
+    if (err) throw err
+    comments.value = data || []
   } catch (err) {
-    console.error('Erro ao carregar comentários:', err)
     commentsError.value = err.message
   } finally {
     commentsLoading.value = false
   }
-};
+}
 
 // Enviar comentário
 const submitComment = async () => {
-  // Limpar erros
-  nameError.value = '';
-  emailError.value = '';
-  commentError.value = '';
-  submitError.value = '';
-
-  // Validações
-  if (!commentAuthorName.value.trim()) {
-    nameError.value = languageStore.currentLanguage === 'pt-BR' ? 'Nome é obrigatório' : 'Name is required';
-    return;
+  // Validar
+  formErrors.value = {}
+  if (!form.value.name.trim()) formErrors.value.name = 'Nome obrigatório'
+  if (!form.value.email.trim() || !/^[^\s@]+@[^\s@]+$/.test(form.value.email)) {
+    formErrors.value.email = 'Email inválido'
   }
-
-  if (!commentAuthorEmail.value.trim()) {
-    emailError.value = languageStore.currentLanguage === 'pt-BR' ? 'Email é obrigatório' : 'Email is required';
-    return;
-  }
-
-  if (!isValidEmail(commentAuthorEmail.value)) {
-    emailError.value = languageStore.currentLanguage === 'pt-BR' ? 'Email inválido' : 'Invalid email';
-    return;
-  }
-
-  if (!commentText.value.trim()) {
-    commentError.value = languageStore.currentLanguage === 'pt-BR' ? 'Comentário não pode estar vazio' : 'Comment cannot be empty';
-    return;
-  }
-
-  submittingComment.value = true;
-
-  try {
-    const response = await fetch('/.netlify/functions/comments', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        postId: postId,
-        authorName: commentAuthorName.value.trim(),
-        authorEmail: commentAuthorEmail.value.trim(),
-        authorUrl: commentAuthorUrl.value?.trim() || null,
-        content: commentText.value.trim()
-      })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      if (data.errors) {
-        if (data.errors.authorName) nameError.value = data.errors.authorName;
-        if (data.errors.authorEmail) emailError.value = data.errors.authorEmail;
-        if (data.errors.content) commentError.value = data.errors.content;
-      }
-      throw new Error(data.error || 'Erro ao enviar comentário');
-    }
-
-    // Limpar formulário
-    commentAuthorName.value = '';
-    commentAuthorEmail.value = '';
-    commentAuthorUrl.value = '';
-    commentText.value = '';
-    
-    commentSuccess.value = true;
-    
-    // Esconder mensagem de sucesso
-    setTimeout(() => {
-      commentSuccess.value = false;
-    }, 5000);
-
-    // Recarregar comentários
-    await fetchComments();
-
-  } catch (err) {
-    submitError.value = err.message;
-    console.error('Erro:', err);
-  } finally {
-    submittingComment.value = false;
-  }
-};
-
-// Enviar resposta
-const submitReply = async (commentId) => {
-  // Limpar erros
-  replyNameError.value = '';
-  replyEmailError.value = '';
-  replyContentError.value = '';
-
-  // Validações
-  if (!replyAuthorName.value.trim()) {
-    replyNameError.value = languageStore.currentLanguage === 'pt-BR' ? 'Nome é obrigatório' : 'Name is required';
-    return;
-  }
-
-  if (!replyAuthorEmail.value.trim()) {
-    replyEmailError.value = languageStore.currentLanguage === 'pt-BR' ? 'Email é obrigatório' : 'Email is required';
-    return;
-  }
-
-  if (!isValidEmail(replyAuthorEmail.value)) {
-    replyEmailError.value = languageStore.currentLanguage === 'pt-BR' ? 'Email inválido' : 'Invalid email';
-    return;
-  }
-
-  if (!replyText.value.trim()) {
-    replyContentError.value = languageStore.currentLanguage === 'pt-BR' ? 'Resposta não pode estar vazia' : 'Reply cannot be empty';
-    return;
-  }
-
-  submittingReply.value = true;
-
-  try {
-    const response = await fetch('/.netlify/functions/comments', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        postId: postId,
-        parentId: commentId,
-        authorName: replyAuthorName.value.trim(),
-        authorEmail: replyAuthorEmail.value.trim(),
-        content: replyText.value.trim()
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao enviar resposta');
-    }
-
-    // Limpar formulário
-    replyText.value = '';
-    replyAuthorName.value = '';
-    replyAuthorEmail.value = '';
-    activeReplyForm.value = null;
-
-    // Recarregar comentários
-    await fetchComments();
-
-  } catch (err) {
-    console.error('Erro:', err);
-    alert(languageStore.currentLanguage === 'pt-BR' ? 'Erro ao enviar resposta. Tente novamente.' : 'Error sending reply. Please try again.');
-  } finally {
-    submittingReply.value = false;
-  }
-};
-
-// Toggle formulário de resposta
-const toggleReplyForm = (commentId) => {
-  if (activeReplyForm.value === commentId) {
-    activeReplyForm.value = null;
-  } else {
-    activeReplyForm.value = commentId;
-    replyText.value = '';
-    replyAuthorName.value = '';
-    replyAuthorEmail.value = '';
-    replyNameError.value = '';
-    replyEmailError.value = '';
-    replyContentError.value = '';
-  }
-};
-
-// Cancelar resposta
-const cancelReply = () => {
-  activeReplyForm.value = null;
-  replyText.value = '';
-  replyAuthorName.value = '';
-  replyAuthorEmail.value = '';
-};
-
-// Tempo de leitura
-const readingTime = computed(() => {
-  if (!post.value) return 0;
-  const text = stripHtml(post.value.content);
-  const wordsPerMinute = 200;
-  const wordCount = text.split(/\s+/).length;
-  return Math.ceil(wordCount / wordsPerMinute);
-});
-
-// Formatar data
-const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString(languageStore.currentLanguage, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-};
-
-// Formatar data do comentário
-const formatCommentDate = (dateString) => {
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffMs = now - date;
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMs / 3600000);
-  const diffDays = Math.floor(diffMs / 86400000);
-
-  if (diffMins < 1) return languageStore.currentLanguage === 'pt-BR' ? 'Agora mesmo' : 'Just now';
-  if (diffMins < 60) {
-    return diffMins === 1 
-      ? (languageStore.currentLanguage === 'pt-BR' ? 'Há 1 minuto' : '1 minute ago')
-      : (languageStore.currentLanguage === 'pt-BR' ? `Há ${diffMins} minutos` : `${diffMins} minutes ago`);
-  }
-  if (diffHours < 24) {
-    return diffHours === 1
-      ? (languageStore.currentLanguage === 'pt-BR' ? 'Há 1 hora' : '1 hour ago')
-      : (languageStore.currentLanguage === 'pt-BR' ? `Há ${diffHours} horas` : `${diffHours} hours ago`);
-  }
-  if (diffDays < 7) {
-    return diffDays === 1
-      ? (languageStore.currentLanguage === 'pt-BR' ? 'Há 1 dia' : '1 day ago')
-      : (languageStore.currentLanguage === 'pt-BR' ? `Há ${diffDays} dias` : `${diffDays} days ago`);
-  }
+  if (!form.value.content.trim()) formErrors.value.content = 'Comentário obrigatório'
   
-  return date.toLocaleDateString(languageStore.currentLanguage, {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric'
-  });
-};
+  if (Object.values(formErrors.value).some(e => e)) return
 
-// Navegar para tag
-const navigateToTag = (tag) => {
-  router.push({
-    path: '/blog',
-    query: { tag: encodeURIComponent(tag) }
-  });
-};
+  submitting.value = true
+  try {
+    const { error: err } = await supabase.from('comments').insert({
+      post_id: postId,
+      author_name: form.value.name.trim().substring(0, 100),
+      author_email: form.value.email.trim().toLowerCase(),
+      content: form.value.content.trim().substring(0, 4000),
+      is_approved: false
+    })
 
-onMounted(() => {
-  fetchPost();
-});
+    if (err) throw err
+
+    // Limpar formulário
+    form.value = { name: '', email: '', content: '' }
+    alert('Comentário enviado para moderação!')
+  } catch (err) {
+    alert('Erro: ' + err.message)
+  } finally {
+    submitting.value = false
+  }
+}
+
+const formatDate = (date) => {
+  if (!date) return ''
+  return new Date(date).toLocaleDateString('pt-BR', {
+    day: 'numeric', month: 'short', year: 'numeric'
+  })
+}
+
+onMounted(fetchPost)
 </script>
 
 <style scoped>
