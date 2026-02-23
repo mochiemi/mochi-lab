@@ -62,6 +62,7 @@
   --border: var(--light-gray);
   --border-primary: var(--dark-rose);
   --border-secondary: var(--dark-blue);
+  --border-strong: var(--rose);
   --border-strong-blue: var(--sky-blue);
   --border-contrast: var(--text-contrast);
   --border-navbar: var(--dark-blue);
@@ -116,6 +117,7 @@
   --border-primary: var(--rose);
   --border-secondary: var(--sky-blue);
   --border-strong: var(--strong-rose);
+  --border-strong-blue: var(--strong-blue);
   --border-contrast: var(--text-contrast);
   --border-navbar: var(--rose);
 

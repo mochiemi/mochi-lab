@@ -158,9 +158,43 @@ const handleClick = () => {
 
 @media (max-width: 768px) {
 .card {
-  font-size: 0.9rem;
+  font-size: 0.9em;
+  padding: 0.5em;
   margin:0;
 }
+
+.card-header {
+  margin-bottom: 1em;
+  padding-bottom: 0.75em;
+  border-bottom: 2px solid var(--border-strong);
+}
+
+.card-title {
+  color: var(--title-primary);
+  margin: 0;
+}
+
+.card-body {
+  color: var(--text-primary);
+}
+
+.card-body-no-padding {
+  padding: 0;
+}
+
+.card-body-small-padding {
+  padding: 0.25em;
+}
+
+.card-body-large-padding {
+  padding: 1em;
+}
+
+.card-footer {
+  margin-top: 0.75em;
+  padding-top: 0.5em;
+}
+
 }
 
 </style>  

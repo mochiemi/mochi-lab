@@ -414,24 +414,25 @@ onMounted(() => {
 
 .hero-card {
   text-align: center;
-  margin-bottom: 3rem;
-  background: var(--gradient-primary);
+  margin-bottom: 2em;
+  background: var(--rose-surface);
 }
 
 .hero-subtitle {
-  font-size: 1.2rem;
+  font-size: 1.2em;
   margin: 0;
   color: var(--text-primary);
 }
 
 .hero-subtitle2 {
-  font-size: 1rem;
+  font-size: 1em;
   opacity: 0.9;
   color: var(--text-primary);
 }
 
 .tags-filter-card {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5em;
+  background-color: var(--sky-blue-surface);
 }
 
 .tags-filter {
@@ -449,7 +450,7 @@ onMounted(() => {
 
 .tags-list {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.5em;
   flex-wrap: wrap;
   flex: 1;
 }
@@ -461,6 +462,9 @@ onMounted(() => {
 
 .clickable-badge:hover {
   transform: translateY(-2px);
+  border-color: white;
+  background-color: var(--dark-rose);
+  color: white;
 }
 
 .loading-state,
@@ -497,6 +501,7 @@ onMounted(() => {
 .post-card {
   height: 100%;
   transition: all 0.3s ease;
+  background-color: var(--surface-primary);
 }
 
 .post-card:hover {
@@ -508,27 +513,26 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.7em;
 }
 
 .post-title {
   color: var(--title-primary);
   margin: 0;
   flex: 1;
-  margin-right: 1rem;
-  font-size: 1.3rem;
+  margin-right: 1em;
+  font-size: 1.3em;
   line-height: 1.4;
 }
 
 .post-meta {
   color: var(--text-secondary);
-  background-color: var(--inner-surface);
-  font-size: 0.9rem;
-  margin: 0.5rem -1rem;
+  background-color: var(--sky-blue-surface);
+  font-size: 0.9em;
   display: flex;
   align-items: center;
-  padding: 0.3rem 1.5rem;
-  gap: 0.5rem;
+  padding: 0.3em 1.5em;
+  gap: 0.5em;
   flex-wrap: wrap;
 }
 

@@ -461,26 +461,34 @@ const fetchPost = async () => {
 
 // Buscar comentários
 const fetchComments = async () => {
-  if (!post.value) return;
+  if (!post.value) return
   
   try {
-    commentsLoading.value = true;
-    commentsError.value = null;
+    commentsLoading.value = true
+    commentsError.value = null
 
-    const response = await fetch(`/.netlify/functions/comments?postId=${postId}`);
-    const data = await response.json();
+    const response = await fetch(`/.netlify/functions/comments?postId=${postId}`)
     
-    if (!response.ok) {
-      throw new Error(data.error || 'Erro ao carregar comentários');
+    const contentType = response.headers.get('content-type')
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text()
+      console.error('Resposta não-JSON:', text.substring(0, 200))
+      throw new Error('Resposta inválida do servidor (não é JSON)')
     }
 
-    comments.value = data.comments || [];
+    const data = await response.json()
+    
+    if (!response.ok) {
+      throw new Error(data.error || `Erro HTTP ${response.status}`)
+    }
+
+    comments.value = data.comments || []
 
   } catch (err) {
-    commentsError.value = err.message;
-    console.error('Erro ao carregar comentários:', err);
+    console.error('Erro ao carregar comentários:', err)
+    commentsError.value = err.message
   } finally {
-    commentsLoading.value = false;
+    commentsLoading.value = false
   }
 };
 
@@ -723,8 +731,8 @@ onMounted(() => {
 <style scoped>
 .blog-post {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 1em;
+  margin: 3em auto;
+  background-color: var(--surface-primary);
 }
 
 .post-header {
@@ -733,13 +741,6 @@ onMounted(() => {
 
 .post-title-section {
   margin-bottom: 1.5em;
-}
-
-.post-title-section h1 {
-  color: var(--title-primary);
-  margin: 0 0 0.5em 0;
-  line-height: 1.2;
-  font-size: 2.5em;
 }
 
 .post-meta {
@@ -777,48 +778,6 @@ onMounted(() => {
   height: auto;
   border-radius: 8px;
   margin: 1.5rem 0;
-}
-
-.post-content :deep(a) {
-  color: var(--primary);
-  text-decoration: none;
-  border-bottom: 1px dashed var(--primary);
-}
-
-.post-content :deep(a:hover) {
-  border-bottom: 1px solid var(--primary);
-}
-
-.post-content :deep(blockquote) {
-  border-left: 4px solid var(--primary);
-  margin: 1.5rem 0;
-  padding: 0.5rem 0 0.5rem 1.5rem;
-  background: var(--inner-surface);
-  font-style: italic;
-}
-
-.post-content :deep(pre) {
-  background: var(--code-bg, #2d2d2d);
-  color: var(--code-text, #f8f8f2);
-  padding: 1rem;
-  border-radius: 8px;
-  overflow-x: auto;
-  margin: 1.5rem 0;
-}
-
-.post-content :deep(code) {
-  font-family: 'Fira Code', monospace;
-  font-size: 0.9em;
-}
-
-.post-content :deep(h1),
-.post-content :deep(h2),
-.post-content :deep(h3),
-.post-content :deep(h4),
-.post-content :deep(h5),
-.post-content :deep(h6) {
-  color: var(--title-primary);
-  margin: 2rem 0 1rem 0;
 }
 
 .post-update {
@@ -1029,7 +988,7 @@ onMounted(() => {
   color: var(--text-secondary);
 }
 
-/* Formulário de Novo Comentário */
+
 .new-comment-form {
   margin-top: 3rem;
   padding-top: 2rem;

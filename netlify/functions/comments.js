@@ -1,13 +1,14 @@
 // netlify/functions/comments.js
 import { createClient } from '@supabase/supabase-js'
 
-// Configuração do Supabase (substitua com seus dados)
-const supabaseUrl = 'https://qexppbbnyaupjwfgbeli.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFleHBwYmJueWF1cGp3ZmdiZWxpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1MzY4ODksImV4cCI6MjA3ODExMjg4OX0.shf8ymoUVLJY-c3-pWjMQ8Y7etNFh0dv9EQX5BzN3cw eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFleHBwYmJueWF1cGp3ZmdiZWxpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1MzY4ODksImV4cCI6MjA3ODExMjg4OX0.shf8ymoUVLJY-c3-pWjMQ8Y7etNFh0dv9EQX5BzN3cw'
+
+const supabaseUrl = process.env.SUPABASE_URL 
+const supabaseKey = process.env.SUPABASE_ANON_KEY 
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-export const handler = async (event) => {
+export const handler = async (event, context) => {
+  // Headers CORS completos
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
@@ -15,12 +16,9 @@ export const handler = async (event) => {
     'Content-Type': 'application/json'
   }
 
-  // Handle preflight requests
+  // Preflight
   if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 204,
-      headers
-    }
+    return { statusCode: 204, headers }
   }
 
   try {
@@ -36,7 +34,7 @@ export const handler = async (event) => {
         }
       }
 
-      // Buscar comentários principais (sem parent_id)
+      // Buscar comentários principais aprovados
       const { data: comments, error } = await supabase
         .from('comments')
         .select('*')
@@ -47,34 +45,34 @@ export const handler = async (event) => {
 
       if (error) throw error
 
-      // Para cada comentário, buscar suas respostas
-      const commentsWithReplies = await Promise.all(comments.map(async (comment) => {
-        const { data: replies } = await supabase
-          .from('comments')
-          .select('*')
-          .eq('parent_id', comment.id)
-          .eq('is_approved', true)
-          .order('created_at', { ascending: true })
+      // Buscar respostas para cada comentário
+      const commentsWithReplies = await Promise.all(
+        comments.map(async (comment) => {
+          const { data: replies, error: repliesError } = await supabase
+            .from('comments')
+            .select('*')
+            .eq('parent_id', comment.id)
+            .eq('is_approved', true)
+            .order('created_at', { ascending: true })
 
-        return {
-          ...comment,
-          replies: replies || []
-        }
-      }))
+          if (repliesError) throw repliesError
+
+          return { ...comment, replies: replies || [] }
+        })
+      )
 
       return {
         statusCode: 200,
         headers,
         body: JSON.stringify({ 
           success: true,
-          comments: commentsWithReplies || [] 
+          comments: commentsWithReplies 
         })
       }
     }
 
-    // POST - Criar novo comentário
+    // POST - Criar comentário
     if (event.httpMethod === 'POST') {
-      // Verificar se há body
       if (!event.body) {
         return {
           statusCode: 400,
@@ -90,11 +88,11 @@ export const handler = async (event) => {
         return {
           statusCode: 400,
           headers,
-          body: JSON.stringify({ error: 'JSON inválido' })
+          body: JSON.stringify({ error: 'JSON inválido no body' })
         }
       }
       
-      // Validações básicas
+      // Validações
       const errors = {}
       
       if (!data.authorName?.trim()) {
@@ -124,13 +122,10 @@ export const handler = async (event) => {
       // Sanitização básica
       const sanitize = (str) => {
         if (!str) return ''
-        return str
-          .replace(/[<>]/g, '')
-          .trim()
-          .substring(0, 4000)
+        return str.replace(/[<>]/g, '').trim()
       }
 
-      // Inserir no banco
+      // Inserir comentário (is_approved = false por padrão)
       const { data: comment, error } = await supabase
         .from('comments')
         .insert([{
@@ -139,7 +134,7 @@ export const handler = async (event) => {
           author_name: sanitize(data.authorName).substring(0, 100),
           author_email: data.authorEmail.trim().toLowerCase(),
           author_url: data.authorUrl ? sanitize(data.authorUrl).substring(0, 500) : null,
-          content: sanitize(data.content),
+          content: sanitize(data.content).substring(0, 4000),
           is_approved: false
         }])
         .select()
@@ -176,7 +171,7 @@ export const handler = async (event) => {
     }
 
   } catch (error) {
-    console.error('Erro na função:', error)
+    console.error('Erro na function:', error)
     
     return {
       statusCode: 500,

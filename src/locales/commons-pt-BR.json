@@ -37,7 +37,7 @@
   "blog": {
     "title": "Mochi Blog",
     "description": "Blog onde escrevo pequenos artigos ou atualizações.",
-    "description2": "(Por enquanto contém apenas conteúdo do JsonPlaceHolder API)",
+    "description2": "(Sediado no Blogger do Google: https://mochilab-blog.blogspot.com/)",
     "by": "Por {author}",
     "minRead": "{minutes} min",
     "backToPosts": "Ver todos posts",

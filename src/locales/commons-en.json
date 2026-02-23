@@ -40,8 +40,8 @@
   },
   "blog": {
     "title": "Mochi Blog",
-    "description": "This is an experimental blog. Created to study data fetching and data management.",
-    "description2": "(The texts are from JsonPlaceHolder for now)",
+    "description": "A blog to write articles, updates, etc.",
+    "description2": "(Hosted on Google's Blogger: https://mochilab-blog.blogspot.com/)",
     "by": "By {author}",
     "minRead": "{minutes} min read",
     "backToPosts": "See all posts",
