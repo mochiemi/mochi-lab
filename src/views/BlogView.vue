@@ -11,7 +11,7 @@
     <!-- Filtro de Tags -->
     <Card v-if="availableTags.length > 0" class="tags-filter-card">
       <div class="tags-filter">
-        <span class="filter-label">{{ $t('blog.filterByTags') }}:</span>
+        <span class="filter-label">{{ $t('blog.filterByTags') }}</span>
         <div class="tags-list">
           <Badge 
             v-for="tag in availableTags" 

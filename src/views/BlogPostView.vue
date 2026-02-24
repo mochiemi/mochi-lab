@@ -21,7 +21,7 @@
 
     <!-- Post -->
     <template v-else-if="post">
-      <Card :padding="'large'">
+      <Card class="post-card">
         <template #header>
           <Button variant="secondary" size="small" @click="$router.push('/blog')">
             <OhVueIcon name="fa-chevron-circle-left" class="btn-icon" />
@@ -91,11 +91,10 @@
             />
             <Input
               v-model="form.email"
-              label="Email *"
+              label="Email"
               type="email"
-              placeholder="seu@email.com"
+              placeholder="seu@email.com (opcional)"
               :error="formErrors.email"
-              required
             />
             <Textarea
               v-model="form.content"
@@ -164,7 +163,6 @@ const readingTime = computed(() => {
   return Math.ceil(words / 200) || 1
 })
 
-// Buscar post do Blogger
 const fetchPost = async () => {
   try {
     loading.value = true
@@ -196,7 +194,6 @@ const fetchPost = async () => {
   }
 }
 
-// Buscar comentários do Supabase
 const fetchComments = async () => {
   try {
     commentsLoading.value = true
@@ -219,9 +216,7 @@ const fetchComments = async () => {
   }
 }
 
-// Enviar comentário
 const submitComment = async () => {
-  // Validar
   formErrors.value = {}
   if (!form.value.name.trim()) formErrors.value.name = 'Nome obrigatório'
   if (!form.value.email.trim() || !/^[^\s@]+@[^\s@]+$/.test(form.value.email)) {
@@ -243,9 +238,9 @@ const submitComment = async () => {
 
     if (err) throw err
 
-    // Limpar formulário
     form.value = { name: '', email: '', content: '' }
-    alert('Comentário enviado para moderação!')
+    alert('Comentário enviado, se aprovado logo aparecerá!')
+    await fetchComments()
   } catch (err) {
     alert('Erro: ' + err.message)
   } finally {
@@ -267,6 +262,9 @@ onMounted(fetchPost)
 .blog-post {
   max-width: 1200px;
   margin: 3em auto;
+}
+
+.post-card, .comments-card {
   background-color: var(--surface-primary);
 }
 
@@ -368,7 +366,6 @@ onMounted(fetchPost)
   padding: 1rem 0;
 }
 
-/* Loading e Error States */
 .comments-loading,
 .comments-error {
   display: flex;
@@ -379,7 +376,6 @@ onMounted(fetchPost)
   text-align: center;
 }
 
-/* Lista de Comentários */
 .comments-list {
   display: flex;
   flex-direction: column;
@@ -447,7 +443,6 @@ onMounted(fetchPost)
   padding-left: 4rem;
 }
 
-/* Formulário de Resposta */
 .reply-form {
   margin: 1rem 0 1rem 4rem;
   padding: 1rem;
@@ -455,7 +450,6 @@ onMounted(fetchPost)
   border-radius: 8px;
 }
 
-/* Lista de Respostas */
 .replies-list {
   margin-top: 1rem;
   margin-left: 4rem;

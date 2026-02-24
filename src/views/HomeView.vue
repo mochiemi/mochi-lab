@@ -466,6 +466,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
+  background-color: var(--surface-primary)
 }
 
 .feature-card:hover {
@@ -759,9 +760,6 @@ onMounted(() => {
     font-size: 2.5em;
   }
 
-  .feature-card {
-    background-color: var(--sky-blue-surface);
-  }
 
   .features-title {
     font-size: 1.2em;

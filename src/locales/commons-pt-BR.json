@@ -19,6 +19,11 @@
       "title": "Componentes",
       "description": "Veja a biblioteca de componentes UI usados aqui"
     },
+    "latest": {
+      "title": "Conteúdo Recente",
+      "description": "Confira os posts mais recentes, atualizações e experimentos",
+      "preview": "Ainda não totalmente implementado"
+    },
     "features": {
       "title": "Recursos do Lab",
       "description": "Explore o que o Mochi Lab tem a oferecer",
@@ -32,7 +37,6 @@
       "featured": "Destaque",
       "updated": "Atualizado"
     }
-
   },
   "blog": {
     "title": "Mochi Blog",
@@ -43,10 +47,10 @@
     "backToPosts": "Ver todos posts",
     "category": "Categoria",
     "readingTime": "Tempo de Leitura",
-    "postNotFound": "Post Não Encontrado",
-    "postNotFoundDesc": "O post que você está procurando não existe ou pode ter sido movido.",
     "like": "Curtir",
     "share": "Compartilhar",
+    "postNotFound": "Post Não Encontrado",
+    "postNotFoundDesc": "O post que você está procurando não existe ou pode ter sido movido.",
     "loading": "Carregando posts...",
     "loadingPost": "Carregando post...",
     "errorTitle": "Erro ao Carregar Posts",
@@ -115,7 +119,6 @@
       "title": "Nenhum ícone encontrado",
       "description": "Tente ajustar os filtros ou a busca"
     },
-
     "categories": {
       "Navigation": "Navegação",
       "Communication": "Comunicação",

@@ -40,15 +40,13 @@
   },
   "blog": {
     "title": "Mochi Blog",
-    "description": "A blog to write articles, updates, etc.",
-    "description2": "(Hosted on Google's Blogger: https://mochilab-blog.blogspot.com/)",
+    "description": "A blog to write articles, updates, etc...",
+    "description2": "(Sorry this area is only available in Brazilian portuguese)",
     "by": "By {author}",
     "minRead": "{minutes} min read",
     "backToPosts": "See all posts",
     "category": "Category",
     "readingTime": "Reading Time",
-    "like": "Like",
-    "share": "Share",
     "postNotFound": "Post Not Found",
     "postNotFoundDesc": "The blog post you're looking for doesn't exist or may have been moved.",
     "loading": "Loading posts...",
@@ -119,7 +117,6 @@
       "title": "No icons found",
       "description": "Try adjusting filters or search"
     },
-
     "categories": {
       "Navigation": "Navigation",
       "Communication": "Communication",
