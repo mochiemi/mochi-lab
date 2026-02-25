@@ -58,7 +58,6 @@
   --navbar-surface: var(--light-blue);
   --surface-error: var(--yellow);
 
-
   --border: var(--light-gray);
   --border-primary: var(--dark-rose);
   --border-secondary: var(--dark-blue);
@@ -66,8 +65,6 @@
   --border-strong-blue: var(--sky-blue);
   --border-contrast: var(--text-contrast);
   --border-navbar: var(--dark-blue);
-
-
   
   --shadow: rgba(65, 20, 42, 0.2);
   --shadow-hover: rgba(255, 0, 128, 0.3);

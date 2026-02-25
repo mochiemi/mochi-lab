@@ -19,12 +19,12 @@
           <OhVueIcon v-if="item.icon" :name="item.icon" class="accordion-icon" />
           {{ item.title }}
         </span>
-        
+
         <span class="accordion-arrow">
           <OhVueIcon :name="isExpanded(index) ? 'oi-chevron-up' : 'oi-chevron-down'" />
         </span>
       </button>
-      
+
       <transition
         name="accordion-slide"
         @enter="onEnter"
@@ -47,52 +47,53 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import { OhVueIcon } from 'oh-vue-icons'
+import type { AccordionItem } from '@/types/accordion'
 
-const props = defineProps({
-  items: {
-    type: Array,
-    default: () => []
-  },
-  variant: {
-    type: String,
-    default: 'default',
-    validator: (value) => ['default', 'primary', 'secondary'].includes(value)
-  },
-  multiple: {
-    type: Boolean,
-    default: false
-  },
-  bordered: {
-    type: Boolean,
-    default: false
-  },
-  modelValue: {
-    type: Array,
-    default: () => []
-  }
+// Props
+interface Props {
+  items: AccordionItem[]
+  variant?: 'default' | 'primary' | 'secondary'
+  multiple?: boolean
+  bordered?: boolean
+  modelValue?: (string | number)[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  variant: 'default',
+  multiple: false,
+  bordered: false,
+  modelValue: () => []
 })
 
-const emit = defineEmits(['update:modelValue', 'item-toggle'])
+// Emits
+const emit = defineEmits<{
+  'update:modelValue': [value: (string | number)[]]
+  'item-toggle': [payload: { index: number; expanded: boolean; item: AccordionItem }]
+}>()
 
-const expandedItems = ref(props.modelValue)
+// Slots
+defineSlots<{
+  content?: (props: { item: AccordionItem; index: number }) => any
+}>()
 
-const isExpanded = (index) => {
+const expandedItems = ref<(string | number)[]>(props.modelValue)
+
+const isExpanded = (index: number): boolean => {
   return expandedItems.value.includes(index)
 }
 
-const toggleItem = (index) => {
-  if (props.items[index]?.disabled) return
+const toggleItem = (index: number): void => {
+  const item = props.items[index]
+  if (!item || item.disabled) return
 
   const currentIndex = expandedItems.value.indexOf(index)
-  
-  if (currentIndex > -1) {
 
+  if (currentIndex > -1) {
     expandedItems.value.splice(currentIndex, 1)
   } else {
- 
     if (props.multiple) {
       expandedItems.value.push(index)
     } else {
@@ -101,22 +102,25 @@ const toggleItem = (index) => {
   }
 
   emit('update:modelValue', expandedItems.value)
-  emit('item-toggle', { index, expanded: isExpanded(index), item: props.items[index] })
+  emit('item-toggle', { index, expanded: isExpanded(index), item })
 }
 
-const onEnter = (el) => {
-  el.style.height = '0'
-  el.style.height = `${el.scrollHeight}px`
+const onEnter = (el: Element): void => {
+  const htmlEl = el as HTMLElement
+  htmlEl.style.height = '0'
+  htmlEl.style.height = `${htmlEl.scrollHeight}px`
 }
 
-const onAfterEnter = (el) => {
-  el.style.height = 'auto'
+const onAfterEnter = (el: Element): void => {
+  const htmlEl = el as HTMLElement
+  htmlEl.style.height = 'auto'
 }
 
-const onBeforeLeave = (el) => {
-  el.style.height = `${el.scrollHeight}px`
+const onBeforeLeave = (el: Element): void => {
+  const htmlEl = el as HTMLElement
+  htmlEl.style.height = `${htmlEl.scrollHeight}px`
   setTimeout(() => {
-    el.style.height = '0'
+    htmlEl.style.height = '0'
   }, 10)
 }
 </script>
@@ -243,7 +247,7 @@ const onBeforeLeave = (el) => {
   .accordion-header {
     padding: 1rem 1.25rem;
   }
-  
+
   .accordion-body {
     padding: 0 1.25rem 1.25rem;
   }

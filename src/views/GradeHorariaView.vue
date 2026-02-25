@@ -5,7 +5,9 @@
       <h1 class="schedule-title">
         <OhVueIcon name="bi-calendar-heart" class="title-icon" />
         Farmácia · 2026/1
-        <Badge variant="secondary" size="medium" class="turma-badge">Turma A</Badge>
+        <Badge variant="secondary" size="medium" class="period-badge">
+          {{ selectedPeriod === 'all' ? 'Todas' : `${selectedPeriod}º Período` }}
+        </Badge>
       </h1>
 
       <div class="schedule-info">
@@ -15,14 +17,42 @@
         </div>
         <div class="info-row">
           <OhVueIcon name="wi-time2" class="info-icon" />
-          <span>Aulas práticas e teóricas</span>
+          <span>{{ totalSubjects }} disciplinas · {{ totalClasses }} aulas/semana</span>
         </div>
+      </div>
+
+      <!-- Filtros por período -->
+      <div class="period-filters">
+        <Badge 
+          variant="primary" 
+          size="medium"
+          :class="{ 'active-filter': selectedPeriod === 'all' }"
+          @click="selectedPeriod = 'all'"
+        >
+          <OhVueIcon name="oi-eye" /> Todas
+        </Badge>
+        <Badge 
+          v-for="period in availablePeriods" 
+          :key="period"
+          :variant="getPeriodVariant(period)"
+          size="medium"
+          :class="{ 'active-filter': selectedPeriod === period }"
+          @click="selectedPeriod = period"
+        >
+          <OhVueIcon :name="getPeriodIcon(period)" /> {{ period }}º Período
+        </Badge>
+        <Badge 
+          variant="tag" 
+          size="medium"
+          :class="{ 'active-filter': selectedPeriod === 'elective' }"
+          @click="selectedPeriod = 'elective'"
+        >
+          <OhVueIcon name="gi-erlenmeyer" /> Eletivas
+        </Badge>
       </div>
     </div>
 
-    <!-- Schedule Grid -->
     <div class="schedule-grid">
-      <!-- Mobile View (Accordion) -->
       <div class="mobile-view">
         <Accordion
           :items="accordionItems"
@@ -31,7 +61,7 @@
           :multiple="false"
           v-model="expandedDays"
         >
-          <template #content="{ item }">
+          <template #content="{ item }: any">
             <div class="class-list">
               <ClassCard
                 v-for="(classItem, index) in item.classes"
@@ -50,154 +80,192 @@
 
       <!-- Desktop View (Matrix Table) -->
       <div class="desktop-view">
-        <table class="schedule-table">
-          <thead>
-            <tr>
-              <th>Horário</th>
-              <th v-for="day in weekDays" :key="day">{{ day }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="timeSlot in sortedTimeSlots" :key="timeSlot">
-              <td class="time-cell">
-                <Badge :variant="'primary'" size="small">
-                  <OhVueIcon name="wi-time2" /> {{ timeSlot }}
-                </Badge>
-              </td>
-              <td v-for="day in weekDays" :key="`${day}-${timeSlot}`" class="schedule-cell">
-                <template v-if="getClassAtTimeSlot(day, timeSlot)">
-                  <ClassCard
-                    :classItem="getClassAtTimeSlot(day, timeSlot)"
-                    :compact="true"
-                    :showTooltips="true"
-                  />
-                </template>
-                <div v-else class="cell-empty">
-                  —
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-container">
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th class="time-header">Horário</th>
+                <th v-for="day in weekDays" :key="day" class="day-header">{{ day }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="timeSlot in filteredTimeSlots" :key="timeSlot" class="time-row">
+                <td class="time-cell">
+                  <Badge :variant="'primary'" size="small">
+                    <OhVueIcon name="wi-time2" /> {{ timeSlot }}
+                  </Badge>
+                </td>
+                <td v-for="day in weekDays" :key="`${day}-${timeSlot}`" class="schedule-cell" :data-day="day">
+                  <template v-if="getClassAtTimeSlot(day, timeSlot)">
+                    <ClassCard
+                      :classItem="getClassAtTimeSlot(day, timeSlot)"
+                      :compact="true"
+                      :showTooltips="true"
+                    />
+                  </template>
+                  <div v-else class="cell-empty">
+                    —
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legenda -->
+    <div class="schedule-legend">
+      <div class="legend-item">
+        <span class="legend-color required"></span>
+        <span>Obrigatórias</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color elective"></span>
+        <span>Eletivas</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color practical-1"></span>
+        <span>Prática P1</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color practical-2"></span>
+        <span>Prática T1</span>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, ref } from 'vue'
 import { OhVueIcon } from 'oh-vue-icons'
+import { useScheduleStore } from '@/stores/schedule'
 import Badge from '@/components/ui/Badge.vue'
 import Accordion from '@/components/ui/Accordion.vue'
 import ClassCard from '@/components/layout/cards/ClassCard.vue'
+import type { ClassItem } from '@/stores/schedule'
 
-const weekDays = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta']
-const expandedDays = ref([])
-
-const classes = [
-  { day: 'Segunda', time: '09:00 - 10:00', subject: 'Biossegurança e Primeiros Socorros (DF117)', practicalClass: '1', room: 'AL-PCA-203 (02/03/2026 a 13/07/2026, semanalmente)', professor: 'Sônia Aparecida Figueiredo' },
-  { day: 'Segunda', time: '10:00 - 11:00', subject: 'Biossegurança e Primeiros Socorros (DF117)', practicalClass: '1', room: 'AL-PCA-203 (02/03/2026 a 13/07/2026, semanalmente)', professor: 'Sônia Aparecida Figueiredo' },
-  { day: 'Segunda', time: '13:00 - 14:00', subject: 'Anatomia Humana (DCB224)', practicalClass: '1', room: 'AL-N-103 (02/03/2026 a 13/07/2026, semanalmente)', professor: 'Camila Pinhata' },
-  { day: 'Segunda', time: '14:00 - 15:00', subject: 'Anatomia Humana (DCB224)', practicalClass: '1', room: 'AL-N-103 (02/03/2026 a 13/07/2026, semanalmente)', professor: 'Camila Pinhata' },
-  { day: 'Segunda', time: '15:00 - 16:00', subject: 'Química Geral (DCE410)', practicalClass: '1', room: 'AL-PCA-305 (02/03/2026 a 13/07/2026, semanalmente)', professor: 'Márcia Regina Cordeiro' },
-  { day: 'Segunda', time: '16:00 - 17:00', subject: 'Química Geral (DCE410)', practicalClass: '1', room: 'AL-PCA-305 (02/03/2026 a 13/07/2026, semanalmente)', professor: 'Márcia Regina Cordeiro' },
-  { day: 'Terça', time: '09:00 - 10:00', subject: 'Química Geral Experimental (DCE411)', practicalClass: '2', room: 'AL-Q-212 (03/03/2026 a 14/07/2026, semanalmente)', professor: 'Márcia Regina Cordeiro' },
-  { day: 'Terça', time: '10:00 - 11:00', subject: 'Química Geral Experimental (DCE411)', practicalClass: '2', room: 'AL-Q-212 (03/03/2026 a 14/07/2026, semanalmente)', professor: 'Márcia Regina Cordeiro' },
-  { day: 'Terça', time: '13:00 - 14:00', subject: 'Anatomia Humana (DCB224)', practicalClass: '1', room: 'AL-N-214 (03/03/2026 a 14/07/2026, semanalmente)', professor: 'Camila Pinhata' },
-  { day: 'Terça', time: '14:00 - 15:00', subject: 'Anatomia Humana (DCB224)', practicalClass: '1', room: 'AL-N-214 (03/03/2026 a 14/07/2026, semanalmente)', professor: 'Camila Pinhata' },
-  { day: 'Quarta', time: '07:00 - 08:00', subject: 'Histologia Básica (DCB78)', practicalClass: '1', room: 'AL-O-307 (04/03/2026 a 15/07/2026, semanalmente)', professor: 'Manuella Carvalho da Costa' },
-  { day: 'Quarta', time: '08:00 - 09:00', subject: 'Histologia Básica (DCB78)', practicalClass: '1', room: 'AL-O-307 (04/03/2026 a 15/07/2026, semanalmente)', professor: 'Manuella Carvalho da Costa' },
-  { day: 'Quarta', time: '09:00 - 10:00', subject: 'Histologia Básica (DCB78)', practicalClass: '1', room: 'AL-N-408 (04/03/2026 a 15/07/2026, semanalmente)', professor: 'Manuella Carvalho da Costa' },
-  { day: 'Quarta', time: '09:00 - 10:00', subject: 'Práticas Farmacêuticas (DF118)', practicalClass: '2', room: 'AL-PCA-203 (04/03/2026 a 15/07/2026, semanalmente)', professor: 'Sônia Aparecida Figueiredo' },
-  { day: 'Quarta', time: '10:00 - 11:00', subject: 'Histologia Básica (DCB78)', practicalClass: '1', room: 'AL-N-408 (04/03/2026 a 15/07/2026, semanalmente)', professor: 'Manuella Carvalho da Costa' },
-  { day: 'Quarta', time: '10:00 - 11:00', subject: 'Práticas Farmacêuticas (DF118)', practicalClass: '2', room: 'AL-PCA-203 (04/03/2026 a 15/07/2026, semanalmente)', professor: 'Sônia Aparecida Figueiredo' },
-  { day: 'Quarta', time: '15:00 - 16:00', subject: 'Biologia Celular (DCB225)', practicalClass: '1', room: 'AL-E-303 (04/03/2026 a 15/07/2026, semanalmente)', professor: 'Angel Roberto Barchuk <br> Ester Siqueira Caixeta Nogueira' },
-  { day: 'Quarta', time: '16:00 - 17:00', subject: 'Biologia Celular (DCB225)', practicalClass: '1', room: 'AL-E-303 (04/03/2026 a 15/07/2026, semanalmente)', professor: 'Angel Roberto Barchuk <br> Ester Siqueira Caixeta Nogueira' },
-  { day: 'Quinta', time: '08:00 - 09:00', subject: 'Biologia Celular (DCB225)', practicalClass: '1', room: 'AL-PCA-305 (05/03/2026 a 16/07/2026, semanalmente)', professor: 'Angel Roberto Barchuk <br> Ester Siqueira Caixeta Nogueira' },
-  { day: 'Quinta', time: '09:00 - 10:00', subject: 'Biologia Celular (DCB225)', practicalClass: '1', room: 'AL-PCA-305 (05/03/2026 a 16/07/2026, semanalmente)', professor: 'Angel Roberto Barchuk <br> Ester Siqueira Caixeta Nogueira' },
-  { day: 'Quinta', time: '10:00 - 11:00', subject: 'Biologia Celular (DCB225)', practicalClass: '1', room: 'AL-PCA-305 (05/03/2026 a 16/07/2026, semanalmente)', professor: 'Angel Roberto Barchuk <br> Ester Siqueira Caixeta Nogueira' },
-  { day: 'Quinta', time: '13:00 - 14:00', subject: 'Psicologia Aplicada à Saúde (DCH149)', practicalClass: '1', room: 'AL-PCA-203 (05/03/2026 a 16/07/2026, semanalmente)', professor: 'Alexia Thamy Gomes de Oliveira' },
-  { day: 'Quinta', time: '14:00 - 15:00', subject: 'Psicologia Aplicada à Saúde (DCH149)', practicalClass: '1', room: 'AL-PCA-203 (05/03/2026 a 16/07/2026, semanalmente)', professor: 'Alexia Thamy Gomes de Oliveira' },
-  { day: 'Quinta', time: '15:00 - 16:00', subject: 'Anatomia Humana (DCB224)', practicalClass: '1', room: 'AL-N-103 (05/03/2026 a 16/07/2026, semanalmente)', professor: 'Camila Pinhata' },
-  { day: 'Quinta', time: '16:00 - 17:00', subject: 'Anatomia Humana (DCB224)', practicalClass: '1', room: 'AL-N-103 (05/03/2026 a 16/07/2026, semanalmente)', professor: 'Camila Pinhata' },
-  { day: 'Sexta', time: '07:00 - 08:00', subject: 'Introdução às Ciências Farmacêuticas (DF69)', practicalClass: '1', room: 'AL-PCA-203 (06/03/2026 a 08/05/2026, semanalmente)', professor: 'Ricardo Radighieri Rascado' },
-  { day: 'Sexta', time: '08:00 - 09:00', subject: 'Introdução às Ciências Farmacêuticas (DF69)', practicalClass: '1', room: 'AL-PCA-203 (06/03/2026 a 08/05/2026, semanalmente)', professor: 'Ricardo Radighieri Rascado' },
-  { day: 'Sexta', time: '09:00 - 10:00', subject: 'Química Geral (DCE410)', practicalClass: '1', room: 'AL-PCA-305 (06/03/2026 a 10/07/2026, semanalmente)', professor: 'Márcia Regina Cordeiro' },
-  { day: 'Sexta', time: '10:00 - 11:00', subject: 'Química Geral (DCE410)', practicalClass: '1', room: 'AL-PCA-305 (06/03/2026 a 10/07/2026, semanalmente)', professor: 'Márcia Regina Cordeiro' }
-]
-
-const classesByDay = computed(() => {
-  const map = new Map()
-  weekDays.forEach(day => map.set(day, []))
-  classes.forEach(c => {
-    if (map.has(c.day)) {
-      map.get(c.day).push(c)
-    }
-  })
-
-  map.forEach(list => {
-    list.sort((a, b) => a.time.localeCompare(b.time))
-  })
-  return map
-})
-
-const accordionItems = computed(() => {
-  return weekDays.map(day => ({
-    id: day,
-    day: day,
-    title: `${day} · ${getClassesByDay(day).length} aula(s)`,
-    icon: 'oi-sun',
-    classes: getClassesByDay(day)
-  }))
-})
-
-const getClassesByDay = (day) => {
-  const classes = classesByDay.value.get(day)
-  return classes || []
+// Interface para o item do accordion
+interface AccordionItem {
+  id: string
+  day: string
+  title: string
+  icon: string
+  classes: ClassItem[]
 }
 
-const allTimeSlots = computed(() => {
-  const slots = new Set()
-  classes.forEach(c => slots.add(c.time))
-  return Array.from(slots).sort((a, b) => a.localeCompare(b))
+const scheduleStore = useScheduleStore()
+const expandedDays = ref<string[]>([])
+const selectedPeriod = ref<string | number>('all') // 'all', 3, 4, 6, 'elective'
+
+// Dias da semana
+const weekDays = scheduleStore.weekDays
+
+// Períodos disponíveis
+const availablePeriods = computed(() => {
+  const periods = new Set<number>()
+  scheduleStore.allClasses.forEach((c: ClassItem) => periods.add(c.period))
+  return Array.from(periods).filter((p: number) => p > 0).sort((a: number, b: number) => a - b)
 })
 
-const sortedTimeSlots = computed(() => {
-  return allTimeSlots.value.sort((a, b) => {
-    const hourA = parseInt(a.split(':')[0])
-    const hourB = parseInt(b.split(':')[0])
+// Total de disciplinas e aulas
+const totalSubjects = computed(() => scheduleStore.totalSubjects)
+const totalClasses = computed(() => scheduleStore.totalClasses)
+
+// Filtrar classes baseado no período selecionado
+const filteredClasses = computed(() => {
+  if (selectedPeriod.value === 'all') {
+    return scheduleStore.allClasses
+  } else if (selectedPeriod.value === 'elective') {
+    return scheduleStore.getClassesByType('elective')
+  } else {
+    // CORREÇÃO: usar Number() em vez de "as number"
+    return scheduleStore.getClassesByPeriod(Number(selectedPeriod.value))
+  }
+})
+
+// Horários únicos filtrados
+const filteredTimeSlots = computed(() => {
+  const slots = new Set<string>()
+  filteredClasses.value.forEach((c: ClassItem) => slots.add(c.time))
+  return Array.from(slots).sort((a: string, b: string) => {
+    const hourA = parseInt(a.split(':')[0] || '0')
+    const hourB = parseInt(b.split(':')[0] || '0')
     return hourA - hourB
   })
 })
 
-const classMatrix = computed(() => {
-  const matrix = {}
+// Classes por dia (filtradas)
+const filteredClassesByDay = computed(() => {
+  const map = new Map<string, ClassItem[]>()
+  weekDays.forEach((day: string) => map.set(day, []))
   
+  filteredClasses.value.forEach((c: ClassItem) => {
+    if (map.has(c.day)) {
+      map.get(c.day)!.push(c)
+    }
+  })
 
-  weekDays.forEach(day => {
+  map.forEach((list: ClassItem[]) => {
+    list.sort((a: ClassItem, b: ClassItem) => a.time.localeCompare(b.time))
+  })
+  
+  return map
+})
+
+// Items para accordion mobile
+const accordionItems = computed(() => {
+  return weekDays.map((day: string) => ({
+    id: day,
+    day: day,
+    title: `${day} · ${getFilteredClassesByDay(day).length} aula(s)`,
+    icon: 'oi-sun',
+    classes: getFilteredClassesByDay(day)
+  }))
+})
+
+// Helper para pegar classes filtradas por dia
+const getFilteredClassesByDay = (day: string): ClassItem[] => {
+  return filteredClassesByDay.value.get(day) || []
+}
+
+// Matriz filtrada
+const filteredClassMatrix = computed(() => {
+  const matrix: Record<string, Record<string, ClassItem | null>> = {}
+  
+  weekDays.forEach((day: string) => {
     matrix[day] = {}
-    allTimeSlots.value.forEach(slot => {
-      matrix[day][slot] = null
+    filteredTimeSlots.value.forEach((slot: string) => {
+      if (matrix[day]) {
+        matrix[day][slot] = null
+      }
     })
   })
 
-
-  classes.forEach(c => {
-    if (matrix[c.day] && matrix[c.day][c.time] === null) {
-      matrix[c.day][c.time] = c
-    }
-
-    else if (matrix[c.day] && matrix[c.day][c.time] !== null) {
-      console.warn(`Multiple classes at ${c.day} ${c.time}`)
+  filteredClasses.value.forEach((c: ClassItem) => {
+    const dayMatrix = matrix[c.day]
+    if (dayMatrix && dayMatrix[c.time] === null) {
+      dayMatrix[c.time] = c
     }
   })
   
   return matrix
 })
 
-const getClassAtTimeSlot = (day, timeSlot) => {
-  if (!classMatrix.value[day]) return null
-  return classMatrix.value[day][timeSlot] || null
+// Pegar aula em dia/horário específico
+const getClassAtTimeSlot = (day: string, timeSlot: string): ClassItem | null => {
+  return filteredClassMatrix.value[day]?.[timeSlot] || null
+}
+
+// Variantes e ícones para os filtros
+const getPeriodVariant = (period: number): string => {
+  const variants = ['primary', 'secondary', 'success', 'warning', 'error']
+  return variants[(period - 1) % variants.length] || 'primary'
+}
+
+const getPeriodIcon = (period: number): string => {
+  const icons = ['bi-1-circle', 'bi-2-circle', 'bi-3-circle', 'bi-4-circle', 'bi-5-circle', 'bi-6-circle', 'bi-7-circle', 'bi-8-circle', 'bi-9-circle']
+  return icons[(period - 1) % icons.length] || 'bi-calendar-heart'
 }
 </script>
 
@@ -206,6 +274,7 @@ const getClassAtTimeSlot = (day, timeSlot) => {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0.5em;
+  width: 100%;
 }
 
 .schedule-header {
@@ -215,18 +284,21 @@ const getClassAtTimeSlot = (day, timeSlot) => {
 .schedule-title {
   font-size: 1.5em;
   margin-bottom: 1em;
-  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
   gap: 0.5em;
-  justify-content: flex-start;
+  flex-wrap: wrap;
+  color: var(--title-secondary);
 }
 
-.title-icon{
+.title-icon {
   color: var(--primary);
-  font-size: 2em;
-  transform: scale(2);
+  font-size: 1.5em;
+  transform: scale(1.5);
+  margin-right: 0.5em;
 }
 
-.turma-badge {
+.period-badge {
   font-size: 0.7em;
 }
 
@@ -235,6 +307,10 @@ const getClassAtTimeSlot = (day, timeSlot) => {
   padding: 1em;
   border-radius: 12px;
   border: 2px dashed var(--border-secondary);
+  margin-bottom: 1em;
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
 }
 
 .info-row {
@@ -245,18 +321,42 @@ const getClassAtTimeSlot = (day, timeSlot) => {
   font-size: 0.9em;
 }
 
-.info-row:first-child {
-  margin-bottom: 0.5em;
-}
-
 .info-icon {
   color: var(--primary);
-  font-size: 1em;
-  transform: scale(1.1em);
 }
 
+/* Period Filters */
+.period-filters {
+  display: flex;
+  gap: 0.75em;
+  flex-wrap: wrap;
+  margin-top: 1em;
+  justify-content: center;
+}
+
+.period-filters .badge {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.8;
+}
+
+.period-filters .badge:hover {
+  transform: translateY(-2px);
+  opacity: 1;
+  box-shadow: 0 4px 12px var(--shadow-hover);
+}
+
+.period-filters .active-filter {
+  opacity: 1;
+  transform: scale(1.05);
+  border-width: 3px;
+  box-shadow: 0 4px 12px var(--shadow-hover);
+}
+
+/* Schedule Grid */
 .schedule-grid {
   margin: 1em 0;
+  width: 100%;
 }
 
 .mobile-view {
@@ -290,61 +390,204 @@ const getClassAtTimeSlot = (day, timeSlot) => {
   font-size: 2em;
   margin-bottom: 0.5em;
   color: var(--border);
-  transform: scale(2em);
 }
 
 .desktop-view {
   display: none;
 }
 
-.schedule-table {
+/* Container da tabela para desktop */
+.table-container {
   width: 100%;
-  border-collapse: collapse;
-  background: var(--surface-primary);
+  overflow-x: visible;
   border-radius: 16px;
-  overflow: visible;
   box-shadow: 0 4px 12px var(--shadow);
 }
 
+.schedule-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate; /* Mudado de collapse para separate */
+  border-spacing: 0; /* Remove espaçamento entre células */
+  background: var(--surface-primary);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Estilização dos cabeçalhos */
 .schedule-table thead tr {
   background: var(--rose-surface);
-  border-bottom: 3px solid var(--border-primary);
 }
 
 .schedule-table th {
-  padding: 0.5em;
+  padding: 1em 0.5em;
   font-family: 'Gloria Hallelujah', cursive;
   font-size: 1.1em;
   color: var(--title-primary);
   text-align: center;
+  white-space: nowrap;
+  border: 1px solid var(--border);
+  border-bottom: 3px solid var(--border-primary);
 }
 
+/* Remove bordas duplicadas */
+.schedule-table th:first-child {
+  border-top-left-radius: 16px;
+}
+
+.schedule-table th:last-child {
+  border-top-right-radius: 16px;
+}
+
+/* Células do corpo */
 .schedule-table td {
-  padding: 0.75em;
+  padding: 0.5em;
   vertical-align: top;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: visible;
 }
 
+/* Coluna de horário - largura fixa e bem definida */
 .time-cell {
-  width: 120px;
+  width: 120px; /* Largura fixa para a coluna de horário */
+  min-width: 120px;
+  max-width: 120px;
   text-align: center;
   background: var(--sky-blue-surface);
   font-weight: 600;
+  white-space: nowrap;
+  border-right: 2px solid var(--border-primary); /* Destaque na separação */
+}
+
+/* Colunas de dias da semana - distribuição igual do espaço restante */
+.schedule-table td:not(.time-cell),
+.schedule-table th:not(.time-header) {
+  width: calc((100% - 120px) / 5); /* Subtrai a largura fixa do horário e divide pelos 5 dias */
+}
+
+/* Ajuste específico para os cabeçalhos dos dias */
+.day-header {
+  width: calc((100% - 120px) / 5);
 }
 
 .schedule-cell {
-  min-width: 200px;
+  overflow: visible;
+  position: relative;
+  min-height: 100px;
+  background-color: var(--surface-primary);
+}
+
+/* Efeito hover nas células */
+.schedule-cell:hover {
+  background-color: var(--surface-hover);
+  transition: background-color 0.2s ease;
+}
+
+/* Ajustes para o ClassCard dentro da tabela */
+.schedule-cell :deep(.class-card) {
+  max-width: 100%;
+  margin: 0;
+  padding: 0.5em;
+  font-size: 0.9em;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px var(--shadow);
+}
+
+.schedule-cell :deep(.class-card:hover) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-hover);
+}
+
+.schedule-cell :deep(.class-card .class-code) {
+  font-size: 0.9em;
+  font-weight: bold;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.schedule-cell :deep(.class-card .class-name) {
+  font-size: 0.8em;
+  white-space: normal;
+  word-break: break-word;
+  margin: 0.25em 0;
+}
+
+.schedule-cell :deep(.class-card .class-info) {
+  font-size: 0.75em;
 }
 
 .cell-empty {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
   min-height: 80px;
+  height: 100%;
   color: var(--text-disabled);
   font-style: italic;
+  font-size: 0.9em;
+  background-color: var(--surface-secondary);
+  border-radius: 4px;
 }
 
+/* Linhas alternadas para melhor legibilidade */
+.schedule-table tbody tr:nth-child(even) .schedule-cell {
+  background-color: var(--surface-secondary);
+}
+
+.schedule-table tbody tr:nth-child(even) .time-cell {
+  background-color: var(--sky-blue-surface);
+  filter: brightness(0.95);
+}
+
+/* Legenda */
+.schedule-legend {
+  display: flex;
+  gap: 1.5em;
+  flex-wrap: wrap;
+  margin-top: 2em;
+  padding: 1em;
+  background: var(--surface-secondary);
+  border-radius: 8px;
+  justify-content: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.9em;
+  color: var(--text-secondary);
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px dashed;
+}
+
+.legend-color.required {
+  background: var(--surface-primary);
+  border-color: var(--border-secondary);
+}
+
+.legend-color.elective {
+  background: var(--surface-primary);
+  border-color: var(--secondary);
+}
+
+.legend-color.practical-1 {
+  background: var(--sky-blue-surface);
+  border-color: var(--sky-blue);
+}
+
+.legend-color.practical-2 {
+  background: var(--rose-surface);
+  border-color: var(--rose);
+}
+
+/* Responsividade */
 @media (min-width: 768px) {
   .schedule-view {
     padding: 1.5em;
@@ -354,13 +597,8 @@ const getClassAtTimeSlot = (day, timeSlot) => {
     font-size: 1.8em;
   }
 
-  .schedule-info {
-    display: flex;
-    gap: 1em;
-  }
-
-  .info-row:first-child {
-    margin-bottom: 0;
+  .period-filters {
+    justify-content: flex-start;
   }
 }
 
@@ -371,7 +609,7 @@ const getClassAtTimeSlot = (day, timeSlot) => {
 
   .desktop-view {
     display: block;
-    overflow-x: visible;
+    width: 100%;
   }
 
   .schedule-view {
@@ -383,27 +621,71 @@ const getClassAtTimeSlot = (day, timeSlot) => {
   }
 
   .schedule-table {
-    font-size: 0.9em;
+    font-size: 0.85em;
   }
 
   .schedule-table th {
-    font-size: 1.1em;
     padding: 1em;
   }
-
-  .schedule-table td {
-    padding: 0.5em;
-    border: 1px solid var(--border);
-  }
-
+  
+  /* Ajuste da largura da coluna de horário em telas maiores */
   .time-cell {
     width: 140px;
+    min-width: 140px;
+    max-width: 140px;
+  }
+  
+  .schedule-table td:not(.time-cell),
+  .schedule-table th:not(.time-header) {
+    width: calc((100% - 140px) / 5);
   }
 }
 
 @media (min-width: 1280px) {
   .schedule-table {
+    font-size: 0.9em;
+  }
+
+  .time-cell {
+    width: 160px;
+    min-width: 160px;
+    max-width: 160px;
+  }
+  
+  .schedule-table td:not(.time-cell),
+  .schedule-table th:not(.time-header) {
+    width: calc((100% - 160px) / 5);
+  }
+}
+
+@media (min-width: 1400px) {
+  .schedule-table {
     font-size: 1em;
+  }
+  
+  .time-cell {
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+  }
+  
+  .schedule-table td:not(.time-cell),
+  .schedule-table th:not(.time-header) {
+    width: calc((100% - 180px) / 5);
+  }
+}
+
+@media (max-width: 480px) {
+  .schedule-title {
+    font-size: 1.2em;
+  }
+
+  .period-filters .badge {
+    font-size: 0.8em;
+  }
+
+  .info-row {
+    font-size: 0.8em;
   }
 }
 </style>

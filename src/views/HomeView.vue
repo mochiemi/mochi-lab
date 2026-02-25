@@ -23,8 +23,7 @@
       </div>
     </Card>
 
-    <!-- Features Section -->
-    <section class="features-section">
+        <section class="features-section">
       <div class="features-header">
         <h2 class="features-title">
           <OhVueIcon name="gi-erlenmeyer" class="features-icon" />
@@ -34,7 +33,7 @@
       </div>
 
       <div class="features-grid">
-        <!-- Latest Blog Post Feature -->
+        <!-- Card do Blog (existente) -->
         <Card class="feature-card" :padding="'normal'">
           <template #header>
             <div class="feature-header">
@@ -112,72 +111,10 @@
           </template>
         </Card>
 
-        <!-- Schedule Feature -->
-        <Card class="feature-card" :padding="'normal'">
-          <template #header>
-            <div class="feature-header">
-              <div class="feature-icon-wrapper">
-                <OhVueIcon name="bi-calendar-heart" class="feature-icon" />
-              </div>
-              <Badge variant="secondary" size="small">
-                <OhVueIcon name="wi-time2" class="badge-icon" />
-                2026/1
-              </Badge>
-            </div>
-            <h3 class="feature-title">{{ $t('home.features.schedule') }}</h3>
-          </template>
+        <!-- FeaturedGHCard -->
+        <FeaturedGHCard />
 
-          <div class="feature-content">
-            <div class="schedule-preview">
-              <div class="schedule-stats">
-                <div class="stat-item">
-                  <span class="stat-value">5</span>
-                  <span class="stat-label">{{ $t('weekDays') }}</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-value">8+</span>
-                  <span class="stat-label">{{ $t('subjects') }}</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-value">02/03</span>
-                  <span class="stat-label">{{ $t('start') }}</span>
-                </div>
-              </div>
-
-              <div class="schedule-next-class" v-if="nextClass">
-                <p class="next-class-label">
-                  <OhVueIcon name="hi-clock" class="next-class-icon" />
-                  {{ $t('nextClass') }}:
-                </p>
-                <div class="next-class-info">
-                  <span class="next-class-day">{{ nextClass.day }}</span>
-                  <span class="next-class-time">{{ nextClass.time }}</span>
-                  <span class="next-class-subject">{{ nextClass.subject }}</span>
-                </div>
-              </div>
-
-              <div class="schedule-update">
-                <OhVueIcon name="oi-check" class="update-icon" />
-                <span>{{ $t('home.features.updated') }}: 02/03/2026</span>
-              </div>
-            </div>
-          </div>
-
-          <template #footer>
-            <div class="feature-footer">
-              <Button 
-                variant="outline" 
-                size="small"
-                @click="$router.push('/grade-horaria')"
-              >
-                <OhVueIcon name="bi-calendar-heart" class="btn-icon" />
-                {{ $t('home.features.viewSchedule') }}
-              </Button>
-            </div>
-          </template>
-        </Card>
-
-        <!-- Future Features Slot -->
+        <!-- Future Cards (mantidos) -->
         <slot name="feature-3">
           <Card class="feature-card future-card" :padding="'normal'">
             <template #header>
@@ -229,9 +166,9 @@ import Button from '@/components/ui/Button.vue';
 import Badge from '@/components/ui/Badge.vue';
 import Loading from '@/components/ui/Loading.vue';
 import Tooltip from '@/components/ui/Tooltip.vue';
+import FeaturedGHCard from '@/components/layout/cards/FeaturedGHCard.vue'
 import { OhVueIcon } from '@/plugins/icons';
 
-// Configurações da API
 const API_KEY = import.meta.env.VITE_BLOGGER_API_KEY;
 const BLOG_ID = import.meta.env.VITE_BLOGGER_BLOG_ID;
 
@@ -239,19 +176,16 @@ const router = useRouter();
 const languageStore = useLanguageStore();
 const today = new Date();
 
-// Estados
 const latestPost = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
-// Dados da próxima aula (exemplo)
 const nextClass = {
   day: 'Segunda',
   time: '09:00 - 10:00',
   subject: 'Biossegurança e Primeiros Socorros'
 };
 
-// Data formatada
 const formattedDate = computed(() => {
   const locale = languageStore.currentLanguage;
   const weekday = today.toLocaleDateString(locale, { weekday: 'long' });
@@ -542,7 +476,7 @@ onMounted(() => {
   font-size: 2em;
 }
 
-/* Post Preview */
+
 .post-preview-title {
   color: var(--title-secondary);
   font-size: 1.1em;

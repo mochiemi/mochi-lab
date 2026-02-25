@@ -108,15 +108,18 @@ const hasSpecialPeriod = computed(() => {
 
 const practicalClassValue = computed(() => {
   if (!props.classItem || !props.classItem.practicalClass) return 0
+  // Se for 'A' (turma regular), não é prática específica
+  if (props.classItem.practicalClass === 'A') return 0
   return parseFloat(props.classItem.practicalClass)
+})
+
+const practicalBadgeVariant = computed(() => {
+  // 'T1', 'P1' etc usam 'secondary', 'A' (regular) usa 'primary'
+  return practicalClassValue.value > 0 ? 'secondary' : 'primary'
 })
 
 const timeBadgeVariant = computed(() => {
   return hasSpecialPeriod.value ? 'warning' : 'primary'
-})
-
-const practicalBadgeVariant = computed(() => {
-  return practicalClassValue.value === 2.0 ? 'secondary' : 'primary'
 })
 
 const formatRoom = (room) => {
