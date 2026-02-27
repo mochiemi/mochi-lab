@@ -10,22 +10,11 @@
   },
   "home": {
     "welcome": "Sejam Bem Vindes ao",
-    "description": "Aqui é meu caderno e laboratório de anotações. Temas de farmácia, medicina farão parte do conteúdo desta página. Ela funciona como um SPA (Single Page App), onde em uma única página demonstro algumas aplicações e textos.",
-    "explore": "Explorar Laboratório",
-    "components": "Ver Componentes",
+    "description": "Aqui é meu caderno e laboratório de anotações. Temas de farmácia, medicina farão parte do conteúdo desta página.",
     "tooltip": "Clique para saber mais sobre este laboratório e sua cientista!",
     "todayIs": "Olá! Hoje é",
-    "featured": {
-      "title": "Componentes",
-      "description": "Veja a biblioteca de componentes UI usados aqui"
-    },
-    "latest": {
-      "title": "Conteúdo Recente",
-      "description": "Confira os posts mais recentes, atualizações e experimentos",
-      "preview": "Ainda não totalmente implementado"
-    },
     "features": {
-      "title": "Recursos do Lab",
+      "title": "Destaques do Lab",
       "description": "Explore o que o Mochi Lab tem a oferecer",
       "latestPost": "Último Post do Blog",
       "readPost": "Ler Post",
@@ -35,8 +24,24 @@
       "viewSchedule": "Ver Grade",
       "comingSoon": "Em Breve",
       "featured": "Destaque",
-      "updated": "Atualizado"
+      "updated": "Atualizado",
+      "nextClasses": "Próximas Aulas"
     }
+  },
+  "schedule": {
+    "loading": "Carregando grade horária...",
+    "nextClass": "Próxima aula",
+    "todayClasses": "Aulas de hoje",
+    "moreClasses": "mais",
+    "noClassesToday": "Sem aulas hoje",
+    "viewSchedule": "Ver grade completa",
+    "practicalClass": "Aula prática",
+    "noMoreClassesToday": "Não há mais aulas hoje",
+    "total": "Total",
+    "nextDayClasses": "Próximo dia com aulas",
+    "classes": "aulas",
+    "firstClass": "Primeira aula",
+    "noFutureClasses": "Nenhuma aula programada nos próximos dias"
   },
   "blog": {
     "title": "Mochi Blog",
@@ -96,53 +101,13 @@
     "aboutThis": "O Lab",
     "projects": "Outros Projetos",
     "library": "Biblioteca",
-    "components": "Componentes",
-    "icons": "Ícones",
-    "more": "Interativo",
+    "tools": "Aplicativos",
     "contact": "Contato",
     "toggleMenu": "Alternar menu",
-    "pokeform": "Testes HTML",
-    "iList": "Lista Interativa"
+    "iList": "Lista de Tarefas"
   },
   "toTop": {
     "ariaLabel": "Voltar ao topo"
-  },
-  "iconsLibrary": {
-    "title": "Biblioteca de Ícones",
-    "description": "Catálogo dos ícones disponíveis no projeto. Uso para lembrar os nomes deles. Ícones selecionados do pacote: ",
-    "searchPlaceholder": "Buscar ícones por nome...",
-    "clear": "Limpar",
-    "copyTooltip": "Copiar nome do ícone",
-    "copySuccess": "Nome do ícone copiado para a área de transferência!",
-    "copyError": "Erro ao copiar o nome do ícone",
-    "noResults": {
-      "title": "Nenhum ícone encontrado",
-      "description": "Tente ajustar os filtros ou a busca"
-    },
-    "categories": {
-      "Navigation": "Navegação",
-      "Communication": "Comunicação",
-      "UI_Actions": "UI & Ações",
-      "Directional": "Direcionais",
-      "Settings": "Configurações",
-      "Animals": "Animais",
-      "Social": "Social",
-      "Weather": "Tempo",
-      "Ideas": "Ideias",
-      "People": "Pessoas",
-      "Fun": "Diversão",
-      "Food_Drink": "Comida & Bebida",
-      "Technology": "Tecnologia",
-      "Health": "Saúde",
-      "Location": "Localização",
-      "Science": "Ciência",
-      "Media": "Mídia",
-      "Education": "Educação",
-      "Calendar": "Calendário",
-      "Development": "Desenvolvimento",
-      "Forms": "Formulários",
-      "Actions": "Ações"
-    }
   },
   "interactiveList": {
     "title": "Lista de Tarefas",
@@ -174,7 +139,6 @@
     "toolTip": {
       "github": "Github",
       "linkedin": "LinkedIn",
-      "blogger": "Blogger",
       "portfolio": "Portfolio"
     }
   }

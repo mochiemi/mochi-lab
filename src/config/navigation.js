@@ -1,19 +1,17 @@
+// config/navigation.js
 export const navigationConfig = [
   {
     id: 'home',
     labelKey: 'nav.home',
-    items: [
-      {
-        path: '/',
-        labelKey: 'nav.home',
-        icon: 'hi-home'
-      },
-      {
-        path: '/blog',
-        labelKey: 'nav.blog',
-        icon: 'oi-pencil'
-      }
-    ]
+    path: '/',
+    isDirectLink: true 
+  },
+  {
+    id: 'blog',
+    labelKey: 'nav.blog',
+    path: '/blog',
+    icon: 'oi-pencil',
+    isDirectLink: true 
   },
   {
     id: 'about',
@@ -36,30 +34,20 @@ export const navigationConfig = [
     labelKey: 'nav.library',
     items: [
       {
-        path: '/components',
-        labelKey: 'nav.components',
-        icon: 'md-settingssuggest-outlined'
-      },
-      {
-        path: '/icons',
-        labelKey: 'nav.icons',
-        icon: 'oi-star'
+        path: '/grade-horaria',
+        labelKey: 'Grade Horária',
+        icon: 'bi-calendar-heart'
       }
     ]
   },
   {
-    id: 'more',
-    labelKey: 'nav.more',
+    id: 'tools',
+    labelKey: 'nav.tools',
     items: [
       {
         path: '/i-list',
         labelKey: 'nav.iList',
         icon: 'bi-card-checklist'
-      },
-      {
-        path: '/grade-horaria',
-        labelKey: 'Grade Horária',
-        icon: 'bi-calendar-heart'
       }
     ]
   }

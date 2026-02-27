@@ -1,28 +1,27 @@
 <template>
   <div class="tab-content">
     <section class="catalog-section">
-      <h2><OhVueIcon name="bi-play-circle" /> {{ $t('components.carousel.title') }}</h2>
-      <p class="section-description">{{ $t('components.carousel.description') }}</p>
+      <h2><OhVueIcon name="bi-play-circle" /> Carrossel</h2>
+      <p class="section-description">Componente de carrossel para exibir slides interativos com suporte a autoplay, múltiplos slides e diferentes variações de cartões.</p>
       <Alert type="warning" dismissible>
-        <OhVueIcon name="io-construct" class="alert-icon"/> {{ $t('components.carousel.warning') }}
+        <OhVueIcon name="io-construct" class="alert-icon"/> Este componente está em desenvolvimento e pode sofrer alterações.
       </Alert>
       <div class="component-demo">
 
-        <h3>{{ $t('components.carousel.demos.basic.title') }}</h3>
+        <h3>Básico</h3>
         <Carousel 
           :slides="basicSlides" 
-          :title="$t('components.carousel.demos.basic.carouselTitle')"
+          title="Projetos Recentes"
           :autoplay="false"
           size="medium"
           @slide-change="handleSlideChange"
           @slide-action="handleSlideAction"
         />
 
-
-        <h3>{{ $t('components.carousel.demos.autoplay.title') }}</h3>
+        <h3>Com Autoplay</h3>
         <Carousel 
           :slides="autoplaySlides" 
-          :title="$t('components.carousel.demos.autoplay.carouselTitle')"
+          title="Depoimentos"
           :autoplay="true"
           :autoplay-interval="4000"
           :show-status="true"
@@ -31,11 +30,10 @@
           @slide-change="handleSlideChange"
         />
 
-
-        <h3>{{ $t('components.carousel.demos.multiple.title') }}</h3>
+        <h3>Múltiplos Slides</h3>
         <Carousel 
           :slides="multiSlides" 
-          :title="$t('components.carousel.demos.multiple.carouselTitle')"
+          title="Nossos Serviços"
           :slides-per-view="2"
           :autoplay="true"
           :autoplay-interval="3500"
@@ -43,11 +41,10 @@
           size="small"
         />
 
-
-        <h3>{{ $t('components.carousel.demos.images.title') }}</h3>
+        <h3>Galeria de Imagens</h3>
         <Carousel 
           :slides="imageSlides" 
-          :title="$t('components.carousel.demos.images.carouselTitle')"
+          title="Galeria"
           :show-indicators="true"
           :show-controls="true"
           card-variant="image"
@@ -57,38 +54,35 @@
       </div>
 
       <div class="demo-controls">
-        <h3>{{ $t('components.carousel.demos.disabled.title') }}</h3>
+        <h3>Carrossel Desabilitado</h3>
         <Carousel 
           :slides="basicSlides" 
-          :title="$t('components.carousel.demos.disabled.carouselTitle')"
+          title="Controles Desabilitados"
           :show-controls="false"
           :show-indicators="false"
           :autoplay="true"
           size="small"
         />
-        <h4>{{ $t('components.carousel.demoControls.title') }}</h4>
+        <h4>Controles de Demonstração</h4>
         <div class="controls-grid">
           <Button size="small" @click="toggleAutoplay">
-            {{ isAutoplayEnabled ? 
-                $t('components.carousel.demoControls.disableAutoplay') : 
-                $t('components.carousel.demoControls.enableAutoplay') 
-            }}
+            {{ isAutoplayEnabled ? 'Desabilitar Autoplay' : 'Habilitar Autoplay' }}
           </Button>
           <Button size="small" variant="secondary" @click="resetCarousel">
-            {{ $t('components.carousel.demoControls.reset') }}
+            Reiniciar
           </Button>
           <Badge variant="primary">
-            {{ $t('components.carousel.demoControls.currentSlide', { current: currentSlide + 1 }) }}
+            Slide Atual: {{ currentSlide + 1 }}
           </Badge>
         </div>
       </div>
     </section>
 
     <section class="catalog-section">
-      <h2><OhVueIcon name="oi-pencil" /> {{ $t('components.carousel.documentation.title') }}</h2>
+      <h2><OhVueIcon name="oi-pencil" /> Documentação</h2>
       
       <div class="props-documentation">
-        <h3>{{ $t('components.carousel.documentation.props.title') }}</h3>
+        <h3>Propriedades</h3>
         <div class="props-grid">
           <div 
             v-for="prop in propsList" 
@@ -97,12 +91,12 @@
           >
             <strong>{{ prop.name }}</strong>
             <span>{{ prop.type }}</span>
-            <span>{{ $t(prop.description) }}</span>
+            <span>{{ prop.description }}</span>
             <code>{{ prop.default }}</code>
           </div>
         </div>
 
-        <h3>{{ $t('components.carousel.documentation.events.title') }}</h3>
+        <h3>Eventos</h3>
         <div class="events-grid">
           <div 
             v-for="event in eventsList" 
@@ -110,12 +104,12 @@
             class="event-item"
           >
             <strong>{{ event.name }}</strong>
-            <span>{{ $t(event.description) }}</span>
+            <span>{{ event.description }}</span>
             <code>{{ event.signature }}</code>
           </div>
         </div>
 
-        <h3>{{ $t('components.carousel.documentation.slots.title') }}</h3>
+        <h3>Slots</h3>
         <div class="slots-grid">
           <div 
             v-for="slot in slotsList" 
@@ -123,19 +117,19 @@
             class="slot-item"
           >
             <strong>{{ slot.name }}</strong>
-            <span>{{ $t(slot.description) }}</span>
+            <span>{{ slot.description }}</span>
             <code>{{ slot.scope }}</code>
           </div>
         </div>
 
-        <h3>{{ $t('components.carousel.documentation.usage.title') }}</h3>
+        <h3>Exemplos de Uso</h3>
         <div class="usage-examples">
           <div class="example">
-            <h4>{{ $t('components.carousel.documentation.usage.basicExample.title') }}</h4>
+            <h4>Exemplo Básico</h4>
             <pre><code>{{ basicExampleCode }}</code></pre>
           </div>
           <div class="example">
-            <h4>{{ $t('components.carousel.documentation.usage.customSlide.title') }}</h4>
+            <h4>Slide Personalizado</h4>
             <pre><code>{{ customSlideExampleCode }}</code></pre>
           </div>
         </div>
@@ -146,209 +140,206 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
 import Carousel from '@/components/ui/Carousel.vue'
 import Button from '@/components/ui/Button.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Alert from '@/components/ui/Alert.vue'
 
-const { t } = useI18n()
-
 const currentSlide = ref(0)
 const isAutoplayEnabled = ref(false)
 
-const basicSlides = computed(() => [
+const basicSlides = [
   {
-    title: t('components.carousel.slides.basic.project1.title'),
-    description: t('components.carousel.slides.basic.project1.description'),
+    title: 'Mochilab',
+    description: 'Plataforma de gerenciamento de projetos',
     image: '/src/assets/images/mochilab-logo.png',
-    status: 'completed',
-    action: t('components.carousel.slides.basic.project1.action')
+    status: 'Concluído',
+    action: 'Ver Projeto'
   },
   {
-    title: t('components.carousel.slides.basic.project2.title'),
-    description: t('components.carousel.slides.basic.project2.description'),
+    title: 'Mochis Profile',
+    description: 'Perfil de usuário interativo',
     image: '/src/assets/images/Mochisprofile.png',
-    status: 'in-progress',
-    action: t('components.carousel.slides.basic.project2.action')
+    status: 'Em Andamento',
+    action: 'Ver Projeto'
   },
   {
-    title: t('components.carousel.slides.basic.project3.title'),
-    description: t('components.carousel.slides.basic.project3.description'),
+    title: 'Selfie Profile',
+    description: 'Galeria de perfil personalizada',
     image: '/src/assets/images/profile-selfie.jpg',
-    status: 'completed',
-    action: t('components.carousel.slides.basic.project3.action')
+    status: 'Concluído',
+    action: 'Ver Projeto'
   }
-])
+]
 
-const autoplaySlides = computed(() =>[
+const autoplaySlides = [
   {
-    content: t('components.carousel.slides.testimonials.testimonial1.content'),
-    author: t('components.carousel.slides.testimonials.testimonial1.author'),
-    role: t('components.carousel.slides.testimonials.testimonial1.role')
+    content: 'Excelente componente! Muito fácil de usar e altamente customizável.',
+    author: 'João Silva',
+    role: 'Desenvolvedor Front-end'
   },
   {
-    content: t('components.carousel.slides.testimonials.testimonial2.content'),
-    author: t('components.carousel.slides.testimonials.testimonial2.author'),
-    role: t('components.carousel.slides.testimonials.testimonial2.role')
+    content: 'A funcionalidade de autoplay é perfeita para minhas apresentações.',
+    author: 'Maria Santos',
+    role: 'Designer UI/UX'
   },
   {
-    content: t('components.carousel.slides.testimonials.testimonial3.content'),
-    author: t('components.carousel.slides.testimonials.testimonial3.author'),
-    role: t('components.carousel.slides.testimonials.testimonial3.role')
+    content: 'Suporte a múltiplos slides por visualização é incrível!',
+    author: 'Pedro Costa',
+    role: 'Gerente de Produto'
   }
-])
+]
 
-const multiSlides = computed(() => [
+const multiSlides = [
   {
-    title: t('components.carousel.slides.services.service1.title'),
-    description: t('components.carousel.slides.services.service1.description'),
+    title: 'Design UI/UX',
+    description: 'Criação de interfaces modernas e intuitivas',
     icon: 'oi-pencil',
-    action: t('components.carousel.slides.services.learnMore')
+    action: 'Saiba Mais'
   },
   {
-    title: t('components.carousel.slides.services.service2.title'),
-    description: t('components.carousel.slides.services.service2.description'),
+    title: 'Desenvolvimento Web',
+    description: 'Sites e aplicações responsivas',
     icon: 'hi-solid-code',
-    action: t('components.carousel.slides.services.learnMore')
+    action: 'Saiba Mais'
   },
   {
-    title: t('components.carousel.slides.services.service3.title'),
-    description: t('components.carousel.slides.services.service3.description'),
+    title: 'Consultoria',
+    description: 'Orientação especializada em tecnologia',
     icon: 'oi-check',
-    action: t('components.carousel.slides.services.learnMore')
+    action: 'Saiba Mais'
   },
   {
-    title: t('components.carousel.slides.services.service4.title'),
-    description: t('components.carousel.slides.services.service4.description'),
+    title: 'Treinamentos',
+    description: 'Cursos e workshops personalizados',
     icon: 'md-librarybooks-outlined',
-    action: t('components.carousel.slides.services.learnMore')
+    action: 'Saiba Mais'
   }
-])
+]
 
-const imageSlides = computed(() =>[
+const imageSlides = [
   {
-    title: t('components.carousel.slides.images.image1.title'),
-    description: t('components.carousel.slides.images.image1.description'),
+    title: 'Logo Mochilab',
+    description: 'Identidade visual do projeto',
     image: '/src/assets/images/mochilab-logo.png'
   },
   {
-    title: t('components.carousel.slides.images.image2.title'),
-    description: t('components.carousel.slides.images.image2.description'),
+    title: 'Perfil Mochis',
+    description: 'Interface de perfil de usuário',
     image: '/src/assets/images/Mochisprofile.png'
   },
   {
-    title: t('components.carousel.slides.images.image3.title'),
-    description: t('components.carousel.slides.images.image3.description'),
+    title: 'Selfie Profile',
+    description: 'Exemplo de imagem de perfil',
     image: '/src/assets/images/profile-selfie.jpg'
   }
-])
+]
 
-const propsList = computed(() => [
+const propsList = [
   {
     name: 'slides',
     type: 'Array',
-    description: 'components.carousel.documentation.props.slides',
+    description: 'Array de objetos contendo os dados dos slides',
     default: '[]'
   },
   {
     name: 'title',
     type: 'String',
-    description: 'components.carousel.documentation.props.title',
+    description: 'Título do carrossel',
     default: "''"
   },
   {
     name: 'autoplay',
     type: 'Boolean',
-    description: 'components.carousel.documentation.props.autoplay',
+    description: 'Ativa a reprodução automática',
     default: 'false'
   },
   {
     name: 'autoplayInterval',
     type: 'Number',
-    description: 'components.carousel.documentation.props.autoplayInterval',
+    description: 'Intervalo entre slides em milissegundos',
     default: '5000'
   },
   {
     name: 'showControls',
     type: 'Boolean',
-    description: 'components.carousel.documentation.props.showControls',
+    description: 'Mostra os botões de navegação',
     default: 'true'
   },
   {
     name: 'showIndicators',
     type: 'Boolean',
-    description: 'components.carousel.documentation.props.showIndicators',
+    description: 'Mostra os indicadores de slide',
     default: 'true'
   },
   {
     name: 'showStatus',
     type: 'Boolean',
-    description: 'components.carousel.documentation.props.showStatus',
+    description: 'Mostra o status atual do slide',
     default: 'false'
   },
   {
     name: 'loop',
     type: 'Boolean',
-    description: 'components.carousel.documentation.props.loop',
+    description: 'Permite loop infinito',
     default: 'true'
   },
   {
     name: 'slidesPerView',
     type: 'Number',
-    description: 'components.carousel.documentation.props.slidesPerView',
+    description: 'Número de slides visíveis por vez',
     default: '1'
   },
   {
     name: 'size',
     type: 'String',
-    description: 'components.carousel.documentation.props.size',
+    description: 'Tamanho do carrossel (small, medium, large)',
     default: "'medium'"
   },
   {
     name: 'cardVariant',
     type: 'String',
-    description: 'components.carousel.documentation.props.cardVariant',
+    description: 'Variante do cartão (default, testimonial, service, image)',
     default: "'default'"
   }
-])
+]
 
-const eventsList = computed(() => [
+const eventsList = [
   {
     name: '@slide-change',
-    description: 'components.carousel.documentation.events.slideChange',
+    description: 'Emitido quando o slide atual muda',
     signature: '(index: number) => void'
   },
   {
     name: '@slide-action',
-    description: 'components.carousel.documentation.events.slideAction',
+    description: 'Emitido quando uma ação do slide é acionada',
     signature: '(slide: object) => void'
   }
-])
+]
 
-const slotsList = computed(() => [
+const slotsList = [
   {
     name: '#slide',
-    description: 'components.carousel.documentation.slots.slide',
+    description: 'Template personalizado para cada slide',
     scope: '{ slide, index }'
   },
   {
     name: '#header',
-    description: 'components.carousel.documentation.slots.header',
+    description: 'Template personalizado para o cabeçalho',
     scope: '-'
   }
-])
+]
 
-const basicExampleCode = computed(() => `<Carousel
+const basicExampleCode = `<Carousel
   :slides="slides"
-  title="My Carousel"
+  title="Meu Carrossel"
   :autoplay="true"
   :autoplay-interval="3000"
   size="medium"
   @slide-change="handleSlideChange"
-/>`)
+/>`
 
-const customSlideExampleCode = computed(() => `<Carousel :slides="slides" title="Custom Slides">
+const customSlideExampleCode = `<Carousel :slides="slides" title="Slides Personalizados">
   <template #slide="{ slide }">
     <Card class="custom-slide">
       <img :src="slide.image" :alt="slide.title" />
@@ -356,15 +347,15 @@ const customSlideExampleCode = computed(() => `<Carousel :slides="slides" title=
       <p>{{ slide.description }}</p>
     </Card>
   </template>
-</Carousel>`)
+</Carousel>`
 
 const handleSlideChange = (index) => {
   currentSlide.value = index
-  console.log('Slide changed to:', index)
+  console.log('Slide alterado para:', index)
 }
 
 const handleSlideAction = (slide) => {
-  console.log('Slide action:', slide.title)
+  console.log('Ação do slide:', slide.title)
 }
 
 const toggleAutoplay = () => {
@@ -428,7 +419,7 @@ const resetCarousel = () => {
   margin-top: 2em;
   padding: 1.5em;
   background: var(--inner-surface);
-  border-radius: 50%;
+  border-radius: 8px;
   border: 1px solid var(--border);
 }
 

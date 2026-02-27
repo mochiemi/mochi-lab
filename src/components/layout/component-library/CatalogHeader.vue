@@ -1,13 +1,12 @@
 <template>
   <header class="catalog-header">
-    <h1><OhVueIcon name="md-settingssuggest-outlined" class="icon"/> {{ $t('components.header.title')}}</h1>
-    <p>{{$t('components.header.description')}}</p>
+    <h1><OhVueIcon name="md-settingssuggest-outlined" class="icon"/> Catálogo de Componentes</h1>
+    <p>Explore nossa biblioteca de componentes reutilizáveis com demonstrações interativas e documentação completa.</p>
   </header>
 </template>
 
 <script setup>
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+import { OhVueIcon } from 'oh-vue-icons'
 </script>
 
 <style scoped>

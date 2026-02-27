@@ -2,24 +2,24 @@
   <div class="tab-content">
     <!-- Dropdown -->
     <section class="catalog-section">
-      <h2><OhVueIcon name="oi-folder" /> {{ $t('components.tabs.navigation.dropdown.title') }}</h2>
-      <p class="section-description">{{ $t('components.tabs.navigation.dropdown.description') }}</p>
+      <h2><OhVueIcon name="oi-folder" /> Dropdown</h2>
+      <p class="section-description">Menus suspensos para organizar ações e navegação.</p>
       
       <div class="component-demo">
         <div class="dropdown-demo-grid">
-          <Dropdown :label="$t('components.tabs.navigation.dropdown.examples.mainMenu')" dropdown-id="main-menu-sample">
+          <Dropdown label="Menu Principal" dropdown-id="main-menu-sample">
             <div class="dropdown-content">
-              <a href="#" class="dropdown-item"><OhVueIcon name="oi-person" /> {{ $t('components.tabs.navigation.dropdown.examples.profile') }}</a>
-              <a href="#" class="dropdown-item"><OhVueIcon name="oi-gear" /> {{ $t('components.tabs.navigation.dropdown.examples.settings') }}</a>
-              <a href="#" class="dropdown-item"><OhVueIcon name="oi-sign-out" /> {{ $t('components.tabs.navigation.dropdown.examples.logout') }}</a>
+              <a href="#" class="dropdown-item"><OhVueIcon name="oi-person" /> Perfil</a>
+              <a href="#" class="dropdown-item"><OhVueIcon name="oi-gear" /> Configurações</a>
+              <a href="#" class="dropdown-item"><OhVueIcon name="oi-sign-out" /> Sair</a>
             </div>
           </Dropdown>
 
-          <Dropdown :label="$t('components.tabs.navigation.dropdown.examples.quickActions')" dropdown-id="quick-actions">
+          <Dropdown label="Ações Rápidas" dropdown-id="quick-actions">
             <div class="dropdown-content">
-              <a href="#" class="dropdown-item"><OhVueIcon name="oi-download" /> {{ $t('components.tabs.navigation.dropdown.examples.export') }}</a>
-              <a href="#" class="dropdown-item"><OhVueIcon name="oi-upload" /> {{ $t('components.tabs.navigation.dropdown.examples.import') }}</a>
-              <a href="#" class="dropdown-item"><OhVueIcon name="oi-reload" /> {{ $t('components.tabs.navigation.dropdown.examples.refresh') }}</a>
+              <a href="#" class="dropdown-item"><OhVueIcon name="oi-download" /> Exportar</a>
+              <a href="#" class="dropdown-item"><OhVueIcon name="oi-upload" /> Importar</a>
+              <a href="#" class="dropdown-item"><OhVueIcon name="oi-reload" /> Atualizar</a>
             </div>
           </Dropdown>
         </div>
@@ -27,32 +27,32 @@
     </section>
 
     <section class="catalog-section">
-      <h2><OhVueIcon name="oi-file" /> {{ $t('components.tabs.navigation.tabs.title') }}</h2>
-      <p class="section-description">{{ $t('components.tabs.navigation.tabs.description') }}</p>
+      <h2><OhVueIcon name="oi-file" /> Abas</h2>
+      <p class="section-description">Organize conteúdo em abas para melhor navegação.</p>
       
       <div class="component-demo">
         <Tabs v-model="demoActiveTab" :tabs="demoTabs" class="demo-tabs">
           <template #tab-0>
             <div class="tab-content-inner">
-              <h3>{{ $t('components.tabs.navigation.tabs.examples.tab1') }}</h3>
-              <p>{{ $t('components.tabs.navigation.tabs.examples.tab1Content') }}</p>
-              <Button variant="primary">{{ $t('components.tabs.navigation.tabs.examples.action1') }}</Button>
+              <h3>Conteúdo da Aba 1</h3>
+              <p>Este é o conteúdo da primeira aba. Você pode colocar qualquer componente aqui.</p>
+              <Button variant="primary">Ação 1</Button>
             </div>
           </template>
           
           <template #tab-1>
             <div class="tab-content-inner">
-              <h3>{{ $t('components.tabs.navigation.tabs.examples.tab2') }}</h3>
-              <p>{{ $t('components.tabs.navigation.tabs.examples.tab2Content') }}</p>
-              <Button variant="secondary">{{ $t('components.tabs.navigation.tabs.examples.action2') }}</Button>
+              <h3>Conteúdo da Aba 2</h3>
+              <p>Conteúdo da segunda aba com informações diferentes.</p>
+              <Button variant="secondary">Ação 2</Button>
             </div>
           </template>
           
           <template #tab-2>
             <div class="tab-content-inner">
-              <h3>{{ $t('components.tabs.navigation.tabs.examples.tab3') }}</h3>
-              <p>{{ $t('components.tabs.navigation.tabs.examples.tab3Content') }}</p>
-              <Button variant="success">{{ $t('components.tabs.navigation.tabs.examples.action3') }}</Button>
+              <h3>Conteúdo da Aba 3</h3>
+              <p>Mais conteúdo na terceira aba do componente.</p>
+              <Button variant="success">Ação 3</Button>
             </div>
           </template>
         </Tabs>
@@ -60,7 +60,6 @@
     </section>
   </div>
 </template>
-
 
 <script setup>
 import { ref } from 'vue'

@@ -13,24 +13,33 @@
                             <OhVueIcon name="fa-linkedin" />
                         </a>
                     </Tooltip>
-                    <Tooltip :content="$t('footer.toolTip.blogger')" position="top">
-                        <a href="https://cronicamenteindecisa.blogspot.com/" target="_blank" class="social-link blogger">
-                            <OhVueIcon name="fa-blogger" />
-                        </a>
-                    </Tooltip>
                     <Tooltip :content="$t('footer.toolTip.portfolio')" position="top">
-                        <a href="https://tiemi-suyama.netlify.app/" target="_blank" class="social-link portifolio">
+                        <a href="https://tiemi-suyama.netlify.app/" target="_blank" class="social-link portfolio">
                             <Mochilogo size="small" class="mochilogo"/>
                         </a>
                     </Tooltip>
                 </div> 
+                
                 <div class="footer-column center-column">
                     <p class="copyright-text">
                         &copy; 2025-{{ currentYear }} Mochi Lab 
                         <a href="mailto:tiemi.suyama@gmail.com" class="email-link">tiemi.suyama@gmail.com</a>
                     </p>
                 </div>
-                <div class="footer-column"></div>
+                
+                <div class="footer-column right-column">
+                    <div class="quick-links">
+                        <div class="quick-links-list">
+                            <router-link to="/" class="quick-link-text">{{ $t('nav.home') }}</router-link>
+                            <span class="quick-link-separator">•</span>
+                            <router-link to="/blog" class="quick-link-text">{{ $t('nav.blog') }}</router-link>
+                            <span class="quick-link-separator">•</span>
+                            <router-link to="/about" class="quick-link-text">{{ $t('nav.aboutThis') }}</router-link>
+                            <span class="quick-link-separator">•</span>
+                            <router-link to="/contact" class="quick-link-text">{{ $t('nav.contact') }}</router-link>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
@@ -41,7 +50,6 @@ import { OhVueIcon } from 'oh-vue-icons';
 import { ref } from 'vue';
 import Mochilogo from '@/components/misc/Logo.vue'
 import Tooltip from '../ui/Tooltip.vue';
-
 
 const currentYear = ref(new Date().getFullYear());
 </script>
@@ -78,9 +86,57 @@ const currentYear = ref(new Date().getFullYear());
     text-align: center;
 }
 
+.right-column {
+    justify-content: flex-end;
+}
+
 .social-links {
     justify-content: flex-start;
     gap: 1em;
+}
+
+.quick-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.quick-links-title {
+    color: var(--title-secondary);
+    font-family: "Shantell Sans", cursive;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.quick-links-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.quick-link-text {
+    color: var(--link-footer);
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.quick-link-text:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+    transform: translateY(-1px);
+}
+
+.quick-link-separator {
+    color: var(--border-strong);
+    font-size: 0.8rem;
+    opacity: 0.7;
 }
 
 .copyright-text {
@@ -150,17 +206,11 @@ const currentYear = ref(new Date().getFullYear());
     color: var(--secondary) !important;
 }
 
-.social-link:hover .social-tooltip {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-}
-
 @media (max-width: 768px) {
     .footer-grid {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
-        gap: 1rem;
+        gap: 1.5rem;
         text-align: center;
     }
     
@@ -171,6 +221,20 @@ const currentYear = ref(new Date().getFullYear());
     .social-links {
         justify-content: center;
         gap: 1rem;
+    }
+    
+    .right-column {
+        justify-content: center;
+    }
+    
+    .quick-links {
+        justify-content: center;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .quick-links-list {
+        justify-content: center;
     }
     
     .copyright-text {
@@ -185,6 +249,21 @@ const currentYear = ref(new Date().getFullYear());
     .social-link:deep(svg) {
         width: 25px;
         height: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .quick-links-list {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .quick-link-separator {
+        display: none;
+    }
+    
+    .quick-link-text {
+        padding: 0.25rem 0;
     }
 }
 </style>

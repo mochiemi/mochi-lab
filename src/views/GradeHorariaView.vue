@@ -5,7 +5,7 @@
       <h1 class="schedule-title">
         <OhVueIcon name="bi-calendar-heart" class="title-icon" />
         Farmácia · 2026/1
-        <Badge variant="secondary" size="medium" class="period-badge">
+        <Badge variant="primary" size="medium" class="period-badge">
           {{ selectedPeriod === 'all' ? 'Todas' : `${selectedPeriod}º Período` }}
         </Badge>
       </h1>
@@ -21,29 +21,32 @@
         </div>
       </div>
 
-      <!-- Filtros por período -->
+      <!-- Filtros por período (simplificados) -->
       <div class="period-filters">
-        <Badge 
-          variant="primary" 
+        <Badge
+          variant="primary"
           size="medium"
+          :outlined="selectedPeriod !== 'all'"
           :class="{ 'active-filter': selectedPeriod === 'all' }"
           @click="selectedPeriod = 'all'"
         >
           <OhVueIcon name="oi-eye" /> Todas
         </Badge>
-        <Badge 
-          v-for="period in availablePeriods" 
+        <Badge
+          v-for="period in availablePeriods"
           :key="period"
-          :variant="getPeriodVariant(period)"
+          variant="primary"
           size="medium"
+          :outlined="selectedPeriod !== period"
           :class="{ 'active-filter': selectedPeriod === period }"
           @click="selectedPeriod = period"
         >
           <OhVueIcon :name="getPeriodIcon(period)" /> {{ period }}º Período
         </Badge>
-        <Badge 
-          variant="tag" 
+        <Badge
+          variant="primary"
           size="medium"
+          :outlined="selectedPeriod !== 'elective'"
           :class="{ 'active-filter': selectedPeriod === 'elective' }"
           @click="selectedPeriod = 'elective'"
         >
@@ -52,7 +55,9 @@
       </div>
     </div>
 
+    <!-- Grade de Horários -->
     <div class="schedule-grid">
+      <!-- Mobile View -->
       <div class="mobile-view">
         <Accordion
           :items="accordionItems"
@@ -67,7 +72,6 @@
                 v-for="(classItem, index) in item.classes"
                 :key="`mobile-${item.day}-${index}`"
                 :classItem="classItem"
-                :showTooltips="true"
               />
               <div v-if="item.classes.length === 0" class="empty-state">
                 <OhVueIcon name="oi-sun" class="empty-icon" />
@@ -91,7 +95,7 @@
             <tbody>
               <tr v-for="timeSlot in filteredTimeSlots" :key="timeSlot" class="time-row">
                 <td class="time-cell">
-                  <Badge :variant="'primary'" size="small">
+                  <Badge variant="primary" size="small" outlined>
                     <OhVueIcon name="wi-time2" /> {{ timeSlot }}
                   </Badge>
                 </td>
@@ -100,7 +104,6 @@
                     <ClassCard
                       :classItem="getClassAtTimeSlot(day, timeSlot)"
                       :compact="true"
-                      :showTooltips="true"
                     />
                   </template>
                   <div v-else class="cell-empty">
@@ -114,25 +117,7 @@
       </div>
     </div>
 
-    <!-- Legenda -->
-    <div class="schedule-legend">
-      <div class="legend-item">
-        <span class="legend-color required"></span>
-        <span>Obrigatórias</span>
-      </div>
-      <div class="legend-item">
-        <span class="legend-color elective"></span>
-        <span>Eletivas</span>
-      </div>
-      <div class="legend-item">
-        <span class="legend-color practical-1"></span>
-        <span>Prática P1</span>
-      </div>
-      <div class="legend-item">
-        <span class="legend-color practical-2"></span>
-        <span>Prática T1</span>
-      </div>
-    </div>
+    <!-- LEGENDA REMOVIDA -->
   </div>
 </template>
 
@@ -145,7 +130,6 @@ import Accordion from '@/components/ui/Accordion.vue'
 import ClassCard from '@/components/layout/cards/ClassCard.vue'
 import type { ClassItem } from '@/stores/schedule'
 
-// Interface para o item do accordion
 interface AccordionItem {
   id: string
   day: string
@@ -156,35 +140,29 @@ interface AccordionItem {
 
 const scheduleStore = useScheduleStore()
 const expandedDays = ref<string[]>([])
-const selectedPeriod = ref<string | number>('all') // 'all', 3, 4, 6, 'elective'
+const selectedPeriod = ref<string | number>('all')
 
-// Dias da semana
 const weekDays = scheduleStore.weekDays
 
-// Períodos disponíveis
 const availablePeriods = computed(() => {
   const periods = new Set<number>()
   scheduleStore.allClasses.forEach((c: ClassItem) => periods.add(c.period))
   return Array.from(periods).filter((p: number) => p > 0).sort((a: number, b: number) => a - b)
 })
 
-// Total de disciplinas e aulas
 const totalSubjects = computed(() => scheduleStore.totalSubjects)
 const totalClasses = computed(() => scheduleStore.totalClasses)
 
-// Filtrar classes baseado no período selecionado
 const filteredClasses = computed(() => {
   if (selectedPeriod.value === 'all') {
     return scheduleStore.allClasses
   } else if (selectedPeriod.value === 'elective') {
     return scheduleStore.getClassesByType('elective')
   } else {
-    // CORREÇÃO: usar Number() em vez de "as number"
     return scheduleStore.getClassesByPeriod(Number(selectedPeriod.value))
   }
 })
 
-// Horários únicos filtrados
 const filteredTimeSlots = computed(() => {
   const slots = new Set<string>()
   filteredClasses.value.forEach((c: ClassItem) => slots.add(c.time))
@@ -195,11 +173,10 @@ const filteredTimeSlots = computed(() => {
   })
 })
 
-// Classes por dia (filtradas)
 const filteredClassesByDay = computed(() => {
   const map = new Map<string, ClassItem[]>()
   weekDays.forEach((day: string) => map.set(day, []))
-  
+
   filteredClasses.value.forEach((c: ClassItem) => {
     if (map.has(c.day)) {
       map.get(c.day)!.push(c)
@@ -209,11 +186,10 @@ const filteredClassesByDay = computed(() => {
   map.forEach((list: ClassItem[]) => {
     list.sort((a: ClassItem, b: ClassItem) => a.time.localeCompare(b.time))
   })
-  
+
   return map
 })
 
-// Items para accordion mobile
 const accordionItems = computed(() => {
   return weekDays.map((day: string) => ({
     id: day,
@@ -224,15 +200,13 @@ const accordionItems = computed(() => {
   }))
 })
 
-// Helper para pegar classes filtradas por dia
 const getFilteredClassesByDay = (day: string): ClassItem[] => {
   return filteredClassesByDay.value.get(day) || []
 }
 
-// Matriz filtrada
 const filteredClassMatrix = computed(() => {
   const matrix: Record<string, Record<string, ClassItem | null>> = {}
-  
+
   weekDays.forEach((day: string) => {
     matrix[day] = {}
     filteredTimeSlots.value.forEach((slot: string) => {
@@ -248,21 +222,15 @@ const filteredClassMatrix = computed(() => {
       dayMatrix[c.time] = c
     }
   })
-  
+
   return matrix
 })
 
-// Pegar aula em dia/horário específico
 const getClassAtTimeSlot = (day: string, timeSlot: string): ClassItem | null => {
   return filteredClassMatrix.value[day]?.[timeSlot] || null
 }
 
-// Variantes e ícones para os filtros
-const getPeriodVariant = (period: number): string => {
-  const variants = ['primary', 'secondary', 'success', 'warning', 'error']
-  return variants[(period - 1) % variants.length] || 'primary'
-}
-
+// Ícones para os filtros (variante 'primary' já é a padrão, então removemos a lógica de variant)
 const getPeriodIcon = (period: number): string => {
   const icons = ['bi-1-circle', 'bi-2-circle', 'bi-3-circle', 'bi-4-circle', 'bi-5-circle', 'bi-6-circle', 'bi-7-circle', 'bi-8-circle', 'bi-9-circle']
   return icons[(period - 1) % icons.length] || 'bi-calendar-heart'
@@ -325,7 +293,7 @@ const getPeriodIcon = (period: number): string => {
   color: var(--primary);
 }
 
-/* Period Filters */
+/* Period Filters - Ajustados para usar outline como indicador de inativo */
 .period-filters {
   display: flex;
   gap: 0.75em;
@@ -337,7 +305,8 @@ const getPeriodIcon = (period: number): string => {
 .period-filters .badge {
   cursor: pointer;
   transition: all 0.3s ease;
-  opacity: 0.8;
+  opacity: 0.9;
+  border-width: 2px; /* Garantir uma borda consistente */
 }
 
 .period-filters .badge:hover {
@@ -349,8 +318,11 @@ const getPeriodIcon = (period: number): string => {
 .period-filters .active-filter {
   opacity: 1;
   transform: scale(1.05);
-  border-width: 3px;
+  border-width: 3px; /* Destaca o filtro ativo */
   box-shadow: 0 4px 12px var(--shadow-hover);
+  background: var(--primary) !important; /* Força o fundo no ativo */
+  color: var(--text-contrast) !important;
+  border-color: var(--border-contrast) !important;
 }
 
 /* Schedule Grid */
@@ -396,7 +368,6 @@ const getPeriodIcon = (period: number): string => {
   display: none;
 }
 
-/* Container da tabela para desktop */
 .table-container {
   width: 100%;
   overflow-x: visible;
@@ -407,14 +378,13 @@ const getPeriodIcon = (period: number): string => {
 .schedule-table {
   width: 100%;
   table-layout: fixed;
-  border-collapse: separate; /* Mudado de collapse para separate */
-  border-spacing: 0; /* Remove espaçamento entre células */
+  border-collapse: separate;
+  border-spacing: 0;
   background: var(--surface-primary);
   border-radius: 16px;
   overflow: hidden;
 }
 
-/* Estilização dos cabeçalhos */
 .schedule-table thead tr {
   background: var(--rose-surface);
 }
@@ -430,7 +400,6 @@ const getPeriodIcon = (period: number): string => {
   border-bottom: 3px solid var(--border-primary);
 }
 
-/* Remove bordas duplicadas */
 .schedule-table th:first-child {
   border-top-left-radius: 16px;
 }
@@ -439,7 +408,6 @@ const getPeriodIcon = (period: number): string => {
   border-top-right-radius: 16px;
 }
 
-/* Células do corpo */
 .schedule-table td {
   padding: 0.5em;
   vertical-align: top;
@@ -448,25 +416,29 @@ const getPeriodIcon = (period: number): string => {
   overflow: visible;
 }
 
-/* Coluna de horário - largura fixa e bem definida */
 .time-cell {
-  width: 120px; /* Largura fixa para a coluna de horário */
+  width: 120px;
   min-width: 120px;
   max-width: 120px;
   text-align: center;
   background: var(--sky-blue-surface);
   font-weight: 600;
   white-space: nowrap;
-  border-right: 2px solid var(--border-primary); /* Destaque na separação */
+  border-right: 2px solid var(--border-primary);
 }
 
-/* Colunas de dias da semana - distribuição igual do espaço restante */
+/* Ajuste para o badge de horário na célula */
+.time-cell .badge {
+  background: transparent;
+  border: 1px solid var(--border-secondary);
+  color: var(--text-primary);
+}
+
 .schedule-table td:not(.time-cell),
 .schedule-table th:not(.time-header) {
-  width: calc((100% - 120px) / 5); /* Subtrai a largura fixa do horário e divide pelos 5 dias */
+  width: calc((100% - 120px) / 5);
 }
 
-/* Ajuste específico para os cabeçalhos dos dias */
 .day-header {
   width: calc((100% - 120px) / 5);
 }
@@ -476,12 +448,11 @@ const getPeriodIcon = (period: number): string => {
   position: relative;
   min-height: 100px;
   background-color: var(--surface-primary);
+  transition: background-color 0.2s ease;
 }
 
-/* Efeito hover nas células */
 .schedule-cell:hover {
   background-color: var(--surface-hover);
-  transition: background-color 0.2s ease;
 }
 
 /* Ajustes para o ClassCard dentro da tabela */
@@ -492,6 +463,7 @@ const getPeriodIcon = (period: number): string => {
   font-size: 0.9em;
   border-radius: 8px;
   box-shadow: 0 2px 4px var(--shadow);
+  border-width: 1px; /* Linha mais fina na tabela compacta */
 }
 
 .schedule-cell :deep(.class-card:hover) {
@@ -500,21 +472,23 @@ const getPeriodIcon = (period: number): string => {
 }
 
 .schedule-cell :deep(.class-card .class-code) {
-  font-size: 0.9em;
-  font-weight: bold;
-  white-space: normal;
-  word-break: break-word;
+  font-size: 0.8em;
+  padding: 0.1rem 0.4rem;
 }
 
 .schedule-cell :deep(.class-card .class-name) {
-  font-size: 0.8em;
+  font-size: 0.75em;
   white-space: normal;
   word-break: break-word;
-  margin: 0.25em 0;
+  margin: 0.2em 0;
 }
 
 .schedule-cell :deep(.class-card .class-info) {
-  font-size: 0.75em;
+  font-size: 0.7em;
+}
+
+.schedule-cell :deep(.class-card .info-icon) {
+  font-size: 0.7em;
 }
 
 .cell-empty {
@@ -530,7 +504,6 @@ const getPeriodIcon = (period: number): string => {
   border-radius: 4px;
 }
 
-/* Linhas alternadas para melhor legibilidade */
 .schedule-table tbody tr:nth-child(even) .schedule-cell {
   background-color: var(--surface-secondary);
 }
@@ -538,53 +511,6 @@ const getPeriodIcon = (period: number): string => {
 .schedule-table tbody tr:nth-child(even) .time-cell {
   background-color: var(--sky-blue-surface);
   filter: brightness(0.95);
-}
-
-/* Legenda */
-.schedule-legend {
-  display: flex;
-  gap: 1.5em;
-  flex-wrap: wrap;
-  margin-top: 2em;
-  padding: 1em;
-  background: var(--surface-secondary);
-  border-radius: 8px;
-  justify-content: center;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  font-size: 0.9em;
-  color: var(--text-secondary);
-}
-
-.legend-color {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  border: 2px dashed;
-}
-
-.legend-color.required {
-  background: var(--surface-primary);
-  border-color: var(--border-secondary);
-}
-
-.legend-color.elective {
-  background: var(--surface-primary);
-  border-color: var(--secondary);
-}
-
-.legend-color.practical-1 {
-  background: var(--sky-blue-surface);
-  border-color: var(--sky-blue);
-}
-
-.legend-color.practical-2 {
-  background: var(--rose-surface);
-  border-color: var(--rose);
 }
 
 /* Responsividade */
@@ -627,14 +553,13 @@ const getPeriodIcon = (period: number): string => {
   .schedule-table th {
     padding: 1em;
   }
-  
-  /* Ajuste da largura da coluna de horário em telas maiores */
+
   .time-cell {
     width: 140px;
     min-width: 140px;
     max-width: 140px;
   }
-  
+
   .schedule-table td:not(.time-cell),
   .schedule-table th:not(.time-header) {
     width: calc((100% - 140px) / 5);
@@ -651,7 +576,7 @@ const getPeriodIcon = (period: number): string => {
     min-width: 160px;
     max-width: 160px;
   }
-  
+
   .schedule-table td:not(.time-cell),
   .schedule-table th:not(.time-header) {
     width: calc((100% - 160px) / 5);
@@ -662,13 +587,13 @@ const getPeriodIcon = (period: number): string => {
   .schedule-table {
     font-size: 1em;
   }
-  
+
   .time-cell {
     width: 180px;
     min-width: 180px;
     max-width: 180px;
   }
-  
+
   .schedule-table td:not(.time-cell),
   .schedule-table th:not(.time-header) {
     width: calc((100% - 180px) / 5);

@@ -1,103 +1,103 @@
 <template>
   <div class="tab-content">
     <section class="catalog-section">
-      <h2><OhVueIcon name="oi-arrow-right" /> {{ $t('components.tabs.forms.button.title') }}</h2>
-      <p class="section-description">{{ $t('components.tabs.forms.button.description') }}</p>
+      <h2><OhVueIcon name="oi-arrow-right" /> Botões</h2>
+      <p class="section-description">Componentes de botão com diferentes variantes, tamanhos e estados.</p>
       
       <div class="component-demo">
-        <h3>Variants</h3>
+        <h3>Variantes</h3>
         <div class="demo-grid">
-          <Button variant="primary">{{ $t('components.tabs.forms.button.variants.primary') }}</Button>
-          <Button variant="secondary">{{ $t('components.tabs.forms.button.variants.secondary') }}</Button>
-          <Button variant="outline">{{ $t('components.tabs.forms.button.variants.outline') }}</Button>
-          <Button variant="danger">{{ $t('components.tabs.forms.button.variants.danger') }}</Button>
+          <Button variant="primary">Primário</Button>
+          <Button variant="secondary">Secundário</Button>
+          <Button variant="outline">Contorno</Button>
+          <Button variant="danger">Perigo</Button>
         </div>
 
-        <h3>Sizes</h3>
+        <h3>Tamanhos</h3>
         <div class="demo-grid">
-          <Button size="small">{{ $t('components.tabs.forms.button.sizes.small') }}</Button>
-          <Button size="medium">{{ $t('components.tabs.forms.button.sizes.medium') }}</Button>
-          <Button size="large">{{ $t('components.tabs.forms.button.sizes.large') }}</Button>
+          <Button size="small">Pequeno</Button>
+          <Button size="medium">Médio</Button>
+          <Button size="large">Grande</Button>
         </div>
 
-        <h3>States</h3>
+        <h3>Estados</h3>
         <div class="demo-grid">
-          <Button disabled>{{ $t('components.tabs.forms.button.states.disabled') }}</Button>
-          <Button loading>{{ $t('components.tabs.forms.button.states.loading') }}</Button>
+          <Button disabled>Desabilitado</Button>
+          <Button loading>Carregando</Button>
         </div>
       </div>
     </section>
 
     <section class="catalog-section">
-      <h2><OhVueIcon name="oi-list" /> {{ $t('components.tabs.forms.formControls.title') }}</h2>
-      <p class="section-description">{{ $t('components.tabs.forms.formControls.description') }}</p>
+      <h2><OhVueIcon name="oi-list" /> Controles de Formulário</h2>
+      <p class="section-description">Componentes interativos para seleção e alternância de opções.</p>
       
       <div class="component-demo">
         <h3><OhVueIcon name="oi-check" /> Checkbox</h3>
         <div class="form-controls-grid">
-          <Checkbox v-model="formData.checkbox1" :label="$t('components.tabs.forms.formControls.checkbox.default')" />
-          <Checkbox v-model="formData.checkbox2" :label="$t('components.tabs.forms.formControls.checkbox.checked')" />
-          <Checkbox v-model="formData.checkbox3" :label="$t('components.tabs.forms.formControls.checkbox.disabled')" disabled />
-          <Checkbox v-model="formData.checkbox4" :label="$t('components.tabs.forms.formControls.checkbox.disabledChecked')" :model-value="true" disabled />
+          <Checkbox v-model="formData.checkbox1" label="Checkbox padrão" />
+          <Checkbox v-model="formData.checkbox2" label="Checkbox marcado" />
+          <Checkbox v-model="formData.checkbox3" label="Checkbox desabilitado" disabled />
+          <Checkbox v-model="formData.checkbox4" label="Checkbox desabilitado e marcado" :model-value="true" disabled />
         </div>
 
         <h3><OhVueIcon name="md-radiobuttonchecked" /> Radio</h3>
         <div class="form-controls-grid">
-          <Radio v-model="formData.radioValue" value="option1" :label="$t('components.tabs.forms.formControls.radio.option1')" />
-          <Radio v-model="formData.radioValue" value="option2" :label="$t('components.tabs.forms.formControls.radio.option2')" />
-          <Radio v-model="formData.radioValue" value="option3" :label="$t('components.tabs.forms.formControls.radio.option3')" disabled />
+          <Radio v-model="formData.radioValue" value="option1" label="Opção 1" />
+          <Radio v-model="formData.radioValue" value="option2" label="Opção 2" />
+          <Radio v-model="formData.radioValue" value="option3" label="Opção 3 (desabilitada)" disabled />
         </div>
-        <p class="demo-value">{{ $t('components.tabs.forms.formControls.radio.selected', { value: formData.radioValue }) }}</p>
+        <p class="demo-value">Opção selecionada: {{ formData.radioValue }}</p>
 
         <h3><OhVueIcon name="oi-toggle" /> Switch</h3>
         <div class="form-controls-grid">
-          <Switch v-model="formData.switch1" :label="$t('components.tabs.forms.formControls.switch.off')" />
-          <Switch v-model="formData.switch2" :label="$t('components.tabs.forms.formControls.switch.on')" />
-          <Switch v-model="formData.switch3" :label="$t('components.tabs.forms.formControls.switch.disabled')" disabled />
-          <Switch v-model="formData.switch4" :label="$t('components.tabs.forms.formControls.switch.disabledOn')" :model-value="true" disabled />
+          <Switch v-model="formData.switch1" label="Switch desligado" />
+          <Switch v-model="formData.switch2" label="Switch ligado" />
+          <Switch v-model="formData.switch3" label="Switch desabilitado" disabled />
+          <Switch v-model="formData.switch4" label="Switch desabilitado e ligado" :model-value="true" disabled />
         </div>
       </div>
     </section>
 
     <section class="catalog-section">
-      <h2><OhVueIcon name="oi-pencil" /> {{ $t('components.tabs.forms.inputFields.title') }}</h2>
-      <p class="section-description">{{ $t('components.tabs.forms.inputFields.description') }}</p>
+      <h2><OhVueIcon name="oi-pencil" /> Campos de Entrada</h2>
+      <p class="section-description">Componentes para entrada de dados como input, textarea e select.</p>
       
       <div class="component-demo">
         <h3><OhVueIcon name="oi-input" /> Input</h3>
         <div class="inputs-grid">
-          <Input :label="$t('components.tabs.forms.inputFields.input.fullName')" :placeholder="$t('components.tabs.forms.inputFields.input.enterName')" />
-          <Input type="email" :label="$t('components.tabs.forms.inputFields.input.email')" :placeholder="$t('components.tabs.forms.inputFields.input.enterEmail')" />
-          <Input :label="$t('components.tabs.forms.inputFields.input.password')" type="password" :placeholder="$t('components.tabs.forms.inputFields.input.enterPassword')" />
-          <Input :label="$t('components.tabs.forms.inputFields.input.withError')" :error="$t('components.tabs.forms.inputFields.input.required')" />
-          <Input :label="$t('components.tabs.forms.inputFields.input.valid')" :success="$t('components.tabs.forms.inputFields.input.everythingOk')" />
-          <Input :label="$t('components.tabs.forms.inputFields.input.disabled')" disabled :placeholder="$t('components.tabs.forms.inputFields.input.notEditable')" />
+          <Input label="Nome Completo" placeholder="Digite seu nome" />
+          <Input type="email" label="E-mail" placeholder="Digite seu e-mail" />
+          <Input label="Senha" type="password" placeholder="Digite sua senha" />
+          <Input label="Com erro" error="Campo obrigatório" />
+          <Input label="Válido" success="Tudo certo!" />
+          <Input label="Desabilitado" disabled placeholder="Campo não editável" />
         </div>
 
         <h3><OhVueIcon name="oi-text" /> Textarea</h3>
         <div class="inputs-grid">
           <Textarea 
-            :label="$t('components.tabs.forms.inputFields.textarea.message')" 
-            :placeholder="$t('components.tabs.forms.inputFields.textarea.enterMessage')" 
+            label="Mensagem" 
+            placeholder="Digite sua mensagem" 
             :rows="4"
             v-model="formData.textarea1"
           />
           <Textarea 
-            :label="$t('components.tabs.forms.inputFields.textarea.withCounter')" 
-            :placeholder="$t('components.tabs.forms.inputFields.textarea.enterLimited')" 
+            label="Com contador" 
+            placeholder="Digite até 50 caracteres" 
             :maxlength="50"
             :show-counter="true"
             v-model="formData.textarea2"
           />
           <Textarea 
-            :label="$t('components.tabs.forms.inputFields.textarea.withError')" 
-            :placeholder="$t('components.tabs.forms.inputFields.textarea.withError')" 
-            :error="$t('components.tabs.forms.inputFields.textarea.errorMessage')"
+            label="Com erro" 
+            placeholder="Campo com erro" 
+            error="Mensagem muito curta"
             v-model="formData.textarea4"
           />
           <Textarea 
-            :label="$t('components.tabs.forms.inputFields.textarea.disabled')" 
-            :placeholder="$t('components.tabs.forms.inputFields.input.notEditable')" 
+            label="Desabilitado" 
+            placeholder="Campo não editável" 
             disabled
             v-model="formData.textarea5"
           />
@@ -106,31 +106,31 @@
         <h3><OhVueIcon name="hi-solid-selector" /> Select</h3>
         <div class="inputs-grid">
           <Select 
-            :label="$t('components.tabs.forms.inputFields.select.selectOption')"
-            :placeholder="$t('components.tabs.forms.inputFields.select.choose')"
+            label="Selecione uma opção"
+            placeholder="Escolha..."
             :options="selectOptions"
             v-model="formData.selectValue1"
           />
           <Select 
-            :label="$t('components.tabs.forms.inputFields.select.defaultValue')"
+            label="Com valor padrão"
             :options="selectOptions"
             v-model="formData.selectValue2"
           />
           <Select 
-            :label="$t('components.tabs.forms.inputFields.select.withError')"
+            label="Com erro"
             :options="selectOptions"
             v-model="formData.selectValue3"
-            :error="$t('components.tabs.forms.inputFields.select.selectionRequired')"
+            error="Seleção obrigatória"
           />
           <Select 
-            :label="$t('components.tabs.forms.inputFields.select.disabled')"
+            label="Desabilitado"
             :options="selectOptions"
             v-model="formData.selectValue4"
             disabled
           />
         </div>
-        <p class="demo-value">{{ $t('components.tabs.forms.inputFields.select.selectedValue', { index: 1, value: formData.selectValue1 }) }}</p>
-        <p class="demo-value">{{ $t('components.tabs.forms.inputFields.select.selectedValue', { index: 2, value: formData.selectValue2 }) }}</p>
+        <p class="demo-value">Select 1: {{ formData.selectValue1 || 'Nenhum' }}</p>
+        <p class="demo-value">Select 2: {{ formData.selectValue2 || 'Nenhum' }}</p>
       </div>
     </section>
   </div>
@@ -138,7 +138,6 @@
 
 <script setup>
 import { reactive } from 'vue'
-import { useI18n } from 'vue-i18n'
 import Button from '@/components/ui/Button.vue'
 import Checkbox from '@/components/ui/Checkbox.vue'
 import Radio from '@/components/ui/Radio.vue'
@@ -146,8 +145,6 @@ import Switch from '@/components/ui/Switch.vue'
 import Input from '@/components/ui/Input.vue'
 import Textarea from '@/components/ui/Textarea.vue'
 import Select from '@/components/ui/Select.vue'
-
-const { t } = useI18n()
 
 const formData = reactive({
   checkbox1: false,
@@ -166,15 +163,15 @@ const formData = reactive({
   textarea1: '',
   textarea2: '',
   textarea4: '',
-  textarea5: t('components.tabs.forms.inputFields.textarea.disabledText')
+  textarea5: 'Texto pré-definido desabilitado'
 })
 
 const selectOptions = [
-  { value: 'option1', label: t('components.tabs.forms.inputFields.options.option1') },
-  { value: 'option2', label: t('components.tabs.forms.inputFields.options.option2') },
-  { value: 'option3', label: t('components.tabs.forms.inputFields.options.option3') },
-  { value: 'option4', label: t('components.tabs.forms.inputFields.options.option4'), disabled: true },
-  { value: 'option5', label: t('components.tabs.forms.inputFields.options.option5') }
+  { value: 'option1', label: 'Opção 1' },
+  { value: 'option2', label: 'Opção 2' },
+  { value: 'option3', label: 'Opção 3' },
+  { value: 'option4', label: 'Opção 4 (desabilitada)', disabled: true },
+  { value: 'option5', label: 'Opção 5' }
 ]
 </script>
 
@@ -253,53 +250,6 @@ const selectOptions = [
   margin-top: 0.5rem;
 }
 
-.counter-states-demo {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: var(--surface-secondary);
-  border-radius: 8px;
-  border: 1px solid var(--border-primary);
-}
-
-.counter-states-demo h4 {
-  margin: 0 0 1rem 0;
-  color: var(--text-primary);
-}
-
-.states-grid {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.state-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.state-indicator {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  border: 2px solid;
-}
-
-.state-indicator.normal {
-  border-color: var(--border);
-  background: var(--surface);
-}
-
-.state-indicator.warning {
-  border-color: var(--accent);
-  background: rgba(255, 193, 7, 0.1);
-}
-
-.state-indicator.at-limit {
-  border-color: var(--accent);
-  background: rgba(255, 193, 7, 0.2);
-}
-
 @media (max-width: 768px) {
   .catalog-section {
     padding: 1rem;
@@ -312,11 +262,6 @@ const selectOptions = [
   
   .inputs-grid {
     grid-template-columns: 1fr;
-  }
-  
-  .states-grid {
-    flex-direction: column;
-    gap: 1rem;
   }
 }
 </style>

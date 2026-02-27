@@ -18,7 +18,7 @@ const props = defineProps({
   variant: {
     type: String,
     default: 'primary',
-    validator: (value) => ['primary', 'secondary', 'success', 'danger'].includes(value)
+    validator: (value) => ['primary', 'secondary', 'success', 'danger', 'phantom'].includes(value)
   },
   type: {
     type: String,
@@ -51,6 +51,7 @@ const buttonClasses = computed(() => {
     'btn-secondary': props.variant === 'secondary',
     'btn-outline': props.variant === 'outline',
     'btn-danger': props.variant === 'danger',
+    'btn-phantom':props.variant === 'phantom',
     'btn-small': props.size === 'small',
     'btn-large': props.size === 'large',
     'btn-disabled': props.disabled,
@@ -166,6 +167,16 @@ const handleClick = (event) => {
   outline: 5px double white;
   background: var(--strong-rose);
   color: white;
+}
+
+.btn-phantom {
+  background-color: transparent;
+  color: var(--text-primary);
+}
+
+.btn-phantom:hover:not(.btn-disabled) {
+  color: var(--primary);
+  box-shadow: 0 0 15px var(--rose);
 }
 
 .btn-loading::after {

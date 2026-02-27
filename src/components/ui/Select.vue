@@ -98,17 +98,17 @@ const handleBlur = (event) => {
 .select-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.5em;
 }
 
 .select-label {
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 0.9em;
   color: var(--text-primary);
 }
 
 .required {
-  color: var(--rose-60);
+  color: var(--strong-rose);
 }
 
 .select-container {
@@ -119,38 +119,42 @@ const handleBlur = (event) => {
 
 .select {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.75em;
   border: 2px solid var(--border);
   border-radius: 8px;
-  background-color: var(--surface);
+  background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'Quicksand', sans-serif;
-  font-size: 1rem;
+  font-family: 'Comfortaa', sans-serif;
+  font-size: 1em;
   cursor: pointer;
   transition: all 0.2s ease;
   appearance: none;
-  padding-right: 2.5rem; 
+  padding-right: 2.5em; 
+}
+
+select:open {
+  background-color: var(--bg-primary);
 }
  
 .select-icon {
   position: absolute;
-  right: 0.75rem;
+  right: 0.75em;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
   color: var(--secondary);
-  font-size: 1rem;
+  font-size: 1em;
 }
 
 .select:focus {
   outline: none;
-  border-color: var(--turquoise-50);
+  border-color: var(--sky-blue);
   box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
 }
 
 .select:disabled {
-  background: var(--gray-10);
-  color: var(--gray-50);
+  background: var(--disabled-surface);
+  color: var(--text-disabled);
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -161,47 +165,26 @@ const handleBlur = (event) => {
 }
 
 .select.error {
-  border-color: var(--rose-60);
-  background-color: var(--rose-10);
+  border-color: var(--orange);
+  background-color: var(--bg-primary);
 }
 
 .select.error:focus {
-  border-color: var(--rose-60);
-  background-color: var(--surface);
+  border-color: var(--orange);
+  color: var(--orange);
+  background-color: var(--bg-primary);
   box-shadow: 0 0 0 3px rgba(218, 110, 133, 0.1);
 }
 
+.select.error:open {
+  background-color: var(--bg-primary);
+  border-color: var(--orange);
+}
+
 .error-message {
-  font-size: 0.875rem;
-  color: var(--rose-60);
-  margin-top: 0.25rem;
+  font-size: 0.9em;
+  color: var(--orange);
+  margin-top: 0.25em;
 }
 
-.dark-theme.select:focus {
-  border-color: var(--turquoise-40);
-  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.2);
-}
-
-.dark-theme.select:disabled {
-  background: var(--gray-80);
-  color: var(--gray-40);
-}
-
-.dark-theme.select.error {
-  border-color: var(--rose-50);
-  background-color: var(--rose-90);
-}
-
-.dark-theme.select.error:focus {
-  border-color: var(--rose-50);
-  box-shadow: 0 0 0 3px rgba(218, 110, 133, 0.2);
-}
-
-.dark-theme .error-message {
-  color: var(--rose-50);
-}
-
-.dark-theme .select-icon {
-  color: var(--text-secondary);
-}
 </style>

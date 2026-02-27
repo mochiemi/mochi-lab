@@ -79,7 +79,15 @@ import {
   AiSciHub,
   LaPillsSolid,
   BiClipboardDataFill,
-  BiEyedropper
+  BiEyedropper,
+  HiSolidChevronDoubleUp,
+  HiSolidChevronDoubleDown,
+  MdNoteaddOutlined,
+  IoCalendarOutline,
+  FaRegularEdit,
+  HiDocumentDownload,
+  HiTrash,
+  BiSearchHeart
 } from "oh-vue-icons/icons"
 
 addIcons(
@@ -161,7 +169,15 @@ addIcons(
   AiSciHub,
   LaPillsSolid,
   BiClipboardDataFill,
-  BiEyedropper
+  BiEyedropper,
+  HiSolidChevronDoubleUp,
+  HiSolidChevronDoubleDown,
+  MdNoteaddOutlined,
+  IoCalendarOutline,
+  FaRegularEdit,
+  HiDocumentDownload,
+  HiTrash,
+  BiSearchHeart
 )
 
 export { OhVueIcon }

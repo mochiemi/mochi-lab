@@ -6,24 +6,28 @@
     "back": "Back",
     "backToHome": "Back to Home",
     "featured": "Featured",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "retry": "Retry"
+  },
+  "schedule": {
+    "loading": "Loading schedule...",
+    "nextClass": "Next class",
+    "todayClasses": "Today's classes",
+    "moreClasses": "more",
+    "noClassesToday": "No classes today",
+    "viewSchedule": "View full schedule",
+    "practicalClass": "Practical class",
+    "noMoreClassesToday": "No more classes today",
+    "total": "Total",
+    "nextDayClasses": "Next day with classes",
+    "classes": "classes",
+    "firstClass": "First class",
+    "noFutureClasses": "No scheduled classes in the coming days"
   },
   "home": {
     "welcome": "Welcome to",
-    "description": "Here is my notebook and laboratory for notes. Themes of pharmacy and medicine will be part of the content of this page. It functions as an SPA (Single Page App), where on a single page I demonstrate some applications and texts.",
-    "explore": "Explore Lab",
-    "components": "View Components",
-    "tooltip": "Click to learn more about this lab and its scientist!",
+    "description": "Here is my notebook and laboratory for notes. Themes of pharmacy and medicine will be part of the content of this page.",
     "todayIs": "Hello! Today is",
-    "featured": {
-      "title": "Components",
-      "description": "Discover the UI components library"
-    },
-    "latest": {
-      "title": "Latest Content",
-      "description": "Check out newest blog posts, updates, and experiments",
-      "preview": "Not yet fully implemented"
-    },
     "features": {
       "title": "Lab Features",
       "description": "Explore what Mochi Lab has to offer",
@@ -35,13 +39,14 @@
       "viewSchedule": "View Schedule",
       "comingSoon": "Coming Soon",
       "featured": "Featured",
-      "updated": "Updated"
+      "updated": "Updated",
+      "nextClasses": "Next Classes"
     }
   },
   "blog": {
     "title": "Mochi Blog",
     "description": "A blog to write articles, updates, etc...",
-    "description2": "(Sorry this area is only available in Brazilian portuguese)",
+    "description2": "(Sorry the articles are only available in Brazilian portuguese)",
     "by": "By {author}",
     "minRead": "{minutes} min read",
     "backToPosts": "See all posts",
@@ -92,55 +97,16 @@
     "blog": "Blog",
     "about": "About",
     "aboutThis": "The Lab",
-    "projects": "Other Projects",
     "library": "Library",
     "components": "Components",
     "icons": "Icons",
-    "more": "Interactive",
+    "tools": "Apps/Tools",
     "contact": "Contact",
     "toggleMenu": "Toggle menu",
-    "pokeform": "Pokémon Quiz",
-    "iList": "Interactive List"
+    "iList": "Task List"
   },
   "toTop": {
     "ariaLabel": "Scroll to top"
-  },
-  "iconsLibrary": {
-    "title": "Icons Library",
-    "description": "Complete catalog of available icons. I use for remember their names. Icons from package: ",
-    "searchPlaceholder": "Search icons by name...",
-    "clear": "Clear",
-    "copyTooltip": "Copy icon name",
-    "copySuccess": "Icon name copied to clipboard!",
-    "copyError": "Error copying icon name",
-    "noResults": {
-      "title": "No icons found",
-      "description": "Try adjusting filters or search"
-    },
-    "categories": {
-      "Navigation": "Navigation",
-      "Communication": "Communication",
-      "UI_Actions": "UI & Actions",
-      "Directional": "Directional",
-      "Settings": "Settings",
-      "Animals": "Animals",
-      "Social": "Social",
-      "Weather": "Weather",
-      "Ideas": "Ideas",
-      "People": "People",
-      "Fun": "Fun",
-      "Food_Drink": "Food & Drink",
-      "Technology": "Technology",
-      "Health": "Health",
-      "Location": "Location",
-      "Science": "Science",
-      "Media": "Media",
-      "Education": "Education",
-      "Calendar": "Calendar",
-      "Development": "Development",
-      "Forms": "Forms",
-      "Actions": "Actions"
-    }
   },
   "interactiveList": {
     "title": "Task List",
@@ -172,7 +138,6 @@
     "toolTip": {
       "github": "Github",
       "linkedin": "LinkedIn",
-      "blogger": "Blogger",
       "portfolio": "Portfolio"
     }
   }

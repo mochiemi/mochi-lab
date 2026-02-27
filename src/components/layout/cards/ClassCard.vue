@@ -1,295 +1,341 @@
+<!-- src/components/layout/cards/ClassCard.vue -->
 <template>
   <div
-    v-if="classItem"
+    ref="cardRef"
     class="class-card"
-    :class="{
-      'special-period': hasSpecialPeriod,
-      'compact': compact,
-      'practical-1-0': practicalClassValue === 1.0,
-      'practical-2-0': practicalClassValue === 2.0
-    }"
+    :class="{ 'compact': compact }"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
   >
-
-    <div v-if="!compact || showTime" class="class-time">
-      <Badge :variant="timeBadgeVariant" size="small">
-        <OhVueIcon name="wi-time2" /> {{ classItem.time || 'Horário' }}
-      </Badge>
-    </div>
-
     <div class="class-content">
       <div class="class-header">
-        <h3 class="class-title" :title="classItem.subject || 'Disciplina'">
-          {{ classItem.subject || 'Disciplina' }}
-        </h3>
-        <Badge 
-          v-if="classItem.practicalClass" 
-          :variant="practicalBadgeVariant" 
-          size="small" 
+        <h4 class="class-code">{{ classItem.code }}</h4>
+        <Badge
+          v-if="classItem.practicalClass && classItem.practicalClass !== 'A'"
+          variant="primary"
+          size="small"
           class="practical-badge"
         >
           <OhVueIcon name="gi-erlenmeyer" /> TP {{ classItem.practicalClass }}
         </Badge>
       </div>
 
-      <div class="class-details">
-        <div class="detail-item" v-if="classItem.room">
-          <OhVueIcon name="fa-regular-map-marker-alt" class="detail-icon" />
-          <Tooltip 
-            :content="classItem.room" 
-            position="top" 
-            variant="primary"
-            size="lg"
-            :delay="300"
-          >
-            <span class="detail-text">{{ formatRoom(classItem.room) }}</span>
-          </Tooltip>
+      <h5 class="class-name">{{ classItem.subject }}</h5>
+
+      <div class="class-info">
+        <div class="info-item">
+          <OhVueIcon name="fa-regular-map-marker-alt" class="info-icon" />
+          <span>{{ formatRoom(classItem.room) }}</span>
         </div>
-
-        <div class="detail-item" v-if="classItem.professor">
-          <OhVueIcon name="fa-regular-user" class="detail-icon" />
-          <Tooltip 
-            :content="formatProfessorsTooltip(classItem.professor)" 
-            position="top" 
-            variant="secondary"
-            size="lg"
-            :delay="300"
-          >
-            <span class="detail-text">{{ formatProfessorSummary(classItem.professor) }}</span>
-          </Tooltip>
-        </div>
-      </div>
-
-      <div v-if="hasSpecialPeriod && !compact" class="special-notice">
-        <OhVueIcon name="md-warning-round" class="notice-icon" />
-        <span>Período especial (até 08/05)</span>
-      </div>
-
-      <div v-else-if="hasSpecialPeriod && compact" class="compact-special-indicator" 
-           :title="'Período especial (até 08/05)'">
-        <OhVueIcon name="md-warning-round" />
       </div>
     </div>
-  </div>
-  <div v-else class="class-card-error">
-    <OhVueIcon name="md-warning-round" />
-    <span>Dados indisponíveis</span>
+
+    <Teleport to="body">
+      <div
+        v-if="showTooltip"
+        ref="tooltipRef"
+        class="class-tooltip"
+        :style="tooltipPosition"
+      >
+        <div class="tooltip-arrow"></div>
+        <div class="tooltip-content">
+          <h4>{{ classItem.code }} - {{ classItem.subject }}</h4>
+
+          <div class="tooltip-details">
+            <p><strong>Professor(es):</strong> {{ formatProfessors(classItem.professor) }}</p>
+            <p><strong>Sala:</strong> {{ classItem.room }}</p>
+            <p><strong>Horário:</strong> {{ classItem.time }}</p>
+            <p><strong>Período:</strong> {{ classItem.period }}º período</p>
+            <p><strong>Tipo:</strong> {{ getClassTypeLabel(classItem.type) }}</p>
+            <p v-if="classItem.details?.credits"><strong>Créditos:</strong> {{ classItem.details.credits }}</p>
+            <p v-if="classItem.details?.description" class="description">
+              {{ classItem.details.description }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { OhVueIcon } from 'oh-vue-icons'
 import Badge from '@/components/ui/Badge.vue'
-import Tooltip from '@/components/ui/Tooltip.vue'
 
 const props = defineProps({
   classItem: {
     type: Object,
-    default: () => ({})
+    required: true
   },
   compact: {
     type: Boolean,
     default: false
-  },
-  showTime: {
-    type: Boolean,
-    default: false
-  },
-  showTooltips: {
-    type: Boolean,
-    default: true
   }
 })
 
-const hasSpecialPeriod = computed(() => {
-  if (!props.classItem || !props.classItem.room) return false
-  return props.classItem.room.includes('08/05/2026')
-})
+const showTooltip = ref(false)
+const tooltipPosition = ref({})
+const cardRef = ref(null)
+const tooltipRef = ref(null)
 
-const practicalClassValue = computed(() => {
-  if (!props.classItem || !props.classItem.practicalClass) return 0
-  // Se for 'A' (turma regular), não é prática específica
-  if (props.classItem.practicalClass === 'A') return 0
-  return parseFloat(props.classItem.practicalClass)
-})
-
-const practicalBadgeVariant = computed(() => {
-  // 'T1', 'P1' etc usam 'secondary', 'A' (regular) usa 'primary'
-  return practicalClassValue.value > 0 ? 'secondary' : 'primary'
-})
-
-const timeBadgeVariant = computed(() => {
-  return hasSpecialPeriod.value ? 'warning' : 'primary'
-})
-
+// Funções de formatação (inalteradas)
 const formatRoom = (room) => {
   if (!room) return ''
   return room.split('(')[0].trim()
 }
 
-const formatProfessorSummary = (professors) => {
+const formatProfessors = (professors) => {
   if (!professors) return ''
-  const profList = formatProfessorsArray(professors)
-  if (profList.length === 1) return profList[0]
-  return `${profList[0]} +${profList.length - 1}`
-}
-
-const formatProfessorsTooltip = (professors) => {
-  if (!professors) return ''
-  const profList = formatProfessorsArray(professors)
-  if (profList.length === 1) return profList[0]
-  return profList.join(' · ')
-}
-
-const formatProfessorsArray = (professors) => {
-  if (!professors) return []
   if (professors.includes('<br>')) {
-    return professors.split('<br>').map(p => p.trim()).filter(p => p)
+    return professors.split('<br>').map(p => p.trim()).join(', ')
   }
-  return professors.split(',').map(p => p.trim()).filter(p => p)
+  return professors
 }
+
+const getClassTypeLabel = (type) => {
+  const labels = {
+    required: 'Obrigatória',
+    elective: 'Eletiva',
+    optional: 'Optativa'
+  }
+  return labels[type] || type
+}
+
+const updateTooltipPosition = async () => {
+  if (!showTooltip.value || !cardRef.value) return
+
+  // Aguarda o tooltip ser renderizado para pegar suas dimensões
+  await nextTick()
+  if (!tooltipRef.value) return
+
+  const cardRect = cardRef.value.getBoundingClientRect()
+  const tooltipRect = tooltipRef.value.getBoundingClientRect()
+  const viewportWidth = window.innerWidth
+  const viewportHeight = window.innerHeight
+
+  // Posiciona o tooltip acima do card por padrão
+  let top = cardRect.top - tooltipRect.height - 10
+  let left = cardRect.left + (cardRect.width / 2) - (tooltipRect.width / 2)
+
+  // Ajusta se estiver saindo pela esquerda
+  if (left < 10) {
+    left = 10
+  }
+  // Ajusta se estiver saindo pela direita
+  if (left + tooltipRect.width > viewportWidth - 10) {
+    left = viewportWidth - tooltipRect.width - 10
+  }
+
+  // Se não couber em cima, coloca embaixo
+  if (top < 10) {
+    top = cardRect.bottom + 10
+    // Ajusta a seta para apontar para cima (classe será alterada via style)
+    tooltipRef.value.classList.add('tooltip-bottom')
+  } else {
+    tooltipRef.value.classList.remove('tooltip-bottom')
+  }
+
+  tooltipPosition.value = {
+    top: `${top}px`,
+    left: `${left}px`,
+  }
+}
+
+const handleMouseEnter = () => {
+  showTooltip.value = true
+  updateTooltipPosition()
+}
+
+const handleMouseLeave = () => {
+  showTooltip.value = false
+}
+
+const handleResize = () => {
+  if (showTooltip.value) {
+    updateTooltipPosition()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize)
+  window.addEventListener('scroll', handleResize, true)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize)
+  window.removeEventListener('scroll', handleResize, true)
+})
 </script>
 
 <style scoped>
 .class-card {
   background: var(--surface-primary);
-  padding: 0.5em;
-  border: 2px dashed;
-  border-color: var(--border-secondary);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  border: 2px dashed var(--border-secondary);
+  border-radius: 12px; /* Bordas um pouco mais arredondadas */
+  padding: 0.75rem;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  overflow: hidden;
+  height: 100%;
+  cursor: help;
+  box-shadow: 0 2px 4px var(--shadow);
 }
 
-.class-card.practical-1-0 {
-  border-color: var(--sky-blue);
-}
-
-.class-card.practical-2-0 {
-  border-color: var(--rose);
-}
-
-.class-card.special-period {
-  border-color: var(--orange);
+/* Estilo unificado no hover */
+.class-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: var(--primary);
+  box-shadow: 0 8px 16px var(--shadow-hover);
+  background: var(--surface-contrast); /* Leve destaque no fundo */
 }
 
 .class-card.compact {
-  padding: 0.5em;
-  border-left-width: 4px;
-}
-
-.class-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--shadow-hover);
-}
-
-.class-card-error {
-  padding: 0.5em;
-  color: var(--text-disabled);
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  font-size: 0.8em;
-  background: var(--surface-secondary);
-  border-radius: 8px;
-  border: 1px dashed var(--border);
-}
-
-.class-time {
-  margin-bottom: 0.5em;
+  padding: 0.5rem;
 }
 
 .class-content {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
-  flex: 1;
+  gap: 0.5rem;
 }
 
 .class-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 0.5em;
+  gap: 0.5rem;
   flex-wrap: wrap;
 }
 
-.class-title {
-  font-size: 0.9em;
+.class-code {
+  font-family: 'Shantell Sans', cursive;
+  font-size: 0.9rem;
+  font-weight: 700;
   color: var(--title-primary);
   margin: 0;
+  background: var(--rose-surface);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px; /* Estilo de pílula para o código */
+  border: 1px solid var(--border-strong);
+  display: inline-block;
+}
+
+.class-name {
+  font-family: 'Comfortaa', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
   line-height: 1.4;
-  overflow: visible;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  flex: 1;
 }
 
-.compact .class-title {
-  font-size: 0.8em;
+.compact .class-name {
+  font-size: 0.8rem;
 }
 
-.practical-badge {
-  flex-shrink: 0;
-}
-
-.class-details {
+.class-info {
   display: flex;
   flex-direction: column;
-  gap: 0.25em;
-  margin-top: 0.25em;
-  z-index: 1000;
-}
-
-.detail-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  font-size: 0.75em;
+  gap: 0.25rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
-  min-width: 0;
+  margin-top: 0.25rem;
 }
 
-.detail-icon {
-  color: var(--primary);
-  font-size: 0.8em;
-  flex-shrink: 0;
-}
-
-.detail-text {
-  white-space: nowrap;
-  overflow: visible;
-  cursor: help;
-  border-bottom: 1px dashed var(--border);
-  padding-bottom: 1px;
-}
-
-.special-notice {
+.info-item {
   display: flex;
   align-items: center;
-  gap: 0.25em;
-  font-size: 0.7em;
-  color: var(--orange);
-  background: var(--inner-surface);
-  padding: 0.25em 0.5em;
-  border-radius: 6px;
-  margin-top: 0.25em;
+  gap: 0.35rem;
 }
 
-.compact-special-indicator {
+.info-icon {
+  color: var(--secondary);
+  font-size: 0.8rem;
+}
+
+/* Badge para turma prática - agora com um visual mais integrado */
+.practical-badge {
+  background: var(--sky-blue-surface) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-secondary) !important;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+}
+
+/* Estilos do Tooltip (ajustados) */
+.class-tooltip {
+  position: fixed;
+  z-index: 9999;
+  background: var(--surface-primary);
+  border: 2px solid var(--primary);
+  border-radius: 16px;
+  padding: 1rem;
+  width: 320px;
+  max-width: 90vw;
+  box-shadow: 0 12px 28px var(--shadow-hover);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  border-top-left-radius: 4px; /* Detalhe divertido */
+}
+
+.tooltip-arrow {
   position: absolute;
-  top: 0.25em;
-  right: 0.25em;
-  color: var(--orange);
-  font-size: 0.8em;
-  opacity: 0.7;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 16px;
+  height: 16px;
+  background: var(--surface-primary);
+  border-right: 2px solid var(--primary);
+  border-bottom: 2px solid var(--primary);
+  border-bottom-right-radius: 4px;
 }
 
-.notice-icon {
-  font-size: 0.8em;
-  flex-shrink: 0;
+/* Quando o tooltip estiver embaixo do card, a seta aponta para cima */
+.class-tooltip.tooltip-bottom .tooltip-arrow {
+  top: -8px;
+  bottom: auto;
+  transform: translateX(-50%) rotate(45deg);
+  border-right: 2px solid var(--primary);
+  border-top: 2px solid var(--primary);
+  border-bottom: none;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 4px;
+}
+
+.tooltip-content h4 {
+  font-family: 'Shantell Sans', cursive;
+  font-size: 1rem;
+  color: var(--title-primary);
+  margin: 0 0 0.75rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px dashed var(--border);
+}
+
+.tooltip-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tooltip-details p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.tooltip-details strong {
+  color: var(--title-secondary);
+  font-family: 'Shantell Sans', cursive;
+  font-weight: 600;
+}
+
+.description {
+  margin-top: 0.5rem !important;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--border);
+  font-style: italic;
+  color: var(--text-secondary);
 }
 </style>

@@ -1,0 +1,104 @@
+{
+  "interactiveList": {
+    "title": "Lista de Tarefas",
+    "description": "Crie, edite e gerencie uma lista de tarefas",
+    "subDescription": "Salva localmente apenas, clique em exportar lista para salvar ou imprimir",
+    "placeholder": "Digite uma nova tarefa...",
+    "notesPlaceholder": "Adicione uma nota...",
+    "noteHint": "Nota opcional",
+    "add": "Adicionar",
+    "filter": "Filtro",
+    "copy": "cópia",
+    "sort": {
+      "asc": "Ordenar ↑",
+      "desc": "Ordenar ↓"
+    },
+    "priority": {
+      "low": "Baixa",
+      "medium": "Média",
+      "high": "Alta"
+    },
+    "filters": {
+      "title": "Filtros",
+      "showCompleted": "Mostrar concluídos",
+      "showPending": "Mostrar pendentes",
+      "search": "Buscar itens..."
+    },
+    "stats": {
+      "totalTooltip": "Total de itens na sua lista",
+      "completedTooltip": "Tarefas que você já concluiu",
+      "pendingTooltip": "Tarefas aguardando para serem feitas"
+    },
+    "tooltips": {
+      "sort": "Ordenar por prioridade",
+      "filter": "Filtrar itens",
+      "export": "Exportar em HTML",
+      "clear": "Limpar concluídos",
+      "edit": "Editar tarefa e nota",
+      "duplicate": "Duplicar",
+      "delete": "Excluir",
+      "priority": {
+        "low": "Prioridade baixa - pode esperar",
+        "medium": "Prioridade média - deve ser feito em breve",
+        "high": "Prioridade alta - precisa de atenção agora"
+      },
+      "addTask": "Adicionar nova tarefa"
+    },
+    "modal": {
+      "edit": "Editar tarefa",
+      "add": "Adicionar nova tarefa",
+      "taskLabel": "Tarefa",
+      "taskPlaceholder": "Digite o texto da tarefa",
+      "notesLabel": "Notas",
+      "notesPlaceholder": "Digite suas notas aqui...",
+      "priorityLabel": "Prioridade",
+      "addButton": "Adicionar tarefa"
+    },
+    "messages": {
+      "added": "Item adicionado com sucesso!",
+      "completed": "Item marcado como concluído!",
+      "pending": "Item marcado como pendente!",
+      "deleted": "Item removido!",
+      "duplicated": "Item duplicado com sucesso!",
+      "notesSaved": "Notas salvas!",
+      "updated": "Tarefa atualizada com sucesso!",
+      "cleared": "Itens concluídos removidos!",
+      "exported": "Lista exportada com sucesso!"
+    },
+    "confirm": {
+      "delete": "Tem certeza que deseja remover este item?",
+      "clearCompleted": "Tem certeza que deseja remover todos os itens concluídos?"
+    },
+    "errors": {
+      "minLength": "O item deve ter pelo menos 3 caracteres"
+    },
+    "empty": {
+      "title": "Nenhum item encontrado",
+      "message": "Adicione alguns itens ou ajuste seus filtros!",
+      "clearFilters": "Limpar filtros"
+    },
+    "export": {
+      "title": "Lista de Tarefas",
+      "exportedAt": "Exportado em",
+      "stats": {
+        "total": "Total",
+        "completed": "Concluídas",
+        "pending": "Pendentes",
+        "priority": "Prioridade: ",
+        "highPriority": "Alta",
+        "mediumPriority": "Média",
+        "lowPriority": "Baixa"
+      },
+      "created": "Criado",
+      "completed": "Concluído",
+      "print": "Imprimir / Salvar PDF",
+      "close": "Fechar",
+      "footer": "Gerado por Mochi Lab • mochilab.netlify.app"
+    }
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "add": "Adicionar"
+  }
+}

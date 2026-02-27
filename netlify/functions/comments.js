@@ -1,14 +1,12 @@
 // netlify/functions/comments.js
 import { createClient } from '@supabase/supabase-js'
 
-
 const supabaseUrl = process.env.SUPABASE_URL 
 const supabaseKey = process.env.SUPABASE_ANON_KEY 
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 export const handler = async (event, context) => {
-  // Headers CORS completos
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
@@ -16,13 +14,11 @@ export const handler = async (event, context) => {
     'Content-Type': 'application/json'
   }
 
-  // Preflight
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 204, headers }
   }
 
   try {
-    // GET - Buscar comentários
     if (event.httpMethod === 'GET') {
       const postId = event.queryStringParameters?.postId
       
@@ -34,7 +30,6 @@ export const handler = async (event, context) => {
         }
       }
 
-      // Buscar comentários principais aprovados
       const { data: comments, error } = await supabase
         .from('comments')
         .select('*')
@@ -45,7 +40,6 @@ export const handler = async (event, context) => {
 
       if (error) throw error
 
-      // Buscar respostas para cada comentário
       const commentsWithReplies = await Promise.all(
         comments.map(async (comment) => {
           const { data: replies, error: repliesError } = await supabase
@@ -71,7 +65,6 @@ export const handler = async (event, context) => {
       }
     }
 
-    // POST - Criar comentário
     if (event.httpMethod === 'POST') {
       if (!event.body) {
         return {
@@ -92,7 +85,6 @@ export const handler = async (event, context) => {
         }
       }
       
-      // Validações
       const errors = {}
       
       if (!data.authorName?.trim()) {
@@ -119,13 +111,11 @@ export const handler = async (event, context) => {
         }
       }
 
-      // Sanitização básica
       const sanitize = (str) => {
         if (!str) return ''
         return str.replace(/[<>]/g, '').trim()
       }
 
-      // Inserir comentário (is_approved = false por padrão)
       const { data: comment, error } = await supabase
         .from('comments')
         .insert([{
@@ -163,7 +153,6 @@ export const handler = async (event, context) => {
       }
     }
 
-    // Método não permitido
     return {
       statusCode: 405,
       headers,

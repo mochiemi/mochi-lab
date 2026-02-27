@@ -21,7 +21,6 @@ import romeow from '@/assets/images/romeow.jpg'
 import pure from '@/assets/images/pure.jpg'
 import hana from '@/assets/images/hana.jpg'
 import morgan from '@/assets/images/morgan.jpg'
-import gina from '@/assets/images/gina.jpg'
 
 const { t } = useI18n()
 
@@ -45,11 +44,6 @@ const imageSlides = computed(() =>[
     title: 'Morgan',
     description: t('myCats.morgan'),
     image: morgan
-  },
-  {
-    title: 'Gina',
-    description: t('myCats.gina'),
-    image: gina
   }
 ])
 </script>

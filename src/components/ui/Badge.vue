@@ -12,7 +12,22 @@ const props = defineProps({
   variant: {
     type: String,
     default: 'primary',
-    validator: (value) => ['primary', 'secondary', 'success', 'warning', 'error', 'tag'].includes(value)
+    validator: (value) => [
+      'primary', 
+      'secondary', 
+      'success', 
+      'warning', 
+      'error', 
+      'tag',
+      'info',
+      'purple',
+      'teal',
+      'coral',
+      'lavender',
+      'mint',
+      'peach',
+      'plum'
+    ].includes(value)
   },
   size: {
     type: String,
@@ -20,6 +35,14 @@ const props = defineProps({
     validator: (value) => ['small', 'medium', 'large'].includes(value)
   },
   rounded: {
+    type: Boolean,
+    default: false
+  },
+  outlined: {
+    type: Boolean,
+    default: false
+  },
+  pulsating: {
     type: Boolean,
     default: false
   }
@@ -36,9 +59,19 @@ const badgeClasses = computed(() => ({
   'badge-warning': props.variant === 'warning',
   'badge-error': props.variant === 'error',
   'badge-tag': props.variant === 'tag',
+  'badge-info': props.variant === 'info',
+  'badge-purple': props.variant === 'purple',
+  'badge-teal': props.variant === 'teal',
+  'badge-coral': props.variant === 'coral',
+  'badge-lavender': props.variant === 'lavender',
+  'badge-mint': props.variant === 'mint',
+  'badge-peach': props.variant === 'peach',
+  'badge-plum': props.variant === 'plum',
   'badge-small': props.size === 'small',
   'badge-large': props.size === 'large',
   'badge-rounded': props.rounded,
+  'badge-outlined': props.outlined,
+  'badge-pulsating': props.pulsating,
   'dark-theme': isDark.value
 }))
 </script>
@@ -53,6 +86,7 @@ const badgeClasses = computed(() => ({
   font-weight: 600;
   line-height: 1;
   white-space: nowrap;
+  transition: all 0.3s ease;
 }
 
 .badge-small {
@@ -67,8 +101,25 @@ const badgeClasses = computed(() => ({
 
 .badge-rounded {
   border-radius: 50%;
+  padding: 0.4em;
+  width: 2em;
+  height: 2em;
+  justify-content: center;
 }
 
+.badge-rounded.badge-small {
+  width: 1.5em;
+  height: 1.5em;
+  padding: 0.25em;
+}
+
+.badge-rounded.badge-large {
+  width: 2.5em;
+  height: 2.5em;
+  padding: 0.5em;
+}
+
+/* Variantes existentes */
 .badge-primary {
   background: var(--sky-blue-surface);
   color: var(--text-primary);
@@ -88,21 +139,139 @@ const badgeClasses = computed(() => ({
 }
 
 .badge-warning {
-  background: var(--rose-10);
-  color: var(--rose-70);
-  border: 1px solid var(--rose-30);
+  background: var(--rose-surface);
+  color: var(--orange);
+  border: 1px solid var(--orange);
 }
 
 .badge-error {
-  background: var(--rose-20);
-  color: var(--rose-90);
-  border: 1px solid var(--rose-40);
+  background: var(--rose-surface);
+  color: var(--red);
+  border: 1px solid var(--red);
 }
 
 .badge-tag {
-  background: var(--turquoise-20);
-  color: var(--rose-80);
+  background: var(--sky-blue-surface);
+  color: var(--text-primary);
   border: none;
+  font-style: italic;
 }
 
+.badge-info {
+  background: var(--badge-info-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--badge-info-border);
+}
+
+.badge-purple {
+  background: var(--badge-purple-bg);
+  color: var(--badge-purple);
+  border: 1px solid var(--badge-purple-border);
+}
+
+.badge-teal {
+  background: var(--badge-teal-bg);
+  color: var(--badge-teal);
+  border: 1px solid var(--badge-teal-border);
+}
+
+.badge-coral {
+  background: var(--badge-coral-bg);
+  color: var(--badge-coral);
+  border: 1px solid var(--badge-coral-border);
+}
+
+.badge-lavender {
+  background: var(--badge-lavender-bg);
+  color: var(--badge-lavender);
+  border: 1px solid var(--badge-lavender-border);
+}
+
+.badge-mint {
+  background: var(--badge-mint-bg);
+  color: var(--badge-mint);
+  border: 1px solid var(--badge-mint-border);
+}
+
+.badge-peach {
+  background: var(--badge-peach-bg);
+  color: var(--badge-peach);
+  border: 1px solid var(--badge-peach-border);
+}
+
+.badge-plum {
+  background: var(--badge-plum-bg);
+  color: var(--badge-plum);
+  border: 1px solid var(--badge-plum-border);
+}
+
+.badge-outlined {
+  background: transparent;
+}
+
+.badge-outlined.badge-primary {
+  background: transparent;
+  color: var(--border-secondary);
+}
+
+.badge-outlined.badge-secondary {
+  background: transparent;
+  color: var(--border-primary);
+}
+
+.badge-outlined.badge-success {
+  background: transparent;
+  color: var(--green);
+}
+
+.badge-outlined.badge-warning {
+  background: transparent;
+  color: var(--orange);
+}
+
+.badge-outlined.badge-error {
+  background: transparent;
+  color: var(--red);
+}
+
+.badge-outlined.badge-info {
+  background: transparent;
+  color: var(--badge-info-border);
+}
+
+.badge-outlined.badge-purple {
+  background: transparent;
+  color: var(--badge-purple-border);
+}
+
+.badge-outlined.badge-teal {
+  background: transparent;
+  color: var(--badge-teal-border);
+}
+
+/* Efeito pulsating */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.badge-pulsating {
+  animation: pulse 2s infinite;
+}
+
+/* Dark theme ajustes */
+.dark-theme.badge-warning,
+.dark-theme.badge-error {
+  color: var(--text-primary);
+}
 </style>

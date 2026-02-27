@@ -2,77 +2,76 @@
   <div class="tab-content">
     <Modal
       v-model:show="showModal" 
-      :title="$t('components.tabs.overlays.modal.title')"
+      title="Modal de Demonstração"
       closable>
       <div class="modal-content">
-        <p>{{ $t('components.tabs.overlays.modal.examples.modalContent') }}</p>
+        <p>Este é um modal básico com formulário de exemplo.</p>
         <div class="modal-form">
-          <Input :label="$t('components.tabs.overlays.modal.examples.name')" :placeholder="$t('components.tabs.overlays.modal.examples.enterName')" />
-          <Input type="email" :label="$t('components.tabs.overlays.modal.examples.email')" :placeholder="$t('components.tabs.overlays.modal.examples.enterEmail')" />
+          <Input label="Nome" placeholder="Digite seu nome" />
+          <Input type="email" label="E-mail" placeholder="Digite seu e-mail" />
         </div>
       </div>
       <template #footer>
         <div class="modal-footer">
-          <Button variant="secondary" @click="showModal = false">{{ $t('components.tabs.layout.cards.examples.cancel') }}</Button>
-          <Button @click="handleModalConfirm">{{ $t('components.tabs.overlays.modal.examples.confirm') }}</Button>
+          <Button variant="secondary" @click="showModal = false">Cancelar</Button>
+          <Button @click="handleModalConfirm">Confirmar</Button>
         </div>
       </template>
     </Modal>
 
-    <Modal v-model:show="showLargeModal" :title="$t('components.tabs.overlays.modal.title') + ' ' + $t('components.tabs.overlays.modal.examples.large')" size="lg" closable>
+    <Modal v-model:show="showLargeModal" title="Modal Grande" size="lg" closable>
       <div class="modal-content">
-        <h3>{{ $t('components.tabs.overlays.modal.examples.expandedContent') }}</h3>
-        <p>{{ $t('components.tabs.overlays.modal.examples.expandedContent') }}</p>
+        <h3>Conteúdo Expandido</h3>
+        <p>Este modal possui tamanho grande e pode conter mais conteúdo.</p>
         <div class="content-grid">
-          <Card :title="$t('components.tabs.overlays.modal.examples.card1')" padding="normal">
-            <p>{{ $t('components.tabs.overlays.modal.examples.card1Content') }}</p>
+          <Card title="Card 1" padding="normal">
+            <p>Conteúdo do primeiro card dentro do modal.</p>
           </Card>
-          <Card :title="$t('components.tabs.overlays.modal.examples.card2')" padding="normal">
-            <p>{{ $t('components.tabs.overlays.modal.examples.card2Content') }}</p>
+          <Card title="Card 2" padding="normal">
+            <p>Conteúdo do segundo card dentro do modal.</p>
           </Card>
         </div>
       </div>
     </Modal>
 
     <section class="catalog-section">
-      <h2><OhVueIcon name="bi-window" /> {{ $t('components.tabs.overlays.modal.title') }}</h2>
-      <p class="section-description">{{ $t('components.tabs.overlays.modal.description') }}</p>
+      <h2><OhVueIcon name="bi-window" /> Modal</h2>
+      <p class="section-description">Janelas modais para exibir conteúdo em foco com sobreposição.</p>
       
       <div class="component-demo">
         <div class="demo-controls">
-          <Button @click="showModal = true">{{ $t('components.tabs.overlays.modal.examples.basic') }}</Button>
-          <Button @click="showLargeModal = true" variant="secondary">{{ $t('components.tabs.overlays.modal.examples.large') }}</Button>
+          <Button @click="showModal = true">Modal Básico</Button>
+          <Button @click="showLargeModal = true" variant="secondary">Modal Grande</Button>
         </div>
       </div>
     </section>
 
     <section class="catalog-section">
-      <h2><OhVueIcon name="hi-information-circle" /> {{ $t('components.tabs.overlays.tooltip.title') }}</h2>
-      <p class="section-description">{{ $t('components.tabs.overlays.tooltip.description') }}</p>
+      <h2><OhVueIcon name="hi-information-circle" /> Tooltip</h2>
+      <p class="section-description">Dicas contextuais que aparecem ao passar o mouse sobre elementos.</p>
       
       <div class="component-demo">
         <div class="tooltip-demo-grid">
-          <Tooltip :content="$t('components.tabs.overlays.tooltip.examples.topContent')" position="top">
-            <Button variant="outline">{{ $t('components.tabs.overlays.tooltip.examples.top') }}</Button>
+          <Tooltip content="Tooltip na posição superior" position="top">
+            <Button variant="outline">Superior</Button>
           </Tooltip>
 
-          <Tooltip :content="$t('components.tabs.overlays.tooltip.examples.rightContent')" position="right">
-            <Button variant="outline">{{ $t('components.tabs.overlays.tooltip.examples.right') }}</Button>
+          <Tooltip content="Tooltip na posição direita" position="right">
+            <Button variant="outline">Direita</Button>
           </Tooltip>
 
-          <Tooltip :content="$t('components.tabs.overlays.tooltip.examples.leftContent')" position="left">
-            <Button variant="outline">{{ $t('components.tabs.overlays.tooltip.examples.left') }}</Button>
+          <Tooltip content="Tooltip na posição esquerda" position="left">
+            <Button variant="outline">Esquerda</Button>
           </Tooltip>
 
-          <Tooltip :content="$t('components.tabs.overlays.tooltip.examples.bottomContent')" position="bottom">
-            <Button variant="outline">{{ $t('components.tabs.overlays.tooltip.examples.bottom') }}</Button>
+          <Tooltip content="Tooltip na posição inferior" position="bottom">
+            <Button variant="outline">Inferior</Button>
           </Tooltip>
         </div>
       </div>
     </section>
   </div>
 </template>
-
 
 <script setup>
 import { ref } from 'vue'
@@ -81,7 +80,6 @@ import Tooltip from '@/components/ui/Tooltip.vue'
 import Button from '@/components/ui/Button.vue'
 import Input from '@/components/ui/Input.vue'
 import Card from '@/components/ui/Card.vue'
-
 
 const showModal = ref(false)
 const showLargeModal = ref(false)
@@ -92,7 +90,6 @@ const handleModalConfirm = () => {
 </script>
 
 <style scoped>
-
 .tab-content {
   display: flex;
   flex-direction: column;
@@ -100,7 +97,7 @@ const handleModalConfirm = () => {
 }
 
 .catalog-section {
-  padding: 2em;
+  padding: 2rem;
   background: var(--surface);
   border-radius: 12px;
   border: 1px solid var(--border);
@@ -108,8 +105,8 @@ const handleModalConfirm = () => {
 }
 
 .catalog-section h2 {
-  font-size: 1.75em;
-  margin-bottom: 1em;
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
   color: var(--text-primary);
   display: flex;
   align-items: center;
@@ -132,65 +129,49 @@ const handleModalConfirm = () => {
 
 .demo-controls {
   display: flex;
-  gap: 1em;
+  gap: 1rem;
   flex-wrap: wrap;
 }
 
 .modal-content {
-  padding: 1em 0;
+  padding: 1rem 0;
 }
 
 .modal-form {
   display: flex;
   flex-direction: column;
-  gap: 1em;
-  margin-top: 1.5em;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 .modal-footer {
   display: flex;
-  gap: 0.75em;
+  gap: 0.75rem;
   justify-content: flex-end;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.5rem;
 }
 
 .content-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1em;
-  margin-top: 1.5em;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 .tooltip-demo-grid {
   display: flex;
-  gap: 1em;
+  gap: 2rem;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 2em;
-  padding: 2em;
+  padding: 2rem;
   background: var(--surface);
   border-radius: 8px;
   border: 1px solid var(--border);
 }
 
-.tooltip-variants {
-  margin-top: 2em;
-}
-
-.tooltip-variants h3 {
-  margin-bottom: 1em;
-  color: var(--text-primary);
-}
-
-.demo-grid {
-  display: flex;
-  gap: 1em;
-  flex-wrap: wrap;
-}
-
 @media (max-width: 768px) {
   .catalog-section {
-    padding: 1em;
+    padding: 1rem;
   }
   
   .demo-controls {
@@ -200,6 +181,7 @@ const handleModalConfirm = () => {
   .tooltip-demo-grid {
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
   }
   
   .modal-footer {

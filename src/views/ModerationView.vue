@@ -277,7 +277,15 @@ const formatDate = (date: string | undefined): string => {
   return new Date(date).toLocaleString('pt-BR')
 }
 
-onMounted(refresh)
+onMounted(() => {
+  // O router já deve ter barrado, mas verificamos novamente por segurança
+  adminStore.checkAuth()
+  if (!adminStore.isAuthenticated) {
+    router.push('/admin')
+    return
+  }
+  refresh()
+})
 </script>
 
 <style scoped>

@@ -116,12 +116,11 @@ defineExpose({
   align-items: center;
   gap: 1em;
   transition: all 0.3s ease;
-  max-width: 400px;
-  min-width: 300px;
+  max-width: 500px;
+  min-width: 250px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   margin: 0.5rem;
 }
-
 
 .toast-top-left {
   top: 0;
@@ -180,8 +179,8 @@ defineExpose({
 }
 
 .toast-sm {
-  padding: 0.75rem;
-  font-size: 0.875rem;
+  padding: 0.5rem;
+  font-size: 0.8rem;
 }
 
 .toast-md {
@@ -190,8 +189,8 @@ defineExpose({
 }
 
 .toast-lg {
-  padding: 1.25rem;
-  font-size: 1.125rem;
+  padding: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .toast-content {
@@ -239,7 +238,6 @@ defineExpose({
   opacity: 0;
   transform: translateY(-10px) scale(0.95);
 }
-
 
 .toast-top-left.toast-fade-enter-from,
 .toast-top-center.toast-fade-enter-from,

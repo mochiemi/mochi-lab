@@ -6,8 +6,18 @@
       </router-link>
       
       <div class="nav-links desktop-nav">
+        <template v-for="section in navigationConfig" :key="section.id">
+          <router-link 
+            v-if="section.isDirectLink"
+            :to="section.path" 
+            class="nav-direct-link"
+            :class="{ 'router-link-active': $route.path === section.path }"
+          >
+            <span class="direct-link-text">{{ $t(section.labelKey) }}</span>
+          </router-link>
+        </template>
         <Dropdown 
-          v-for="section in navigationConfig" 
+          v-for="section in dropdownSections" 
           :key="section.id"
           :label="$t(section.labelKey)" 
           :dropdown-id="section.id"
@@ -56,6 +66,21 @@
     >
       <div v-if="isMobileMenuOpen" class="mobile-menu" key="mobile-menu">
         <div class="mobile-menu-content">
+          <!-- Links diretos no mobile com mesmo estilo dos dropdown items -->
+          <div class="mobile-direct-links">
+            <router-link 
+              v-for="section in directLinks" 
+              :key="section.id"
+              :to="section.path" 
+              class="mobile-direct-link"
+              @click="closeMobileMenu"
+            >
+              <OhVueIcon :name="getIconForDirectLink(section.id)" class="mobile-menu-icon" />
+              {{ $t(section.labelKey) }}
+            </router-link>
+          </div>
+
+          <!-- Accordion para dropdowns no mobile -->
           <Accordion
             :items="accordionItems"
             :multiple="true"
@@ -88,17 +113,38 @@ import Accordion from '@/components/ui/Accordion.vue'
 import ThemeToggle from './ThemeToggle.vue'
 import LanguageToggle from './LanguageToggle.vue'
 import { OhVueIcon } from 'oh-vue-icons'
-import { computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import { navigationConfig } from '@/config/navigation.js'
 import '@/assets/styles/variables.css'
 import '@/assets/styles/fonts.css'
 
 const { t } = useI18n()
+const route = useRoute()
 const isMobileMenuOpen = ref(false)
 
+// Função para retornar ícones para os links diretos
+const getIconForDirectLink = (id) => {
+  const icons = {
+    home: 'oi-home',
+    blog: 'oi-pencil'
+  }
+  return icons[id] || 'oi-link'
+}
+
+// Filtra apenas os links diretos (Home e Blog)
+const directLinks = computed(() => {
+  return navigationConfig.filter(section => section.isDirectLink)
+})
+
+// Filtra apenas as seções com dropdown (que têm items)
+const dropdownSections = computed(() => {
+  return navigationConfig.filter(section => !section.isDirectLink && section.items)
+})
+
 const accordionItems = computed(() => {
-  return navigationConfig.map(section => ({
+  return dropdownSections.value.map(section => ({
     id: section.id,
     title: t(section.labelKey),
     children: section.items
@@ -197,6 +243,39 @@ onBeforeUnmount(() => {
   background-color: var(--bg-navbar);
 }
 
+.nav-direct-link {
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 0.5em 1.2em;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  position: relative;
+  background: transparent;
+  border: 2px solid transparent;
+  display: inline-block;
+}
+
+.nav-direct-link:hover {
+  color: var(--white);
+  background-color: var(--navbar-surface);
+  transform: translateY(-2px);
+  border-color: var(--border-secondary);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.nav-direct-link.router-link-active {
+  color: var(--strong-rose);
+  background-color: var(--navbar-surface);
+  border-color: var(--border-secondary);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.direct-link-text {
+  position: relative;
+  z-index: 1;
+}
+
 .nav-dropdown {
   position: relative;
   background-color: transparent;
@@ -208,9 +287,8 @@ onBeforeUnmount(() => {
   align-items: center;
   margin-left: 1.5rem;
   padding-left: 1.5rem;
-  border-left: 1px solid var(--strong-border);
+  border-left: 1px solid var(--border-strong);
   background-color: var(--bg-navbar);
-
 }
 
 .nav-control {
@@ -251,7 +329,7 @@ onBeforeUnmount(() => {
 }
 
 .hamburger-btn:hover {  
-  border-color: var(--border-seecondary);
+  border-color: var(--border-secondary);
   background-color: var(--sky-blue-surface);
 }
 
@@ -302,8 +380,8 @@ onBeforeUnmount(() => {
   top: 100%;
   left: 0;
   width: 100%;
-  background: var(--surface);
-  background: linear-gradient(135deg, var(--surface) 0%, var(--inner-surface) 100%);
+  background: var(--surface-primary);
+  background: linear-gradient(135deg, var(--surface-primary) 0%, var(--inner-surface) 100%);
   box-shadow: 0 8px 30px var(--shadow-hover);
   border-top: 1px solid var(--border);
   max-height: 80vh;
@@ -313,6 +391,38 @@ onBeforeUnmount(() => {
 
 .mobile-menu-content {
   padding: 1em;
+}
+
+.mobile-direct-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  border-bottom: 2px dashed var(--border-strong);
+}
+
+.mobile-direct-link {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  padding: 1em 1.25em;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  font-weight: 500;
+  margin-bottom: 0.25em;
+  border-bottom: 2px dashed var(--border-contrast);
+  background: transparent;
+}
+
+.mobile-direct-link:hover,
+.mobile-direct-link.router-link-active {
+  background-color: var(--navbar-surface);
+  color: var(--text-secondary);
+  transform: translateX(8px);
+  border-color: var(--secondary);
+  box-shadow: 0 4px 12px var(--shadow);
 }
 
 .mobile-accordion {
@@ -333,11 +443,10 @@ onBeforeUnmount(() => {
   padding: 1em 1.25em;
   text-decoration: none;
   color: var(--text-primary);
-  border-radius: 12px;
   transition: all 0.3s ease;
   font-weight: 500;
   margin-bottom: 0.25em;
-  border-bottom: 2px dashed (--text-contrast);
+  border-bottom: 2px dashed var(--border-contrast);
   background: transparent;
 }
 
@@ -358,7 +467,8 @@ onBeforeUnmount(() => {
   transition: transform 0.3s ease;
 }
 
-.mobile-menu-item:hover .mobile-menu-icon {
+.mobile-menu-item:hover .mobile-menu-icon,
+.mobile-direct-link:hover .mobile-menu-icon {
   transform: scale(1.2);
 }
 
@@ -372,7 +482,7 @@ onBeforeUnmount(() => {
   transition: all 0.3s ease;
   font-weight: 500;
   margin: 0.25em 0;
-  border-bottom: 2px dashed var(--text-contrast);
+  border-bottom: 2px dashed var(--border-contrast);
 }
 
 .dropdown-item:hover,
@@ -424,11 +534,6 @@ onBeforeUnmount(() => {
     font-size: 1.25em;
     gap: 0.5rem;
   }
-  
-  .spin-logo {
-    width: 40px ;
-    height: 40px ;
-  }
 }
 
 @media (min-width: 801px) {
@@ -455,15 +560,11 @@ onBeforeUnmount(() => {
   }
   
   .mobile-menu-item,
+  .mobile-direct-link,
   .dropdown-item {
     gap: 0.75em;
     padding: 0.875em 1em;
     font-size: 0.9em;
-  }
-  
-  .spin-logo {
-    width: 32px ;
-    height: 32px ;
   }
   
   .nav-container {
@@ -484,5 +585,4 @@ onBeforeUnmount(() => {
     font-size: 1.3em;
   }
 }
-
 </style>

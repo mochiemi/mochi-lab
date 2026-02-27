@@ -5,7 +5,7 @@
         <div class="about-header">
           <div class="header-content">
             <h1>{{ $t('about.title') }}</h1>
-            <p class="subtitle">{{ $t('about.subtitle') }}</p>
+            
           </div>
         </div>
       </template>
@@ -21,6 +21,7 @@
               <p class="intro-text">
                 {{ $t('about.description') }}
               </p>
+              <p class="dory-quote"><q>{{ $t('about.dory') }}</q></p>
             </div>
           </div>
         </div>
@@ -206,12 +207,12 @@ const techStack = [
 }
 
 .header-content h1 {
-  color: var(--secondary);
-  margin-bottom: 0.5rem;
+  color: var(--title-primary);
+  margin-bottom: 0.5em;
 }
 
-.subtitle {
-  font-size: 1.2rem;
+.dory-quote {
+  font-size: 1.8em;
   color: var(--text-secondary);
   margin: 0;
   line-height: 1.5;

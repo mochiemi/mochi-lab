@@ -23,7 +23,7 @@
       </div>
     </Card>
 
-        <section class="features-section">
+    <section class="features-section">
       <div class="features-header">
         <h2 class="features-title">
           <OhVueIcon name="gi-erlenmeyer" class="features-icon" />
@@ -33,7 +33,7 @@
       </div>
 
       <div class="features-grid">
-        <!-- Card do Blog (existente) -->
+        <!-- Card do Blog -->
         <Card class="feature-card" :padding="'normal'">
           <template #header>
             <div class="feature-header">
@@ -111,28 +111,31 @@
           </template>
         </Card>
 
-        <!-- FeaturedGHCard -->
-        <FeaturedGHCard />
+        <!-- TodayGHCard - Grade Horária do Dia Atual -->
+        <TodayGHCard 
+          :title="$t('home.features.schedule')"
+          icon="bi-calendar-heart"
+          badge="2026/1"
+          badge-variant="primary"
+          :classes="scheduleStore.allClasses"
+          :loading="false"
+          @view-full-schedule="goToFullSchedule"
+          @class-click="handleClassClick"
+        />
 
-        <!-- Future Cards (mantidos) -->
-        <slot name="feature-3">
-          <Card class="feature-card future-card" :padding="'normal'">
-            <template #header>
-              <div class="feature-header">
-                <div class="feature-icon-wrapper future">
-                  <OhVueIcon name="gi-erlenmeyer" class="feature-icon future-icon" />
-                </div>
-              </div>
-              <h3 class="feature-title future-title">{{ $t('home.features.comingSoon') }}</h3>
-            </template>
+        <!-- FutureGHCard - Próximas Aulas -->
+        <FutureGHCard 
+          :title="$t('home.features.nextClasses')"
+          icon="bi-calendar-week"
+          badge="Próximos dias"
+          badge-variant="secondary"
+          :classes="scheduleStore.allClasses"
+          :loading="false"
+          @view-full-schedule="goToFullSchedule"
+          @class-click="handleClassClick"
+        />
 
-            <div class="feature-content future-content">
-              <OhVueIcon name="gi-pineapple" class="future-main-icon" />
-              <p>{{ $t('inConstruction.note') }}</p>
-            </div>
-          </Card>
-        </slot>
-
+        <!-- Future Cards (opcional) -->
         <slot name="feature-4">
           <Card class="feature-card future-card" :padding="'normal'">
             <template #header>
@@ -152,8 +155,6 @@
         </slot>
       </div>
     </section>
-
-
   </div>
 </template>
 
@@ -161,12 +162,14 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useLanguageStore } from '@/stores/language';
+import { useScheduleStore } from '@/stores/schedule';
 import Card from '@/components/ui/Card.vue';
 import Button from '@/components/ui/Button.vue';
 import Badge from '@/components/ui/Badge.vue';
 import Loading from '@/components/ui/Loading.vue';
 import Tooltip from '@/components/ui/Tooltip.vue';
-import FeaturedGHCard from '@/components/layout/cards/FeaturedGHCard.vue'
+import TodayGHCard from '@/components/layout/cards/TodayGHCard.vue';
+import FutureGHCard from '@/components/layout/cards/FutureGHCard.vue';
 import { OhVueIcon } from '@/plugins/icons';
 
 const API_KEY = import.meta.env.VITE_BLOGGER_API_KEY;
@@ -174,17 +177,12 @@ const BLOG_ID = import.meta.env.VITE_BLOGGER_BLOG_ID;
 
 const router = useRouter();
 const languageStore = useLanguageStore();
+const scheduleStore = useScheduleStore();
 const today = new Date();
 
 const latestPost = ref(null);
 const loading = ref(true);
 const error = ref(null);
-
-const nextClass = {
-  day: 'Segunda',
-  time: '09:00 - 10:00',
-  subject: 'Biossegurança e Primeiros Socorros'
-};
 
 const formattedDate = computed(() => {
   const locale = languageStore.currentLanguage;
@@ -197,14 +195,12 @@ const formattedDate = computed(() => {
   return `${weekday}, ${date}`;
 });
 
-// Helper para limpar HTML
 const stripHtml = (html) => {
   const tmp = document.createElement('div');
   tmp.innerHTML = html;
   return tmp.textContent || tmp.innerText || '';
 };
 
-// Buscar último post
 const fetchLatestPost = async () => {
   try {
     loading.value = true;
@@ -240,7 +236,6 @@ const fetchLatestPost = async () => {
   }
 };
 
-// Formatar data
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString(languageStore.currentLanguage, {
     year: 'numeric',
@@ -249,11 +244,21 @@ const formatDate = (dateString) => {
   });
 };
 
-// Navegar para último post
 const goToLatestPost = () => {
   if (latestPost.value) {
     router.push(`/post/${latestPost.value.id}`);
   }
+};
+
+// Navegar para grade completa
+const goToFullSchedule = () => {
+  router.push('/grade-horaria');
+};
+
+// Lidar com clique em aula
+const handleClassClick = (classItem) => {
+  console.log('Class clicked:', classItem);
+  // Aqui você pode implementar um modal com detalhes da aula
 };
 
 onMounted(() => {
@@ -262,6 +267,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* Estilos existentes permanecem iguais */
 .home {
   max-width: 1400px;
   margin: 0 auto;
@@ -273,7 +279,6 @@ onMounted(() => {
   letter-spacing: 1px;
 }
 
-/* Hero Card (existing styles) */
 .hero-card {
   width: min(95dvw, 1000px);
   margin: 0 auto;
@@ -358,7 +363,6 @@ onMounted(() => {
   margin-bottom: 1em;
 }
 
-/* Features Section */
 .features-section {
   width: min(95dvw, 1200px);
   margin: 2em auto;
@@ -476,7 +480,6 @@ onMounted(() => {
   font-size: 2em;
 }
 
-
 .post-preview-title {
   color: var(--title-secondary);
   font-size: 1.1em;
@@ -530,94 +533,6 @@ onMounted(() => {
   border-radius: 4px;
 }
 
-/* Schedule Preview */
-.schedule-preview {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5em;
-}
-
-.schedule-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5em;
-  text-align: center;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25em;
-}
-
-.stat-value {
-  font-size: 1.4em;
-  font-weight: 700;
-  color: var(--title-primary);
-}
-
-.stat-label {
-  font-size: 0.75em;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-}
-
-.schedule-next-class {
-  padding: 1em;
-  background: var(--inner-surface);
-  border-radius: 8px;
-}
-
-.next-class-label {
-  display: flex;
-  align-items: center;
-  gap: 0.3em;
-  font-size: 0.85em;
-  color: var(--text-secondary);
-  margin-bottom: 0.5em;
-}
-
-.next-class-icon {
-  color: var(--primary);
-}
-
-.next-class-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25em;
-}
-
-.next-class-day {
-  font-weight: 700;
-  color: var(--title-secondary);
-}
-
-.next-class-time {
-  font-size: 0.85em;
-  color: var(--primary);
-}
-
-.next-class-subject {
-  font-size: 0.9em;
-  color: var(--text-primary);
-}
-
-.schedule-update {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  font-size: 0.8em;
-  color: var(--text-secondary);
-  padding: 0.5em;
-  background: var(--surface-secondary);
-  border-radius: 6px;
-}
-
-.update-icon {
-  color: var(--green);
-}
-
-/* Future Card */
 .future-card {
   opacity: 0.8;
   background: var(--surface-secondary);
@@ -652,7 +567,6 @@ onMounted(() => {
   margin-right: 0.5em;
 }
 
-/* Responsividade */
 @media (max-width: 1080px) {
   .hero-content {
     grid-template-columns: 1fr;
@@ -694,17 +608,12 @@ onMounted(() => {
     font-size: 2.5em;
   }
 
-
   .features-title {
     font-size: 1.2em;
   }
 
   .features-description {
     font-size: 0.9em;
-  }
-
-  .stat-value {
-    font-size: 1em;
   }
 }
 
@@ -729,10 +638,6 @@ onMounted(() => {
 
   .separator-dot {
     display: none;
-  }
-
-  .schedule-stats {
-    gap: 0.25em;
   }
 }
 </style>

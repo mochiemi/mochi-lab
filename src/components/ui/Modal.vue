@@ -7,7 +7,7 @@
           :style="modalStyles"
           role="dialog"
           aria-modal="true"
-          :aria-labelledby="title ? `${modalId}-title` : null"
+          :aria-labelledby="ariaLabelledBy"
         >
           <div class="modal-header" v-if="$slots.header || title">
             <slot name="header">
@@ -36,44 +36,48 @@
   </Teleport>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 
-const props = defineProps({
-  show: {
-    type: Boolean,
-    default: false
-  },
-  title: {
-    type: String,
-    default: ''
-  },
-  size: {
-    type: String,
-    default: 'md',
-    validator: (value) => ['sm', 'md', 'lg', 'xl'].includes(value)
-  },
-  closable: {
-    type: Boolean,
-    default: true
-  },
-  closeOnOverlay: {
-    type: Boolean,
-    default: true
-  },
-  width: {
-    type: String,
-    default: ''
-  }
+interface Props {
+  show?: boolean
+  title?: string
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  closable?: boolean
+  closeOnOverlay?: boolean
+  width?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  show: false,
+  title: '',
+  size: 'md',
+  closable: true,
+  closeOnOverlay: true,
+  width: ''
 })
 
-const emit = defineEmits(['update:show', 'close'])
+const emit = defineEmits<{
+  'update:show': [value: boolean]
+  'close': []
+}>()
+
+// Define os slots para tipagem do TypeScript
+defineSlots<{
+  default?: () => any
+  header?: () => any
+  footer?: () => any
+}>()
 
 const modalId = ref(`modal-${Math.random().toString(36).substr(2, 9)}`)
 
+const ariaLabelledBy = computed(() => {
+  return props.title ? `${modalId.value}-title` : undefined
+})
+
 const modalStyles = computed(() => {
   return {
-    width: props.width || null
+    width: props.width || undefined
   }
 })
 
@@ -81,7 +85,7 @@ watch(() => props.show, (newVal) => {
   if (newVal) {
     document.body.style.overflow = 'hidden'
     nextTick(() => {
-      const focusable = document.querySelector('.modal-container button, .modal-container input, .modal-container select, .modal-container textarea')
+      const focusable = document.querySelector('.modal-container button, .modal-container input, .modal-container select, .modal-container textarea') as HTMLElement
       if (focusable) focusable.focus()
     })
   } else {
@@ -100,7 +104,7 @@ const handleOverlayClick = () => {
   }
 }
 
-const handleEscape = (event) => {
+const handleEscape = (event: KeyboardEvent) => {
   if (event.key === 'Escape' && props.show && props.closable) {
     handleClose()
   }

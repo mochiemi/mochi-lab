@@ -2,80 +2,80 @@
   <div class="tab-content">
     <!-- Alerts -->
     <section class="catalog-section">
-      <h2><OhVueIcon name="oi-alert" /> {{ $t('components.tabs.feedback.alert.title') }}</h2>
-      <p class="section-description">{{ $t('components.tabs.feedback.alert.description') }}</p>
+      <h2><OhVueIcon name="oi-alert" /> Alertas</h2>
+      <p class="section-description">Componentes de alerta para exibir mensagens importantes, erros, avisos e confirmações.</p>
       
       <div class="component-demo">
         <Alert type="info" dismissible @dismiss="showAlertDismissed = true">
-            <OhVueIcon name="hi-information-circle" class="icon"/>
-          <strong>{{ $t('components.tabs.feedback.alert.types.info') }}:</strong> {{ $t('components.tabs.feedback.alert.messages.info') }}
+          <OhVueIcon name="hi-information-circle" class="icon"/>
+          <strong>Informativo:</strong> Esta é uma mensagem informativa sobre o funcionamento do sistema.
         </Alert>
 
         <Alert type="success" dismissible>
-            <OhVueIcon name="oi-check" class="icon"/>
-          <strong>{{ $t('components.tabs.feedback.alert.types.success') }}:</strong> {{ $t('components.tabs.feedback.alert.messages.success') }}
+          <OhVueIcon name="oi-check" class="icon"/>
+          <strong>Sucesso:</strong> Operação realizada com sucesso!
         </Alert>
         
         <Alert type="warning" dismissible>
-            <OhVueIcon name="md-warning-round" class="icon"/>
-          <strong>{{ $t('components.tabs.feedback.alert.types.warning') }}:</strong> {{ $t('components.tabs.feedback.alert.messages.warning') }}
+          <OhVueIcon name="md-warning-round" class="icon"/>
+          <strong>Atenção:</strong> Esta ação não pode ser desfeita.
         </Alert>
         
         <Alert type="error" dismissible>
-            <OhVueIcon name="la-bug-solid" class="icon"/>
-          <strong>{{ $t('components.tabs.feedback.alert.types.error') }}:</strong> {{ $t('components.tabs.feedback.alert.messages.error') }}
+          <OhVueIcon name="la-bug-solid" class="icon"/>
+          <strong>Erro:</strong> Ocorreu um erro ao processar sua solicitação.
         </Alert>
 
         <Toast v-if="showAlertDismissed" type="success">
-          {{ $t('components.tabs.feedback.alert.messages.dismissed') }}
+          Alerta fechado com sucesso!
         </Toast>
       </div>
     </section>
 
     <section class="catalog-section">
-      <h2><OhVueIcon name="bi-info-square" /> {{ $t('components.tabs.feedback.toast.title') }}</h2>
-      <p class="section-description">{{ $t('components.tabs.feedback.toast.description') }}</p>
+      <h2><OhVueIcon name="bi-info-square" /> Toast Notifications</h2>
+      <p class="section-description">Notificações temporárias que aparecem em diferentes posições da tela.</p>
       
       <div class="component-demo">
         <div class="toast-controls">
           <div class="control-group">
-            <h4>{{ $t('components.tabs.feedback.toast.controls.topPositions') }}</h4>
+            <h4>Posições Superiores</h4>
             <div class="button-group">
               <Button @click="showToast('top-left', 'info')" variant="outline" size="sm">
-                {{ $t('components.tabs.feedback.toast.positions.topLeft') }}
+                Topo Esquerdo
               </Button>
               <Button @click="showToast('top-center', 'success')" variant="outline" size="sm">
-                {{ $t('components.tabs.feedback.toast.positions.topCenter') }}
+                Topo Centro
               </Button>
               <Button @click="showToast('top-right', 'warning')" variant="outline" size="sm">
-                {{ $t('components.tabs.feedback.toast.positions.topRight') }}
+                Topo Direito
               </Button>
             </div>
           </div>
           
           <div class="control-group">
-            <h4>{{ $t('components.tabs.feedback.toast.controls.bottomPositions') }}</h4>
+            <h4>Posições Inferiores</h4>
             <div class="button-group">
               <Button @click="showToast('bottom-left', 'error')" variant="outline" size="sm">
-                {{ $t('components.tabs.feedback.toast.positions.bottomLeft') }}
+                Inferior Esquerdo
               </Button>
               <Button @click="showToast('bottom-center', 'info')" variant="outline" size="sm">
-                {{ $t('components.tabs.feedback.toast.positions.bottomCenter') }}
+                Inferior Centro
               </Button>
               <Button @click="showToast('bottom-right', 'success')" variant="outline" size="sm">
-                {{ $t('components.tabs.feedback.toast.positions.bottomRight') }}
+                Inferior Direito
               </Button>
             </div>
           </div>
           
           <div class="control-group">
-            <h4>{{ $t('components.tabs.feedback.toast.controls.withActions') }}</h4>
+            <h4>Com Ações</h4>
             <div class="button-group">
               <Button @click="showCustomToast" variant="primary" size="sm">
-                {{ $t('components.tabs.feedback.toast.controls.withIcon') }}
+                Com Ícone Personalizado
               </Button>
               <Button @click="showPersistentToast" variant="secondary" size="sm">
-                {{ $t('components.tabs.feedback.toast.controls.noAutoClose') }}
+                Sem Fechamento Automático
               </Button>
             </div>
           </div>
@@ -105,9 +105,7 @@ import Alert from '@/components/ui/Alert.vue'
 import Toast from '@/components/ui/Toast.vue'
 import Button from '@/components/ui/Button.vue'
 import { OhVueIcon } from 'oh-vue-icons'
-import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
 const showAlertDismissed = ref(false)
 
 const toasts = ref([])
@@ -117,10 +115,10 @@ const showToast = (position, type) => {
   const id = toastId++
   
   const messages = {
-    info: t('components.tabs.feedback.toast.messages.info'),
-    success: t('components.tabs.feedback.toast.messages.success'),
-    warning: t('components.tabs.feedback.toast.messages.warning'),
-    error: t('components.tabs.feedback.toast.messages.error')
+    info: 'Esta é uma mensagem informativa do sistema.',
+    success: 'Operação realizada com sucesso!',
+    warning: 'Atenção: Verifique os dados informados.',
+    error: 'Erro ao processar a solicitação.'
   }
   
   const icons = {
@@ -148,7 +146,7 @@ const showCustomToast = () => {
     id,
     position: 'top-right',
     type: 'success',
-    message: t('components.tabs.feedback.toast.messages.custom'),
+    message: 'Toast personalizado com ícone e tempo reduzido!',
     icon: 'oi-check',
     autoClose: 3000,
     dismissible: true,
@@ -162,7 +160,7 @@ const showPersistentToast = () => {
     id,
     position: 'bottom-center',
     type: 'info',
-    message: t('components.tabs.feedback.toast.messages.persistent'),
+    message: 'Este toast permanece até ser fechado manualmente.',
     icon: 'hi-information-circle',
     autoClose: false,
     dismissible: true,
@@ -179,6 +177,41 @@ const removeToast = (id) => {
 </script>
 
 <style scoped>
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.catalog-section {
+  padding: 2rem;
+  background: var(--surface);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.catalog-section h2 {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-description {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.component-demo {
+  padding: 1.5rem;
+  background: var(--inner-surface);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
 
 .toast-controls {
   display: flex;
@@ -201,11 +234,14 @@ const removeToast = (id) => {
 
 .icon {
   margin-right: 0.5rem;
-  vertical-align: center;
+  vertical-align: middle;
 }
 
 @media (max-width: 768px) {
-
+  .catalog-section {
+    padding: 1rem;
+  }
+  
   .button-group {
     flex-direction: column;
     align-items: flex-start;

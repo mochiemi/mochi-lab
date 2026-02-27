@@ -1,14 +1,14 @@
 <template>
   <div class="tab-content">
-    <!-- Cards -->
+    <!-- Loading -->
      <section class="catalog-section">
-      <h2><OhVueIcon name="oi-reload" /> {{ $t('components.tabs.feedback.loading.title') }}</h2>
-      <p class="section-description">{{ $t('components.tabs.feedback.loading.description') }}</p>
+      <h2><OhVueIcon name="oi-reload" /> Loading</h2>
+      <p class="section-description">Indicadores visuais de carregamento com diferentes animações e tamanhos.</p>
       
       <div class="component-demo">
         <div class="loading-grid">
           <div class="loading-group">
-            <h4>{{ $t('components.tabs.feedback.loading.types.circle') }}</h4>
+            <h4>Círculo</h4>
             <div class="loading-examples">
               <Loading size="sm" animation="circle" variant="secondary"/>
               <Loading size="md" animation="circle" />
@@ -17,7 +17,7 @@
             </div>
           </div>
           <div class="loading-group">
-            <h4>{{ $t('components.tabs.feedback.loading.types.bounce') }}</h4>
+            <h4>Bounce</h4>
             <div class="loading-examples">
               <Loading size="sm" animation="bounce" />
               <Loading size="md" animation="bounce" variant="secondary"/>
@@ -27,19 +27,19 @@
           </div>
 
           <div class="loading-group">
-            <h4>{{ $t('components.tabs.feedback.loading.types.withText') }}</h4>
+            <h4>Com Texto</h4>
             <div class="loading-examples">
-              <Loading animation="circle" :text="$t('components.tabs.feedback.loading.text.loading')" />
-              <Loading animation="bounce" :text="$t('components.tabs.feedback.loading.text.processing')" />
+              <Loading animation="circle" text="Carregando..." />
+              <Loading animation="bounce" text="Processando..." />
             </div>
           </div>
 
           <div class="loading-group">
-            <h4>{{ $t('components.tabs.feedback.loading.types.animationSpeed') }}</h4>
+            <h4>Velocidade de Animação</h4>
             <div class="loading-examples">
-              <Loading animation="circle" speed="slow" :text="$t('components.tabs.feedback.loading.text.slow')" />
-              <Loading animation="circle" speed="normal" :text="$t('components.tabs.feedback.loading.text.normal')" />
-              <Loading animation="circle" speed="fast" :text="$t('components.tabs.feedback.loading.text.fast')" />
+              <Loading animation="circle" speed="slow" text="Lento" />
+              <Loading animation="circle" speed="normal" text="Normal" />
+              <Loading animation="circle" speed="fast" text="Rápido" />
             </div>
           </div>
         </div>
@@ -47,38 +47,37 @@
     </section>
 
     <section class="catalog-section">
-      <h2><OhVueIcon name="oi-task" /> {{ $t('components.tabs.layout.progress.title') }}</h2>
-      <p class="section-description">{{ $t('components.tabs.layout.progress.description') }}</p>
+      <h2><OhVueIcon name="oi-task" /> Barras de Progresso</h2>
+      <p class="section-description">Componentes para visualizar o progresso de tarefas e processos.</p>
       
       <div class="component-demo">
         <div class="progress-grid">
           <!-- Basic Progress -->
-          <Card :title="$t('components.tabs.layout.progress.examples.basic')" padding="normal">
-            <Progress :value="75" label="Project Completion" />
+          <Card title="Básico" padding="normal">
+            <Progress :value="75" label="Conclusão do Projeto" />
           </Card>
 
-          <Card :title="$t('components.tabs.layout.progress.examples.variants')" padding="normal">
-            <Progress :value="45" label="Primary" variant="primary" class="progress-demo" />
-            <Progress :value="60" label="Secondary" variant="secondary" class="progress-demo" />
-            <Progress :value="85" label="Gradient" variant="gradient" class="progress-demo" />
+          <Card title="Variantes" padding="normal">
+            <Progress :value="45" label="Primário" variant="primary" class="progress-demo" />
+            <Progress :value="60" label="Secundário" variant="secondary" class="progress-demo" />
+            <Progress :value="85" label="Gradiente" variant="gradient" class="progress-demo" />
           </Card>
 
-
-          <Card :title="$t('components.tabs.layout.progress.examples.sizes')" padding="normal">
-            <Progress :value="65" label="Small" size="small" class="progress-demo" />
-            <Progress :value="65" label="Medium" size="medium" class="progress-demo" />
-            <Progress :value="65" label="Large" size="large" class="progress-demo" />
+          <Card title="Tamanhos" padding="normal">
+            <Progress :value="65" label="Pequeno" size="small" class="progress-demo" />
+            <Progress :value="65" label="Médio" size="medium" class="progress-demo" />
+            <Progress :value="65" label="Grande" size="large" class="progress-demo" />
           </Card>
 
-          <Card :title="$t('components.tabs.layout.progress.examples.effects')" padding="normal">
-            <Progress :value="80" label="Striped" striped class="progress-demo" />
-            <Progress :value="70" label="Animated Stripes" striped animated class="progress-demo" />
+          <Card title="Efeitos" padding="normal">
+            <Progress :value="80" label="Listrado" striped class="progress-demo" />
+            <Progress :value="70" label="Listras Animadas" striped animated class="progress-demo" />
           </Card>
 
-          <Card :title="$t('components.tabs.layout.progress.examples.interactive')" padding="normal">
+          <Card title="Interativo" padding="normal">
             <Progress 
               :value="progressValue" 
-              :label="`Progress: ${progressValue}%`" 
+              :label="`Progresso: ${progressValue}%`" 
               variant="secondary" 
               striped 
               animated 
@@ -95,17 +94,17 @@
             </div>
           </Card>
 
-          <Card :title="$t('components.tabs.layout.progress.examples.withDescriptions')" padding="normal">
+          <Card title="Com Descrições" padding="normal">
             <Progress 
               :value="35" 
-              :label="$t('components.tabs.layout.progress.examples.title1')" 
-              :description="$t('components.tabs.layout.progress.examples.description1')" 
+              label="Download de Arquivos" 
+              description="3 de 10 arquivos baixados" 
               class="progress-demo"
             />
             <Progress 
               :value="75" 
-              :label="$t('components.tabs.layout.progress.examples.title2')" 
-              :description="$t('components.tabs.layout.progress.examples.description2')" 
+              label="Upload" 
+              description="75% concluído" 
               variant="success"
               class="progress-demo"
             />
@@ -115,21 +114,21 @@
     </section>
 
     <section class="catalog-section">
-      <h2><OhVueIcon name="bi-card-checklist" /> {{ $t('components.tabs.layout.lists.title') }}</h2>
-      <p class="section-description">{{ $t('components.tabs.layout.lists.description') }}</p>
+      <h2><OhVueIcon name="bi-card-checklist" /> Listas</h2>
+      <p class="section-description">Componentes para exibir listas de itens com diferentes estilos e funcionalidades.</p>
       
       <div class="component-demo">
         <div class="lists-grid">
 
-          <Card :title="$t('components.tabs.layout.lists.examples.basic')" padding="normal">
+          <Card title="Lista Básica" padding="normal">
             <List :items="basicListItems" />
           </Card>
 
-          <Card :title="$t('components.tabs.layout.lists.examples.ordered')" padding="normal">
+          <Card title="Lista Ordenada" padding="normal">
             <List :items="orderedListItems" :ordered="true" />
           </Card>
 
-          <Card :title="$t('components.tabs.layout.lists.examples.clickable')" padding="normal">
+          <Card title="Lista Clicável" padding="normal">
             <List 
               :items="clickableListItems" 
               :clickable="true" 
@@ -137,7 +136,7 @@
             />
           </Card>
 
-          <Card :title="$t('components.tabs.layout.lists.examples.styled')" padding="normal">
+          <Card title="Lista Estilizada" padding="normal">
             <List 
               :items="styledListItems" 
               :striped="true"
@@ -146,7 +145,7 @@
             />
           </Card>
 
-          <Card :title="$t('components.tabs.layout.lists.examples.customBullet')" padding="normal">
+          <Card title="Marcador Personalizado" padding="normal">
             <List 
               :items="customBulletListItems" 
               :custom-bullet="customBulletImage"
@@ -156,7 +155,7 @@
         </div>
       </div>
       <div class="component-demo">
-        <Card :title="$t('components.tabs.layout.lists.examples.withActions')" padding="normal">
+        <Card title="Com Ações" padding="normal">
           <List 
             :items="actionListItems" 
             :divided="true"
@@ -170,14 +169,11 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
 import Card from '@/components/ui/Card.vue'
 import Button from '@/components/ui/Button.vue'
 import Loading from '@/components/ui/Loading.vue'
 import List from '@/components/ui/List.vue'
 import Progress from '@/components/ui/Progress.vue'
-
-const { t } = useI18n()
 
 const progressValue = ref(50)
 
@@ -193,70 +189,66 @@ const decreaseProgress = () => {
   }
 }
 
-const handleCardClick = () => {
-  console.log('Card clicked!')
-}
-
 const handleListItemClick = (event) => {
-  console.log('List item clicked:', event)
+  console.log('Item da lista clicado:', event)
 }
 
 const handleListActionClick = (event) => {
-  console.log('List action clicked:', event)
+  console.log('Ação da lista clicada:', event)
 }
 
-const basicListItems = computed(() => [
-  { id: 1, text: t('components.tabs.layout.lists.items.basic.item1') },
-  { id: 2, text: t('components.tabs.layout.lists.items.basic.item2'), description: t('components.tabs.layout.lists.items.basic.item2Description') },
-  { id: 3, text: t('components.tabs.layout.lists.items.basic.item3'), meta: t('components.tabs.layout.lists.items.basic.item3Meta') },
-  { id: 4, text: t('components.tabs.layout.lists.items.basic.item4'), icon: 'oi-check' }
-])
+const basicListItems = [
+  { id: 1, text: 'Item 1 da lista' },
+  { id: 2, text: 'Item 2 com descrição', description: 'Esta é uma descrição adicional' },
+  { id: 3, text: 'Item 3 com metadado', meta: 'Novo' },
+  { id: 4, text: 'Item 4 com ícone', icon: 'oi-check' }
+]
 
-const orderedListItems = computed(() => [
-  { id: 1, text: t('components.tabs.layout.lists.items.ordered.item1') },
-  { id: 2, text: t('components.tabs.layout.lists.items.ordered.item2'), description: t('components.tabs.layout.lists.items.ordered.item2Description') },
-  { id: 3, text: t('components.tabs.layout.lists.items.ordered.item3') }
-])
+const orderedListItems = [
+  { id: 1, text: 'Primeiro passo' },
+  { id: 2, text: 'Segundo passo', description: 'Continue para o próximo' },
+  { id: 3, text: 'Terceiro passo' }
+]
 
-const clickableListItems = computed(() => [
-  { id: 1, text: t('components.tabs.layout.lists.items.clickable.item1') },
-  { id: 2, text: t('components.tabs.layout.lists.items.clickable.item2'), description: t('components.tabs.layout.lists.items.clickable.item2Description') },
-  { id: 3, text: t('components.tabs.layout.lists.items.clickable.item3'), disabled: true },
-  { id: 4, text: t('components.tabs.layout.lists.items.clickable.item4') }
-])
+const clickableListItems = [
+  { id: 1, text: 'Item clicável 1' },
+  { id: 2, text: 'Item clicável 2', description: 'Clique para selecionar' },
+  { id: 3, text: 'Item desabilitado', disabled: true },
+  { id: 4, text: 'Item clicável 3' }
+]
 
-const actionListItems = computed(() => [
+const actionListItems = [
   { 
     id: 1, 
-    text: t('components.tabs.layout.lists.items.withActions.item1'), 
-    description: t('components.tabs.layout.lists.items.withActions.item1Description'),
+    text: 'Documento.pdf', 
+    description: 'PDF • 2.5 MB',
     actions: [
-      { id: 'edit', label: t('components.tabs.layout.lists.actions.edit'), variant: 'secondary', icon: 'oi-pencil' },
-      { id: 'delete', label: t('components.tabs.layout.lists.actions.delete'), variant: 'danger', icon: 'oi-ri-delete-back-2-line' }
+      { id: 'edit', label: 'Editar', variant: 'secondary', icon: 'oi-pencil' },
+      { id: 'delete', label: 'Excluir', variant: 'danger', icon: 'oi-ri-delete-back-2-line' }
     ]
   },
   { 
     id: 2, 
-    text: t('components.tabs.layout.lists.items.withActions.item2'), 
-    description: t('components.tabs.layout.lists.items.withActions.item2Description'),
+    text: 'imagem.jpg', 
+    description: 'JPEG • 1.2 MB',
     actions: [
-      { id: 'view', label: t('components.tabs.layout.lists.actions.view'), variant: 'primary' },
-      { id: 'share', label: t('components.tabs.layout.lists.actions.share'), variant: 'secondary' }
+      { id: 'view', label: 'Visualizar', variant: 'primary' },
+      { id: 'share', label: 'Compartilhar', variant: 'secondary' }
     ]
   }
-])
+]
 
-const styledListItems = computed(() => [
-  { id: 1, text: t('components.tabs.layout.lists.items.styled.item1'), description: t('components.tabs.layout.lists.items.styled.item1Description') },
-  { id: 2, text: t('components.tabs.layout.lists.items.styled.item2'), description: t('components.tabs.layout.lists.items.styled.item2Description') },
-  { id: 3, text: t('components.tabs.layout.lists.items.styled.item3'), description: t('components.tabs.layout.lists.items.styled.item3Description') }
-])
+const styledListItems = [
+  { id: 1, text: 'Item estilizado 1', description: 'Com fundo alternado' },
+  { id: 2, text: 'Item estilizado 2', description: 'Com bordas' },
+  { id: 3, text: 'Item estilizado 3', description: 'Tema primário' }
+]
 
-const customBulletListItems = computed(() => [
-  { id: 1, text: t('components.tabs.layout.lists.items.customBullet.item1') },
-  { id: 2, text: t('components.tabs.layout.lists.items.customBullet.item2'), description: t('components.tabs.layout.lists.items.customBullet.item2Description') },
-  { id: 3, text: t('components.tabs.layout.lists.items.customBullet.item3') }
-])
+const customBulletListItems = [
+  { id: 1, text: 'Item com marcador personalizado' },
+  { id: 2, text: 'Item com descrição', description: 'Descrição do item' },
+  { id: 3, text: 'Outro item' }
+]
 
 const customBulletImage = '/src/assets/icons/bullet.gif'
 </script>
