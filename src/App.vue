@@ -14,12 +14,15 @@ import AppNavbar from '@/components/layout/AppNavbar.vue'
 import ToTop from '@/components/layout/ToTop.vue'
 import Footer from './components/layout/Footer.vue'
 import { useThemeStore } from '@/stores/theme'
+import { useLanguageStore } from '@/stores/language'
 import { onMounted } from 'vue'
 
 const themeStore = useThemeStore()
+const languageStore = useLanguageStore()
 
 onMounted(() => {
   themeStore.initializeTheme()
+  languageStore.initializeLanguage()
 })
 </script>
 

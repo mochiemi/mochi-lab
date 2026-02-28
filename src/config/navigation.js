@@ -21,11 +21,6 @@ export const navigationConfig = [
         path: '/about',
         labelKey: 'nav.aboutThis',
         icon: 'gi-erlenmeyer'
-      },
-      {
-        path: '/contact',
-        labelKey: 'nav.contact',
-        icon: 'fa-regular-paper-plane'
       }
     ]
   },
@@ -37,7 +32,17 @@ export const navigationConfig = [
         path: '/grade-horaria',
         labelKey: 'Grade Horária',
         icon: 'bi-calendar-heart'
-      }
+      },
+      // {
+      //   path: '/articles',
+      //   labelKey: 'nav.articles',
+      //   icon: 'fa-regular-paper-plane'
+      // },
+      //       {
+      //   path: '/medicines',
+      //   labelKey: 'nav.medicines',
+      //   icon: 'fa-regular-paper-plane'
+      // }
     ]
   },
   {
@@ -48,7 +53,17 @@ export const navigationConfig = [
         path: '/i-list',
         labelKey: 'nav.iList',
         icon: 'bi-card-checklist'
-      }
+      },
+            // {
+      //   path: '/drug-interactions',
+      //   labelKey: 'nav.drugInteractions',
+      //   icon: 'fa-regular-paper-plane'
+      // },
+      //       {
+      //   path: '/calculators,
+      //   labelKey: 'nav.calculators',
+      //   icon: 'fa-regular-paper-plane'
+      // }
     ]
   }
 ]

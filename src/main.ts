@@ -10,14 +10,13 @@ import './assets/styles/global.css'
 
 const app = createApp(App)
 
-
 app.config.errorHandler = (err, instance, info) => {
-  if (err instanceof TypeError && 
+  if (err instanceof TypeError &&
       err.message.includes("can't access property 'parentNode', node is null")) {
     if (import.meta.env.DEV) {
       console.warn('Ignorando erro de transição do menu mobile:', err)
     }
-    return 
+    return
   }
   console.error(err)
 }

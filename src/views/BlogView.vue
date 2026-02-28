@@ -13,8 +13,8 @@
       <div class="tags-filter">
         <span class="filter-label">{{ $t('blog.filterByTags') }}</span>
         <div class="tags-list">
-          <Badge 
-            v-for="tag in availableTags" 
+          <Badge
+            v-for="tag in availableTags"
             :key="tag"
             :variant="selectedTags.includes(tag) ? 'primary' : 'secondary'"
             @click="toggleTag(tag)"
@@ -22,9 +22,9 @@
           >
             {{ tag }}
           </Badge>
-          <Button 
+          <Button
             v-if="selectedTags.length > 0"
-            variant="secondary" 
+            variant="secondary"
             size="small"
             @click="clearFilters"
           >
@@ -59,9 +59,9 @@
     </div>
 
     <div v-else class="posts-grid">
-      <Card 
-        v-for="post in filteredPosts" 
-        :key="post.id" 
+      <Card
+        v-for="post in filteredPosts"
+        :key="post.id"
         class="post-card"
         :clickable="true"
         @click="$router.push(`/post/${post.id}`)"
@@ -96,8 +96,8 @@
         <div class="post-excerpt" v-html="post.excerpt"></div>
 
         <div class="post-tags" v-if="post.labels && post.labels.length > 0">
-          <Badge 
-            v-for="label in post.labels.slice(0, 3)" 
+          <Badge
+            v-for="label in post.labels.slice(0, 3)"
             :key="label"
             variant="secondary"
             size="small"
@@ -136,7 +136,7 @@
     </div>
 
     <div v-if="!loading && !error && (prevPageToken || nextPageToken)" class="pagination">
-      <Button 
+      <Button
         :disabled="!prevPageToken"
         @click="goToPage('prev')"
         variant="outline"
@@ -147,14 +147,14 @@
       </Button>
 
       <div class="page-info">
-        {{ $t('blog.showingPosts', { 
-          start: startItem, 
-          end: endItem, 
-          total: filteredTotalPosts 
+        {{ $t('blog.showingPosts', {
+          start: startItem,
+          end: endItem,
+          total: filteredTotalPosts
         }) }}
       </div>
 
-      <Button 
+      <Button
         :disabled="!nextPageToken"
         @click="goToPage('next')"
         variant="outline"
@@ -170,7 +170,7 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useLanguageStore } from '@/stores/language.ts';
+import { useLanguageStore } from '@/stores/language';
 import Card from '@/components/ui/Card.vue';
 import Button from '@/components/ui/Button.vue';
 import Badge from '@/components/ui/Badge.vue';
@@ -211,8 +211,8 @@ const filteredPosts = computed(() => {
     filteredTotalPosts.value = posts.value.length;
     return posts.value;
   }
-  
-  const filtered = posts.value.filter(post => 
+
+  const filtered = posts.value.filter(post =>
     post.labels && selectedTags.value.every(tag => post.labels.includes(tag))
   );
   filteredTotalPosts.value = filtered.length;
@@ -285,25 +285,25 @@ const fetchPosts = async (pageToken = null) => {
   try {
     loading.value = true;
     error.value = null;
-    
+
     let url = `https://www.googleapis.com/blogger/v3/blogs/${BLOG_ID}/posts?key=${API_KEY}&maxResults=${POSTS_PER_PAGE}`;
-    
+
     if (pageToken) {
       url += `&pageToken=${pageToken}`;
     }
-    
+
     const response = await fetch(url);
-    
+
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.error?.message || 'Falha ao buscar posts');
     }
-    
+
     const data = await response.json();
-    
+
     const mappedPosts = data.items.map(item => {
       const plainTextExcerpt = stripHtml(item.content).substring(0, 200);
-      
+
       return {
         id: item.id,
         title: item.title,
@@ -322,15 +322,15 @@ const fetchPosts = async (pageToken = null) => {
         repliesCount: item.replies?.totalItems || 0
       };
     });
-    
+
     posts.value = mappedPosts;
     allPosts.value = mappedPosts;
-    
+
     extractAvailableTags(mappedPosts);
-    
+
     totalPosts.value = data.totalItems;
     nextPageToken.value = data.nextPageToken;
-    
+
     if (pageToken) {
       if (!currentPageTokens.value.includes(pageToken)) {
         currentPageTokens.value.push(pageToken);
@@ -338,10 +338,10 @@ const fetchPosts = async (pageToken = null) => {
     } else {
       currentPageTokens.value = [];
     }
-    
+
     const currentIndex = currentPageTokens.value.indexOf(pageToken);
     prevPageToken.value = currentIndex > 0 ? currentPageTokens.value[currentIndex - 1] : null;
-    
+
   } catch (err) {
     error.value = err.message;
     console.error('Erro ao buscar posts:', err);
@@ -386,6 +386,7 @@ onMounted(() => {
 <style scoped>
 .container {
   max-width: 1200px;
+  width: 85dvw;
   margin: 3em auto;
   padding: 2rem;
 }
@@ -602,25 +603,25 @@ onMounted(() => {
   .posts-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .container {
     padding: 1rem;
   }
-  
+
   .pagination {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .post-header {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .post-title {
     margin-right: 0;
   }
-  
+
   .tags-filter {
     flex-direction: column;
     align-items: flex-start;
@@ -631,13 +632,13 @@ onMounted(() => {
   .container {
     padding: 0.8rem;
   }
-  
+
   .post-meta {
     flex-direction: column;
     gap: 0.3rem;
     align-items: flex-start;
   }
-  
+
   .separator {
     display: none;
   }

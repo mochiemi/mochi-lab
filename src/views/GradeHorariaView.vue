@@ -4,9 +4,9 @@
     <div class="schedule-header">
       <h1 class="schedule-title">
         <OhVueIcon name="bi-calendar-heart" class="title-icon" />
-        Farmácia · 2026/1
+        {{ $t('schedule.farmacy') }} · 2026/1
         <Badge variant="primary" size="medium" class="period-badge">
-          {{ selectedPeriod === 'all' ? 'Todas' : `${selectedPeriod}º Período` }}
+          {{ selectedPeriod === 'all' ? $t('schedule.allPeriods') : `${selectedPeriod}º ${$t('schedule.period')}` }}
         </Badge>
       </h1>
 
@@ -17,7 +17,7 @@
         </div>
         <div class="info-row">
           <OhVueIcon name="bi-clipboard-data-fill" class="info-icon" />
-          <span>{{ totalSubjects }} disciplinas · {{ totalClasses }} aulas/semana</span>
+          <span>{{ totalSubjects }} {{ $t('schedule.subjects') }} · {{ totalClasses }} {{ $t('schedule.classesPerWeek') }}</span>
         </div>
       </div>
 
@@ -29,7 +29,7 @@
           :class="{ 'active-filter': selectedPeriod === 'all' }"
           @click="selectedPeriod = 'all'"
         >
-          <OhVueIcon name="oi-eye" /> Todas
+          <OhVueIcon name="oi-eye" /> {{ $t('schedule.all') }}
         </Badge>
         <Badge
           v-for="period in availablePeriods"
@@ -40,7 +40,7 @@
           :class="{ 'active-filter': selectedPeriod === period }"
           @click="selectedPeriod = period"
         >
-          <OhVueIcon :name="getPeriodIcon(period)" /> {{ period }}º Período
+          <OhVueIcon :name="getPeriodIcon(period)" /> {{ period }}º {{ $t('schedule.period') }}
         </Badge>
         <Badge
           variant="primary"
@@ -49,7 +49,7 @@
           :class="{ 'active-filter': selectedPeriod === 'elective' }"
           @click="selectedPeriod = 'elective'"
         >
-          <OhVueIcon name="gi-erlenmeyer" /> Eletivas
+          <OhVueIcon name="gi-erlenmeyer" /> {{ $t('schedule.electives') }}
         </Badge>
       </div>
     </div>
@@ -72,7 +72,7 @@
               />
               <div v-if="item.classes.length === 0" class="empty-state">
                 <OhVueIcon name="oi-sun" class="empty-icon" />
-                <p>sem aula</p>
+                <p>{{ $t('schedule.noClass') }}</p>
               </div>
             </div>
           </template>
@@ -84,7 +84,7 @@
           <table class="schedule-table">
             <thead>
               <tr>
-                <th class="time-header">Horário</th>
+                <th class="time-header">{{ $t('schedule.time') }}</th>
                 <th v-for="day in weekDays" :key="day" class="day-header">{{ day }}</th>
               </tr>
             </thead>
@@ -117,6 +117,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { OhVueIcon } from 'oh-vue-icons'
 import { useScheduleStore } from '@/stores/schedule'
 import Badge from '@/components/ui/Badge.vue'
@@ -124,6 +125,7 @@ import Accordion from '@/components/ui/Accordion.vue'
 import ClassCard from '@/components/layout/cards/ClassCard.vue'
 import type { ClassItem } from '@/stores/schedule'
 
+const { t } = useI18n()
 const scheduleStore = useScheduleStore()
 const expandedDays = ref<string[]>([])
 const selectedPeriod = ref<string | number>('all')
@@ -180,7 +182,7 @@ const accordionItems = computed(() => {
   return weekDays.map((day: string) => ({
     id: day,
     day: day,
-    title: `${day} · ${getFilteredClassesByDay(day).length} aula(s)`,
+    title: `${day} · ${getFilteredClassesByDay(day).length} ${t('schedule.classes')}`,
     icon: 'oi-sun',
     classes: getFilteredClassesByDay(day)
   }))
@@ -302,7 +304,7 @@ const getPeriodIcon = (period: number): string => {
 .period-filters .active-filter {
   opacity: 1;
   transform: scale(1.05);
-  border-width: 3px; 
+  border-width: 3px;
   box-shadow: 0 4px 12px var(--shadow-hover);
   background: var(--primary) !important;
   color: var(--text-contrast) !important;

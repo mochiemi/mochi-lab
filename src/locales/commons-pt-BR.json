@@ -1,32 +1,13 @@
 {
   "common": {
     "locale": "pt-BR",
-    "language": "PTBR",
+    "language": "PT",
     "readMore": "Continue lendo",
     "back": "Voltar",
     "backToHome": "Voltar ao Início",
     "featured": "Destaque",
-    "cancel": "Cancelar"
-  },
-  "home": {
-    "welcome": "Sejam Bem Vindes ao",
-    "description": "Aqui é meu caderno e laboratório de anotações. Temas de farmácia, medicina farão parte do conteúdo desta página.",
-    "tooltip": "Clique para saber mais sobre este laboratório e sua cientista!",
-    "todayIs": "Olá! Hoje é",
-    "features": {
-      "title": "Destaques do Lab",
-      "description": "Explore o que o Mochi Lab tem a oferecer",
-      "latestPost": "Último Post do Blog",
-      "readPost": "Ler Post",
-      "noPosts": "Nenhum post disponível",
-      "schedule": "Grade Horária",
-      "scheduleDesc": "Confira sua grade do semestre atual",
-      "viewSchedule": "Ver Grade",
-      "comingSoon": "Em Breve",
-      "featured": "Destaque",
-      "updated": "Atualizado",
-      "nextClasses": "Próximas Aulas"
-    }
+    "cancel": "Cancelar",
+    "retry": "Tentar Novamente"
   },
   "schedule": {
     "loading": "Carregando grade horária...",
@@ -41,7 +22,36 @@
     "nextDayClasses": "Próximo dia com aulas",
     "classes": "aulas",
     "firstClass": "Primeira aula",
-    "noFutureClasses": "Nenhuma aula programada nos próximos dias"
+    "noFutureClasses": "Nenhuma aula programada nos próximos dias",
+    "farmacy": "Farmácia",
+    "allPeriods": "Todos Períodos",
+    "period": "Período",
+    "subjects": "disciplinas",
+    "classesPerWeek": "aulas/semana",
+    "all": "Todas",
+    "electives": "Eletivas",
+    "noClass": "sem aula",
+    "time": "Horário"
+  },
+  "home": {
+    "welcome": "Sejam Bem Vindes ao",
+    "description": "Aqui é meu caderno e laboratório de anotações. Temas de farmácia, medicina farão parte do conteúdo desta página.",
+    "todayIs": "Olá! Hoje é",
+    "tooltip": "Clique para saber mais sobre este laboratório e sua cientista!",
+    "features": {
+      "title": "Destaques do Lab",
+      "description": "Explore o que o Mochi Lab tem a oferecer",
+      "latestPost": "Último Post do Blog",
+      "readPost": "Ler Post",
+      "noPosts": "Nenhum post disponível",
+      "schedule": "Grade Horária",
+      "scheduleDesc": "Confira sua grade do semestre atual",
+      "viewSchedule": "Ver Grade",
+      "comingSoon": "Em Breve",
+      "featured": "Destaque",
+      "updated": "Atualizado",
+      "nextClasses": "Próximas Aulas"
+    }
   },
   "blog": {
     "title": "Mochi Blog",
@@ -134,6 +144,35 @@
     "hana": "A xodó do meu esposo",
     "morgan": "Parece trevoso mas é o mais bobo",
     "gina": "Gosta de dormir em posições estranhas"
+  },
+  "about": {
+    "labDescription1": "Olá, como descrito no início aqui é um espaço (laboratório) onde escrevo textos, estruturo páginas e até mesmo crio algumas pequenas aplicações e ferramentas para treinar programação ou mesmo para facilitar meu cotidiano (vide a grade horária).",
+    "labDescription2": "Aqui funcionará como uma Single Page Application (SPA) relativamente simples onde vou aos poucos adicionando mais funcionalidades.",
+    "labDescription3": "Também pretendo escrever pequenos artigos no blog relacionados a Farmácia/Medicina e registrar algumas coisas do cotidiano acadêmico.",
+    "puyuTooltip": "Esta é a Puyu, mascote deste lugar, ela é uma cientista e suas cores são para destacar na temática rosa/azul geral daqui. Seu nome pode ter vários significados, mas é mais inspirado em 'puyu', que em japonês significa 'pedaço de papel', representando este espaço como um lugar de anotações e simplicidade.",
+    "futureProjects": "Projetos Futuros",
+    "futureProjectsDesc": "Projetos que tenho em mente para implantar aqui em algum momento. Estão sujeitos a mudanças e dependem da minha disponibilidade ao longo da jornada da vida.",
+    "medicationList": "Lista de Medicamentos",
+    "medicationListDesc": "Aos poucos quero adicionar uma lista de medicamentos e fitoterápicos (principalmente os disponíveis na farmácia popular e no SUS).",
+    "calculators": "Calculadoras e Outras Ferramentas",
+    "calculatorsDesc": "Desde calculadoras simples de doses medicamentosas, e talvez outras ferramentas úteis.",
+    "scienceCommunication": "Divulgação Científica",
+    "scienceCommunicationDesc": "Futuramente em uma seção própria, à medida que aprendo e participo mais da comunidade científica quero trazer textos acessíveis de divulgação científica.",
+    "drugInteractions": "Interações Medicamentosas",
+    "drugInteractionsDesc": "Uma ferramenta que gostaria de criar, principalmente em relação aos medicamentos já registrados, dando destaque a misturas perigosas.",
+    "aboutAuthor": "Sobre quem escreve",
+    "authorBio1": "Olá, meu nome é Juliana Tiemi, mas podem me chamar de Ju, Tiemi, Mochiemi, Mochi, etc. Não tenho muita preferência por pronomes, mas estou acostumada com Ela/Dela. Também tenho um apelido engraçado que gosto que é Diferentona ou 'Dif'.",
+    "authorBio2": "Nasci em São Paulo em 94, vivi dez anos em Botucatu/SP e agora em 2026 inicio minha saga rumo à Alfenas/MG. Tenho quatro gatos (fotinhas deles mais embaixo) e moro com eles e meu esposo.",
+    "authorBio3": "Em geral sou do tipo de pessoa que gosta de ficar em casa, tem dia que sou quieta, é mais raro mas tem dia que falo demais também. Sou neurodivergente com diagnóstico tardio aprendendo porque eu sofria tanto e hoje às vezes sou fria.",
+    "doryQuote": "Continue a nadar",
+    "doryCite": "(Procurando Nemo - 2003)",
+    "funFacts": "Fatos Curiosos",
+    "funFact1Title": "Sonhos de Infância",
+    "funFact1Desc": "A primeira coisa que 'quis ser quando crescesse' foi ser cantora aos 6 anos por causa de Sandy & Junior, depois entre uns 8-12 anos de idade queria ser veterinária. Hoje sou estudante.",
+    "funFact2Title": "Já comecei 2 outras graduações e não terminei",
+    "funFact2Desc": "2013 - Poli-USP Engenharia (falhei no 1º semestre) e 2016-2023 - Unesp - Medicina (Falhei burnout).",
+    "funFact3Title": "Sobrenome materno",
+    "funFact3Desc": "Bom, sou a irmã mais velha entre três e a única com sobrenome materno. Meus pais acharam meu nome muito longo na hora de escrever e decidiram não repetir isso com os outros dois."
   },
   "footer": {
     "toolTip": {

@@ -1,68 +1,61 @@
 <template>
   <div class="blog-post">
-    <!-- Loading -->
     <Card v-if="loading" class="loading-card">
       <div class="loading-content">
         <Loading size="large" />
-        <p>Carregando post...</p>
+        <p>{{ $t('blog.loadingPost') }}</p>
       </div>
     </Card>
 
-    <!-- Error -->
     <Card v-else-if="error" class="error-card">
       <div class="error-content">
         <OhVueIcon name="hi-exclamation-circle" class="error-icon" />
-        <h2>Erro ao carregar</h2>
+        <h2>{{ $t('blog.errorLoadingPost') }}</h2>
         <p>{{ error }}</p>
-        <Button variant="primary" @click="fetchPost">Tentar novamente</Button>
-        <Button @click="$router.push('/blog')">Voltar ao Blog</Button>
+        <Button variant="primary" @click="fetchPost">{{ $t('blog.retry') }}</Button>
+        <Button @click="$router.push('/blog')">{{ $t('blog.backToBlog') }}</Button>
       </div>
     </Card>
 
-    <!-- Post -->
     <template v-else-if="post">
       <Card class="post-card">
         <template #header>
           <Button variant="secondary" size="small" @click="$router.push('/blog')">
             <OhVueIcon name="fa-chevron-circle-left" class="btn-icon" />
-            Voltar
+            {{ $t('common.back') }}
           </Button>
         </template>
 
         <article>
           <h1>{{ post.title }}</h1>
-          
+
           <div class="post-meta">
             <span v-if="post.author">{{ post.author }}</span>
             <span v-if="post.published">{{ formatDate(post.published) }}</span>
-            <span v-if="readingTime">{{ readingTime }} min de leitura</span>
+            <span v-if="readingTime">{{ readingTime }} {{ $t('blog.minRead', { minutes: '' }) }}</span>
           </div>
 
           <div class="post-content" v-html="post.content"></div>
         </article>
       </Card>
 
-      <!-- Comments Section -->
       <Card class="comments-card">
         <template #header>
-          <h3>Comentários ({{ comments.length }})</h3>
+          <h3>{{ $t('blog.tags') }} ({{ comments.length }})</h3>
         </template>
 
-        <!-- Loading Comments -->
         <div v-if="commentsLoading" class="comments-loading">
-          <Loading size="md" text="Carregando comentários..." />
+          <Loading size="md" :text="$t('blog.loadingComments')" />
         </div>
 
-        <!-- Error Comments -->
         <div v-else-if="commentsError" class="comments-error">
           <Alert type="error">
             <OhVueIcon name="hi-exclamation-circle" />
             {{ commentsError }}
           </Alert>
-          <Button @click="fetchComments" size="small">Tentar novamente</Button>
+          <Button @click="fetchComments" size="small">{{ $t('blog.retry') }}</Button>
         </div>
 
-        <!-- Comments List -->
         <div v-else-if="comments.length" class="comments-list">
           <div v-for="comment in comments" :key="comment.id" class="comment-item">
             <div class="comment-header">
@@ -73,56 +66,53 @@
           </div>
         </div>
 
-        <!-- No Comments -->
         <div v-else class="no-comments">
-          <p>Seja o primeiro a comentar!</p>
+          <p>{{ $t('blog.beFirstToComment') }}</p>
         </div>
 
-        <!-- Comment Form -->
         <div class="comment-form">
-          <h4>Deixe um comentário</h4>
+          <h4>{{ $t('blog.leaveComment') }}</h4>
           <form @submit.prevent="submitComment">
             <Input
               v-model="form.name"
-              label="Nome *"
-              placeholder="Seu nome"
+              :label="$t('blog.name') + ' *'"
+              :placeholder="$t('blog.yourName')"
               :error="formErrors.name"
               required
             />
             <Input
               v-model="form.email"
-              label="Email"
+              :label="$t('blog.email')"
               type="email"
-              placeholder="seu@email.com (opcional)"
+              :placeholder="$t('blog.yourEmail')"
               :error="formErrors.email"
             />
             <Textarea
               v-model="form.content"
-              label="Comentário *"
-              placeholder="Escreva aqui..."
+              :label="$t('blog.comment') + ' *'"
+              :placeholder="$t('blog.writeComment')"
               :rows="4"
               :maxlength="4000"
               show-counter
               :error="formErrors.content"
               required
             />
-            <Button 
-              type="submit" 
-              variant="primary" 
+            <Button
+              type="submit"
+              variant="primary"
               :loading="submitting"
               :disabled="submitting"
             >
-              Enviar Comentário
+              {{ $t('blog.publishComment') }}
             </Button>
           </form>
         </div>
       </Card>
     </template>
 
-    <!-- Not Found -->
     <Card v-else class="not-found-card">
-      <h2>Post não encontrado</h2>
-      <Button @click="$router.push('/blog')">Voltar ao Blog</Button>
+      <h2>{{ $t('blog.postNotFound') }}</h2>
+      <Button @click="$router.push('/blog')">{{ $t('blog.backToBlog') }}</Button>
     </Card>
   </div>
 </template>
@@ -130,6 +120,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useLanguageStore } from '@/stores/language'
 import { supabase } from '@/lib/supabase'
 import Card from '@/components/ui/Card.vue'
 import Button from '@/components/ui/Button.vue'
@@ -141,6 +132,7 @@ import { OhVueIcon } from '@/plugins/icons'
 
 const route = useRoute()
 const router = useRouter()
+const languageStore = useLanguageStore()
 const postId = route.params.slug
 
 // Estados
@@ -170,12 +162,12 @@ const fetchPost = async () => {
 
     const API_KEY = import.meta.env.VITE_BLOGGER_API_KEY
     const BLOG_ID = import.meta.env.VITE_BLOGGER_BLOG_ID
-    
+
     const url = `https://www.googleapis.com/blogger/v3/blogs/${BLOG_ID}/posts/${postId}?key=${API_KEY}`
     const res = await fetch(url)
-    
+
     if (!res.ok) throw new Error(res.status === 404 ? 'Post não encontrado' : 'Erro ao carregar')
-    
+
     const data = await res.json()
     post.value = {
       id: data.id,
@@ -223,7 +215,7 @@ const submitComment = async () => {
     formErrors.value.email = 'Email inválido'
   }
   if (!form.value.content.trim()) formErrors.value.content = 'Comentário obrigatório'
-  
+
   if (Object.values(formErrors.value).some(e => e)) return
 
   submitting.value = true
@@ -250,7 +242,7 @@ const submitComment = async () => {
 
 const formatDate = (date) => {
   if (!date) return ''
-  return new Date(date).toLocaleDateString('pt-BR', {
+  return new Date(date).toLocaleDateString(languageStore.currentLanguage, {
     day: 'numeric', month: 'short', year: 'numeric'
   })
 }
@@ -261,6 +253,7 @@ onMounted(fetchPost)
 <style scoped>
 .blog-post {
   max-width: 1200px;
+  width: 80dvw;
   margin: 3em auto;
 }
 
@@ -493,7 +486,6 @@ onMounted(fetchPost)
   padding-left: 1.5rem;
 }
 
-/* Sem comentários */
 .no-comments {
   text-align: center;
   padding: 4rem 2rem;
@@ -516,7 +508,6 @@ onMounted(fetchPost)
 .no-comments p {
   color: var(--text-secondary);
 }
-
 
 .new-comment-form {
   margin-top: 3rem;
@@ -548,12 +539,10 @@ onMounted(fetchPost)
   margin-right: 0.5rem;
 }
 
-/* Botões */
 .btn-icon {
   margin-right: 0.5rem;
 }
 
-/* Estados de Carregamento e Erro */
 .loading-card,
 .error-card,
 .not-found-card {
@@ -590,7 +579,6 @@ onMounted(fetchPost)
   margin-top: 1em;
 }
 
-/* Transições */
 .alert-fade-enter-active,
 .alert-fade-leave-active {
   transition: opacity 0.3s ease;
@@ -601,16 +589,16 @@ onMounted(fetchPost)
   opacity: 0;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .blog-post {
+    width: 95dvh;
     padding: 0.5em;
   }
-  
+
   .post-title-section h1 {
     font-size: 2em;
   }
-  
+
   .post-meta {
     flex-direction: column;
     align-items: flex-start;

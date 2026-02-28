@@ -45,8 +45,7 @@ const handleLogin = (): void => {
   loading.value = false
   
   if (success) {
-    // Redireciona para a página que tentou acessar ou para moderação
-    const redirect = route.query.redirect as string || '/admin/moderacao'
+    const redirect = route.query.redirect as string;
     router.push(redirect)
   }
 }

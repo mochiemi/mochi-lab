@@ -59,7 +59,7 @@
 
             <div v-else-if="latestPost" class="post-preview">
               <h4 class="post-preview-title" v-html="latestPost.title"></h4>
-              
+
               <div class="post-preview-meta">
                 <div class="meta-item">
                   <OhVueIcon name="oi-person" class="meta-icon-small" />
@@ -76,8 +76,8 @@
 
               <div class="post-preview-tags" v-if="latestPost.labels && latestPost.labels.length > 0">
                 <span class="tags-text">Tags: </span>
-                <Badge 
-                  v-for="label in latestPost.labels.slice(0, 2)" 
+                <Badge
+                  v-for="label in latestPost.labels.slice(0, 2)"
                   :key="label"
                   variant="secondary"
                   size="small"
@@ -98,8 +98,8 @@
 
           <template #footer>
             <div class="feature-footer">
-              <Button 
-                variant="primary" 
+              <Button
+                variant="primary"
                 size="small"
                 :disabled="!latestPost || loading"
                 @click="goToLatestPost"
@@ -111,7 +111,7 @@
           </template>
         </Card>
 
-        <TodayGHCard 
+        <TodayGHCard
           :title="$t('home.features.schedule')"
           icon="bi-calendar-heart"
           badge="2026/1"
@@ -122,10 +122,10 @@
           @class-click="handleClassClick"
         />
 
-        <FutureGHCard 
+        <FutureGHCard
           :title="$t('home.features.nextClasses')"
           icon="bi-calendar-week"
-          badge="Próximos dias"
+          :badge="$t('schedule.nextDayClasses')"
           badge-variant="secondary"
           :classes="scheduleStore.allClasses"
           :loading="false"
@@ -187,17 +187,17 @@ const fetchLatestPost = async () => {
 
     const url = `https://www.googleapis.com/blogger/v3/blogs/${BLOG_ID}/posts?key=${API_KEY}&maxResults=1`;
     const response = await fetch(url);
-    
+
     if (!response.ok) {
       throw new Error('Failed to fetch latest post');
     }
 
     const data = await response.json();
-    
+
     if (data.items && data.items.length > 0) {
       const item = data.items[0];
       const plainTextExcerpt = stripHtml(item.content).substring(0, 120);
-      
+
       latestPost.value = {
         id: item.id,
         title: item.title,
@@ -597,7 +597,7 @@ onMounted(() => {
   .home {
     padding: 0.25em;
   }
-  
+
   .hero-content {
     padding: 0.5em;
   }

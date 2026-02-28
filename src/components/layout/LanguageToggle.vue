@@ -1,19 +1,20 @@
 <template>
   <button
     @click="toggleLanguage"
-    :aria-label="isPortuguese ? 'Switch to English' : 'Mudar para Português'"
-    :title="isPortuguese ? 'Switch to English' : 'Mudar para Português'"
+    :aria-label="ariaLabel"
+    :title="title"
     class="language-toggle"
   >
     <transition name="language-text" mode="out-in">
-      <span v-if="isPortuguese" key="pt" class="language-text">PT</span>
-      <span v-else key="en" class="language-text">EN</span>
+      <span :key="currentLanguage" class="language-text">
+        {{ currentLanguageLabel }}
+      </span>
     </transition>
   </button>
 </template>
 
 <script setup>
-import { useLanguageStore } from '@/stores/language'
+import { useLanguageStore, AVAILABLE_LANGUAGES } from '@/stores/language'
 import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -21,12 +22,39 @@ const languageStore = useLanguageStore()
 const { locale } = useI18n()
 
 const currentLanguage = computed(() => languageStore.currentLanguage)
-const isPortuguese = computed(() => languageStore.currentLanguage === 'pt-BR')
+
+const currentLanguageLabel = computed(() => {
+  const lang = AVAILABLE_LANGUAGES.find(l => l.code === currentLanguage.value)
+  return lang ? lang.label : 'PT'
+})
+
+const nextLanguage = computed(() => {
+  return languageStore.getNextLanguage()
+})
+
+const ariaLabel = computed(() => {
+  const nextLang = AVAILABLE_LANGUAGES.find(l => l.code === nextLanguage.value)
+  const labels = {
+    'pt-BR': 'Mudar para Português',
+    'es': 'Cambiar a Español',
+    'en': 'Switch to English'
+  }
+  return labels[nextLanguage.value] || 'Switch language'
+})
+
+const title = computed(() => {
+  const nextLang = AVAILABLE_LANGUAGES.find(l => l.code === nextLanguage.value)
+  const titles = {
+    'pt-BR': 'Mudar para Português',
+    'es': 'Cambiar a Español',
+    'en': 'Switch to English'
+  }
+  return titles[nextLanguage.value] || 'Switch language'
+})
 
 const toggleLanguage = () => {
-  const newLocale = isPortuguese.value ? 'en-US' : 'pt-BR'
-  locale.value = newLocale
-  languageStore.setLanguage(newLocale)
+  languageStore.toggleLanguage()
+  locale.value = languageStore.currentLanguage
 }
 
 onMounted(() => {

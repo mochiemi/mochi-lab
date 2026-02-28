@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useAdminStore } from '@/stores/admin' // Importe o store
+import { useAdminStore } from '@/stores/admin'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -47,11 +47,6 @@ const router = createRouter({
       path: '/post/:slug',
       name: 'blog-post',
       component: () => import('@/views/BlogPostView.vue')
-    },
-    {
-      path: '/contact',
-      name: 'contact',
-      component: () => import('../views/ContactView.vue')
     },
     {
       path: '/i-list',

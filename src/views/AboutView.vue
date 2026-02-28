@@ -4,31 +4,31 @@
       <template #header>
         <div class="about-header">
           <div class="header-content">
-            <h1><OhVueIcon name="gi-health-potion" class="header-icon"/>Sobre o Mochi Lab<OhVueIcon name="gi-erlenmeyer" class="header-icon"/></h1>
+            <h1><OhVueIcon name="gi-health-potion" class="header-icon"/>{{ $t('nav.about') }} Mochi Lab<OhVueIcon name="gi-erlenmeyer" class="header-icon"/></h1>
           </div>
         </div>
       </template>
-      
+
       <div class="about-content">
         <div class="intro-section">
           <div class="lab-section">
             <div class="lab-description">
-              <p>Olá, como descrito no início aqui é um espaço (laboratório) onde escrevo textos, estruturo páginas e até mesmo crio algumas pequenas aplicações e ferramentas para treinar programação ou mesmo para facilitar meu cotidiano (vide a <a href="/grade-horaria">grade horária</a> ).</p>
-              <p>Aqui funcionará como um <abbr title="Single Page Application">SPA</abbr> relativamente simples onde vou aos poucos adicionando mais funcionalidades.</p>
-              <p>Também pretendo escrever pequenos artigos no blog relacionados a Farmácia/Medicina e registrar algumas coisas do cotidiano acadêmico. </p>
+              <p>{{ $t('about.labDescription1') }}</p>
+              <p>{{ $t('about.labDescription2') }}</p>
+              <p>{{ $t('about.labDescription3') }}</p>
             </div>
-            <Tooltip size="xl" variant="secondary" position="right" content="Esta é a Puyu, mascote deste lugar, ela é uma cientista e suas cores são para destacar na tematica rosa/azul geral daqui. Seu nome pode ter vários significados, mas é mais inspirado em 'puyu', que em japonês significa 'pedaço de papel', representando este espaço como um lugar de anotações e simplicidade." class="puyu-tooltip">
+            <Tooltip size="xl" variant="secondary" position="right" :content="$t('about.puyuTooltip')" class="puyu-tooltip">
               <img src="@/assets/images/mochipuyu-2.png" alt="Scientist Puyu-chan" loading="lazy"/>
             </Tooltip>
           </div>
         </div>
         <hr />
         <section class="future-features">
-      <h2>Projetos Futuros</h2>
-        <p class="future-projects">Projetos que tenho em mente para implantar aqui em algum momento. Estão sujeitos a mudanças e dependem da minha disponibilidade ao longo da jornada da vida.</p>
+      <h2>{{ $t('about.futureProjects') }}</h2>
+        <p class="future-projects">{{ $t('about.futureProjectsDesc') }}</p>
         <div class="features-grid">
-          <Card 
-            v-for="feature in futureFeatures" 
+          <Card
+            v-for="feature in futureFeatures"
             :key="feature.id"
             class="feature-card"
             :padding="'medium'"
@@ -36,8 +36,8 @@
             <div class="feature-icon">
               <OhVueIcon :name="feature.icon" />
             </div>
-            <h3>{{ feature.titleKey }}</h3>
-            <p>{{ feature.descriptionKey }}</p>
+            <h3>{{ $t(feature.titleKey) }}</h3>
+            <p>{{ $t(feature.descriptionKey) }}</p>
           </Card>
         </div>
         </section>
@@ -45,29 +45,23 @@
         <hr />
 
         <section class="profile-section">
-            <h2>Sobre quem escreve</h2>
+            <h2>{{ $t('about.aboutAuthor') }}</h2>
           <div class="profile-start">
             <div class="profile-image">
               <img src="@/assets/images/profile-selfie.jpg" alt="Mochiemi" />
             </div>
             <div class="profile-text">
-              <p>
-                Olá, meu nome é Juliana Tiemi, mas podem me chamar de Ju, Tiemi, Mochiemi, Mochi, etc. Não tenho muita preferência por pronomes, mas estou acostumada com Ela/Dela. Também tenho um apelido engraçado que gosto que é Diferentona ou 'Dif'.
-              </p>
-              <p>
-                Nasci em São Paulo em 94, vivi dez anos em Botucatu/SP e agora em 2026 inicío minha saga rumo à Alfenas/MG. Tenho quatro gatos (fotinhas deles mais embaixo) e moro com eles e meu esposo. 
-              </p>
-              <p>
-                Em geral sou do tipo de pessoa que gosta de ficar em casa, tem dia que sou quieta, é mais raro mas tem dia que falo demais  também. Sou neurodivertida com diagnóstico tardio aprendendo porque eu sofria tanto e hoje as vezes sou fria.
-              </p>
-              <p class="dory-quote"><q>Continue a nadar — Dory</q><cite class="dory-cite"> (Procurando Nemo - 2003)</cite></p>
+              <p>{{ $t('about.authorBio1') }}</p>
+              <p>{{ $t('about.authorBio2') }}</p>
+              <p>{{ $t('about.authorBio3') }}</p>
+              <p class="dory-quote"><q>{{ $t('about.doryQuote') }}</q><cite class="dory-cite"> {{ $t('about.doryCite') }}</cite></p>
             </div>
           </div>
           <hr />
           <div class="fun-facts">
-            <h2>Fatos Curiosos</h2>  
-            <List 
-              :items="funFactsListItems" 
+            <h2>{{ $t('about.funFacts') }}</h2>
+            <List
+              :items="funFactsListItems"
               :custom-bullet="customBulletImage"
             />
           </div>
@@ -80,21 +74,19 @@
 
       <template #footer>
         <div class="about-footer">
-          <Button 
-            variant="primary" 
-            @click="$router.push('/')"
-            class="footer-btn"
-          >
+          <Button
+            variant="primary"
+            @click="$router.push('/')">
             <OhVueIcon name="hi-home" class="btn-icon" />
-            Início
+            {{ $t('nav.home') }}
           </Button>
-          <Button 
+          <Button
             variant="secondary"
             @click="$router.push('/contact')"
             class="footer-btn"
           >
             <OhVueIcon name="fa-regular-paper-plane" class="btn-icon" />
-            Contato
+            {{ $t('nav.contact') }}
           </Button>
         </div>
       </template>
@@ -103,53 +95,70 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { OhVueIcon } from 'oh-vue-icons'
 import Card from '@/components/ui/Card.vue'
 import Button from '@/components/ui/Button.vue'
 import Tooltip from '@/components/ui/Tooltip.vue'
 import List from '@/components/ui/List.vue'
 import MyCatsSlide from '@/components/layout/misc/myCatsSlide.vue'
+import customBullet from '@/assets/icons/mini-mochi.gif'
 
-const customBulletImage = 'src/assets/icons/mini-mochi.gif'
+const { t } = useI18n()
+const customBulletImage = customBullet;
 
 const futureFeatures = [
   {
     id: 1,
     icon: 'la-pills-solid',
-    titleKey: 'Lista de Medicamentos',
-    descriptionKey: 'Aos poucos quero adicionar uma lista de medicamentos e fitoterápicos (principalmente os disponíveis na farmácia popular e no SUS)',
+    titleKey: 'about.medicationList',
+    descriptionKey: 'about.medicationListDesc',
   },
   {
     id: 2,
     icon: 'io-construct',
-    titleKey: 'Calculadoras e outras ferramentas',
-    descriptionKey: 'Desde calculadoras simples de doses medicamentosas, e talvez outras ferramentas úteis',
+    titleKey: 'about.calculators',
+    descriptionKey: 'about.calculatorsDesc',
   },
   {
     id: 3,
     icon: 'md-librarybooks-outlined',
-    titleKey: 'Divulgação Científica',
-    descriptionKey: 'Futuramente em uma seção própria, a medida que aprendo e participo mais da comunidade científica quero trazer textos acessíveis de divulgação científica.',
+    titleKey: 'about.scienceCommunication',
+    descriptionKey: 'about.scienceCommunicationDesc',
   },
   {
     id: 4,
     icon: 'md-donotdisturb',
-    titleKey: 'Interações medicamentosas',
-    descriptionKey: 'Uma ferramenta que gostaria de criar, principalmente em relação aos medicamentos já registrados, dando destaque a misturas perigosas.',
+    titleKey: 'about.drugInteractions',
+    descriptionKey: 'about.drugInteractionsDesc',
   }
 ]
 
-const funFactsListItems = [
-  { id: 1, text: 'Sonhos de infância', description: 'A primeira coisa que "quis ser quando crescesse" foi ser cantora aos 6 anos por causa de Sandy&Junior, depois entre uns 8 - 12 anos de idade queria ser veterinária. Hoje sou estudante.' },
-  { id: 2, text: 'Já comecei 2 outras graduações e não terminei', description: '2013 - Poli-USP Engenharia (falhei no 1º semestre) e 2016-2023 - Unesp - Medicina (Falhei burnautada)' },
-  { id: 3, text: 'Sobrenome materno', description: 'Bom, sou a irmã mais velha entre três e a única com sobrenome materno, meus pais acharam meu nome muito longo na hora de escrever e decidiram não repetir isso com os outros dois.' }
-]
+const funFactsListItems = computed(() => [
+  { 
+    id: 1, 
+    text: t('about.funFact1Title'), 
+    description: t('about.funFact1Desc') 
+  },
+  { 
+    id: 2, 
+    text: t('about.funFact2Title'), 
+    description: t('about.funFact2Desc') 
+  },
+  { 
+    id: 3, 
+    text: t('about.funFact3Title'), 
+    description: t('about.funFact3Desc') 
+  }
+])
 
 </script>
 
 <style scoped>
 .about {
   max-width: 1200px;
+  width: 80dvw;
   margin: 3em auto;
 }
 
@@ -283,7 +292,6 @@ const funFactsListItems = [
   font-size: 1.3rem;
 }
 
-
 hr {
   margin: 1rem;
 }
@@ -370,14 +378,14 @@ margin-bottom: 2rem;
     text-align: center;
     gap: 2rem;
   }
-  
+
   .profile-image {
     margin: 0 auto;
     width: 150px;
     height: 150px;
   }
-  
-  
+
+
   .profile-stats {
     justify-content: center;
   }
@@ -390,27 +398,27 @@ margin-bottom: 2rem;
   .about {
     padding: 0.5rem;
   }
-  
+
   .about-header {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
-  
+
   .header-content h1 {
     text-align: center;
   }
-  
+
   .features-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .about-footer {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .footer-btn {
     width: 100%;
     max-width: 300px;
@@ -422,11 +430,11 @@ margin-bottom: 2rem;
     width: 100px;
     height: 100px;
   }
-  
+
   .facts-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .feature-icon {
     font-size: 2.5rem;
   }
