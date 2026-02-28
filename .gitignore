@@ -36,5 +36,7 @@ folders.txt
 
 __screenshots__/
 
-# Local Netlify folder
 .netlify
+
+.env
+.env.local
