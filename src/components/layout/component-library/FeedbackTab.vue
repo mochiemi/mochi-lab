@@ -2,7 +2,7 @@
   <div class="tab-content">
     <!-- Alerts -->
     <section class="catalog-section">
-      <h2><OhVueIcon name="oi-alert" /> Alertas</h2>
+      <h2><OhVueIcon name="md-warning-round" /> Alertas</h2>
       <p class="section-description">Componentes de alerta para exibir mensagens importantes, erros, avisos e confirmações.</p>
       
       <div class="component-demo">
@@ -33,7 +33,7 @@
     </section>
 
     <section class="catalog-section">
-      <h2><OhVueIcon name="bi-info-square" /> Toast Notifications</h2>
+      <h2><OhVueIcon name="hi-information-circle" /> Toast Notifications</h2>
       <p class="section-description">Notificações temporárias que aparecem em diferentes posições da tela.</p>
       
       <div class="component-demo">

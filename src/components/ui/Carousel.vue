@@ -472,7 +472,6 @@ onBeforeUnmount(() => {
 }
 
 .carousel-title {
-  font-size: 1.5em;
   color: var(--title-secondary);
   margin: 0;
   text-align: center;
@@ -557,7 +556,12 @@ onBeforeUnmount(() => {
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
-  margin: 0 auto; 
+  margin: 0 auto;
+  background-color: var(--surface-contrast);
+}
+
+h4 {
+  color: var(--text-mint);
 }
 
 .slide-card-small {
@@ -585,7 +589,7 @@ onBeforeUnmount(() => {
 
 .slide-card-testimonial {
   text-align: center;
-  padding: 2em;
+  padding: 1em;
   justify-content: center;
 }
 
@@ -607,7 +611,7 @@ onBeforeUnmount(() => {
 }
 
 .slide-card-image .slide-image {
-  width: 90%;
+  width: 80%;
   object-fit: contain;
 }
 

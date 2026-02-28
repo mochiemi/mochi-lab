@@ -87,7 +87,9 @@ import {
   FaRegularEdit,
   HiDocumentDownload,
   HiTrash,
-  BiSearchHeart
+  BiSearchHeart,
+  MdDonotdisturb,
+  OiChevronUp
 } from "oh-vue-icons/icons"
 
 addIcons(
@@ -177,7 +179,9 @@ addIcons(
   FaRegularEdit,
   HiDocumentDownload,
   HiTrash,
-  BiSearchHeart
+  BiSearchHeart,
+  MdDonotdisturb,
+  OiChevronUp
 )
 
 export { OhVueIcon }

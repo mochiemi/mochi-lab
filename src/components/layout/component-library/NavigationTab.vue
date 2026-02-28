@@ -2,7 +2,7 @@
   <div class="tab-content">
     <!-- Dropdown -->
     <section class="catalog-section">
-      <h2><OhVueIcon name="oi-folder" /> Dropdown</h2>
+      <h2><OhVueIcon name="oi-file" /> Dropdown</h2>
       <p class="section-description">Menus suspensos para organizar ações e navegação.</p>
       
       <div class="component-demo">
@@ -10,15 +10,15 @@
           <Dropdown label="Menu Principal" dropdown-id="main-menu-sample">
             <div class="dropdown-content">
               <a href="#" class="dropdown-item"><OhVueIcon name="oi-person" /> Perfil</a>
-              <a href="#" class="dropdown-item"><OhVueIcon name="oi-gear" /> Configurações</a>
-              <a href="#" class="dropdown-item"><OhVueIcon name="oi-sign-out" /> Sair</a>
+              <a href="#" class="dropdown-item"><OhVueIcon name="md-settingssuggest-outlined" /> Configurações</a>
+              <a href="#" class="dropdown-item"><OhVueIcon name="hi-arrow-circle-up" /> Sair</a>
             </div>
           </Dropdown>
 
           <Dropdown label="Ações Rápidas" dropdown-id="quick-actions">
             <div class="dropdown-content">
               <a href="#" class="dropdown-item"><OhVueIcon name="oi-download" /> Exportar</a>
-              <a href="#" class="dropdown-item"><OhVueIcon name="oi-upload" /> Importar</a>
+              <a href="#" class="dropdown-item"><OhVueIcon name="hi-document-download" /> Importar</a>
               <a href="#" class="dropdown-item"><OhVueIcon name="oi-reload" /> Atualizar</a>
             </div>
           </Dropdown>

@@ -1,6 +1,5 @@
 <template>
   <div class="moderation-panel">
-    <!-- Header com logout -->
     <div class="admin-header">
       <h1>🛡️ Painel de Moderação</h1>
       <Button variant="secondary" size="small" @click="logout">
@@ -8,7 +7,6 @@
       </Button>
     </div>
     
-    <!-- Card sem slot tipado -->
     <Card class="main-card">
       <div class="card-header">
         <h2>Moderação</h2>
@@ -23,7 +21,6 @@
         <Loading size="large" />
       </div>
 
-      <!-- PENDENTES -->
       <div v-else-if="pendingComments.length" class="comments-list">
         <h3>⏳ Aguardando revisão manual:</h3>
         
@@ -68,7 +65,6 @@
       </div>
     </Card>
 
-    <!-- HISTÓRICO - Card sem slot tipado -->
     <Card class="history-section">
       <h2 class="history-title">📋 Histórico (últimos 20)</h2>
       
@@ -103,7 +99,6 @@ import Card from '@/components/ui/Card.vue'
 import Button from '@/components/ui/Button.vue'
 import Loading from '@/components/ui/Loading.vue'
 
-// Tipos simplificados
 interface QueueItem {
   comment_id: string
   reason: string
@@ -133,23 +128,19 @@ interface HistoryItem {
   [key: string]: any
 }
 
-// Router e Store
 const router = useRouter()
 const adminStore = useAdminStore()
 
-// Estados
 const pendingComments = ref<Comment[]>([])
 const history = ref<HistoryItem[]>([])
 const loading = ref<boolean>(true)
 const processing = ref<string | null>(null)
 
-// Logout
 const logout = (): void => {
   adminStore.logout()
   router.push('/admin/login')
 }
 
-// Buscar pendentes
 const fetchPending = async (): Promise<void> => {
   const { data: queueData, error: queueErr } = await supabase
     .from('moderation_queue')
@@ -179,14 +170,12 @@ const fetchPending = async (): Promise<void> => {
     return
   }
 
-  // Tipagem any para evitar conflitos
   pendingComments.value = (commentsData || []).map((c: any) => ({
     ...c,
     moderation_queue: queueData.filter((q: any) => q.comment_id === c.id)
   })) as Comment[]
 }
 
-// Buscar histórico
 const fetchHistory = async (): Promise<void> => {
   const { data, error } = await supabase
     .from('moderation_queue')
@@ -200,7 +189,6 @@ const fetchHistory = async (): Promise<void> => {
   if (!error) history.value = (data || []) as HistoryItem[]
 }
 
-// Computed
 const approvedToday = computed((): number => {
   const today = new Date().toDateString()
   return history.value.filter((q) => 
@@ -216,7 +204,6 @@ const rejectedToday = computed((): number => {
   ).length
 })
 
-// Helpers
 const getStatusClass = (item: HistoryItem): string => {
   if (!item.reviewed) return 'pending'
   if (item.reason?.includes('APROVADO')) return 'approved'
@@ -231,7 +218,6 @@ const getStatusIcon = (item: HistoryItem): string => {
   return '👤'
 }
 
-// Ações
 const approveComment = async (id: string): Promise<void> => {
   processing.value = id
   
@@ -278,7 +264,6 @@ const formatDate = (date: string | undefined): string => {
 }
 
 onMounted(() => {
-  // O router já deve ter barrado, mas verificamos novamente por segurança
   adminStore.checkAuth()
   if (!adminStore.isAuthenticated) {
     router.push('/admin')

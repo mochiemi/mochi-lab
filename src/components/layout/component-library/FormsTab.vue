@@ -29,7 +29,7 @@
     </section>
 
     <section class="catalog-section">
-      <h2><OhVueIcon name="oi-list" /> Controles de Formulário</h2>
+      <h2><OhVueIcon name="bi-card-checklist" /> Controles de Formulário</h2>
       <p class="section-description">Componentes interativos para seleção e alternância de opções.</p>
       
       <div class="component-demo">
@@ -49,7 +49,7 @@
         </div>
         <p class="demo-value">Opção selecionada: {{ formData.radioValue }}</p>
 
-        <h3><OhVueIcon name="oi-toggle" /> Switch</h3>
+        <h3><OhVueIcon name="md-toggleoff-outlined" /> Switch</h3>
         <div class="form-controls-grid">
           <Switch v-model="formData.switch1" label="Switch desligado" />
           <Switch v-model="formData.switch2" label="Switch ligado" />
@@ -64,7 +64,7 @@
       <p class="section-description">Componentes para entrada de dados como input, textarea e select.</p>
       
       <div class="component-demo">
-        <h3><OhVueIcon name="oi-input" /> Input</h3>
+        <h3><OhVueIcon name="oi-pencil" /> Input</h3>
         <div class="inputs-grid">
           <Input label="Nome Completo" placeholder="Digite seu nome" />
           <Input type="email" label="E-mail" placeholder="Digite seu e-mail" />
@@ -74,7 +74,7 @@
           <Input label="Desabilitado" disabled placeholder="Campo não editável" />
         </div>
 
-        <h3><OhVueIcon name="oi-text" /> Textarea</h3>
+        <h3><OhVueIcon name="oi-comment" /> Textarea</h3>
         <div class="inputs-grid">
           <Textarea 
             label="Mensagem" 
@@ -138,6 +138,7 @@
 
 <script setup>
 import { reactive } from 'vue'
+import { OhVueIcon } from 'oh-vue-icons' 
 import Button from '@/components/ui/Button.vue'
 import Checkbox from '@/components/ui/Checkbox.vue'
 import Radio from '@/components/ui/Radio.vue'

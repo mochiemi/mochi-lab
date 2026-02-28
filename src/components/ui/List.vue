@@ -20,7 +20,6 @@
     role="list"
     :aria-busy="loading"
   >
-    <!-- Loading State -->
     <template v-if="loading">
       <li v-for="n in 3" :key="`skeleton-${n}`" class="list-item list-item-skeleton">
         <div class="list-item-skeleton-content">
@@ -33,7 +32,6 @@
       </li>
     </template>
 
-    <!-- Empty State -->
     <template v-else-if="items.length === 0 && !hideEmpty">
       <li class="list-item list-item-empty">
         <slot name="empty">
@@ -45,7 +43,6 @@
       </li>
     </template>
 
-    <!-- Items -->
     <template v-else>
       <li
         v-for="(item, index) in items"
@@ -68,7 +65,6 @@
         @keydown.space.prevent="handleItemClick(item, index)"
         tabindex="0"
       >
-        <!-- Selection Control -->
         <div v-if="selectable" class="list-item-selector">
           <Checkbox
             v-if="selectionType === 'multiple'"
@@ -87,7 +83,6 @@
           />
         </div>
 
-        <!-- Bullet/Number -->
         <div v-if="showMarker && !selectable" class="list-marker">
           <template v-if="ordered">
             <span class="list-number">{{ getItemNumber(index) }}</span>
@@ -110,7 +105,6 @@
           </template>
         </div>
 
-        <!-- Content -->
         <div class="list-item-content">
           <div class="list-item-header">
             <div class="list-item-main">
@@ -166,7 +160,6 @@
           </div>
         </div>
 
-        <!-- Actions -->
         <div v-if="item.actions || hasActionsSlot" class="list-item-actions">
           <slot name="actions" :item="item" :index="index">
             <Button
@@ -184,7 +177,6 @@
           </slot>
         </div>
 
-        <!-- Expand/Collapse -->
         <div v-if="item.children || item.expandable" class="list-item-expand">
           <Button
             variant="ghost"
@@ -196,7 +188,6 @@
         </div>
       </li>
 
-      <!-- Nested Items -->
       <template v-if="showNested">
         <li
           v-for="(item, index) in items"
@@ -450,7 +441,6 @@ const highlightMatch = (text) => {
   return text.replace(regex, '<mark>$1</mark>')
 }
 
-// Reset selection when items change
 watch(() => props.items, () => {
   selectedIndex.value = -1
   selectedItems.value.clear()
@@ -464,11 +454,9 @@ watch(() => props.items, () => {
   margin: 0;
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
   transition: all 0.3s ease;
 }
 
-/* Variants */
 .list-default .list-item {
   background: var(--surface-primary);
 }
@@ -498,7 +486,6 @@ watch(() => props.items, () => {
   border-left: 4px solid var(--red);
 }
 
-/* Sizes */
 .list-size-small .list-item {
   padding: 0.5rem;
   font-size: 0.875rem;
@@ -529,7 +516,6 @@ watch(() => props.items, () => {
   font-size: 1.5rem;
 }
 
-/* Compact mode */
 .list-compact .list-item {
   padding: 0.375rem 0.75rem;
   gap: 0.5rem;
@@ -539,13 +525,11 @@ watch(() => props.items, () => {
   gap: 0.125rem;
 }
 
-/* List Item */
 .list-item {
   display: flex;
   align-items: flex-start;
   transition: all 0.2s ease;
   position: relative;
-  border-radius: 4px;
   outline: none;
   cursor: default;
 }
@@ -556,9 +540,8 @@ watch(() => props.items, () => {
 }
 
 .list-hoverable .list-item:not(.list-item-disabled):hover {
-  background: var(--inner-surface);
+  background: var(--rose-surface);
   transform: translateX(4px);
-  box-shadow: 0 2px 8px var(--shadow);
 }
 
 .list-item-clickable:not(.list-item-disabled) {
@@ -585,7 +568,6 @@ watch(() => props.items, () => {
   border-bottom: 2px solid var(--border-primary);
 }
 
-/* Divided */
 .list-divided .list-item {
   border-bottom: 1px solid var(--border);
   border-radius: 0;
@@ -595,7 +577,6 @@ watch(() => props.items, () => {
   border-bottom: none;
 }
 
-/* Bordered */
 .list-bordered .list-item {
   border: 1px solid var(--border-strong);
   margin-bottom: 0.5rem;
@@ -605,24 +586,20 @@ watch(() => props.items, () => {
   margin-bottom: 0;
 }
 
-/* Striped */
 .list-striped .list-item:nth-child(even) {
   background: var(--inner-surface);
 }
 
-/* With Shadow */
 .list-with-shadow {
   box-shadow: 0 4px 12px var(--shadow);
 }
 
-/* Selector */
 .list-item-selector {
   display: flex;
   align-items: center;
   margin-right: 0.5rem;
 }
 
-/* Marker */
 .list-marker {
   display: flex;
   align-items: center;
@@ -634,6 +611,7 @@ watch(() => props.items, () => {
 }
 
 .bullet-image {
+  margin-left: 1rem;
   width: 16px;
   height: 16px;
   object-fit: contain;
@@ -641,14 +619,14 @@ watch(() => props.items, () => {
 }
 
 .bullet-icon {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   color: var(--secondary);
 }
 
 .bullet-default {
   font-size: 1.25rem;
   line-height: 1;
-  color: var(--secondary);
+  color: var(--strong-rose);
 }
 
 .bullet-spin {
@@ -656,12 +634,11 @@ watch(() => props.items, () => {
 }
 
 .list-number {
-  font-size: 0.875rem;
+  font-size: 1.5rem;
   font-weight: 600;
-  color: var(--secondary);
+  color: var(--title-secondary);
 }
 
-/* Content */
 .list-item-content {
   flex: 1;
   display: flex;
@@ -670,9 +647,10 @@ watch(() => props.items, () => {
 }
 
 .list-item-header {
+  margin-left: 1rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1rem;
 }
 
@@ -692,6 +670,7 @@ watch(() => props.items, () => {
 
 .list-item-text {
   color: var(--text-primary);
+  font-size: 1.2rem;
   font-weight: 500;
   word-break: break-word;
 }
@@ -700,7 +679,6 @@ watch(() => props.items, () => {
   background-color: var(--yellow);
   color: var(--text-contrast);
   padding: 0.125rem 0.25rem;
-  border-radius: 4px;
 }
 
 .list-item-badge {
@@ -717,14 +695,17 @@ watch(() => props.items, () => {
 }
 
 .list-item-meta {
-  color: var(--text-secondary);
+  color: var(--text-primary);
   font-size: 0.875rem;
   white-space: nowrap;
 }
 
 .list-item-description {
+  padding: 0.5rem;
   color: var(--text-secondary);
-  font-size: 0.875rem;
+  background-color: var(--inner-surface);
+  font-family: 'Shantell Sans', sans-serif;
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 
@@ -753,7 +734,6 @@ watch(() => props.items, () => {
   margin-right: 0.25rem;
 }
 
-/* Actions */
 .list-item-actions {
   display: flex;
   gap: 0.5rem;
@@ -761,20 +741,17 @@ watch(() => props.items, () => {
   margin-left: 0.5rem;
 }
 
-/* Expand */
 .list-item-expand {
   display: flex;
   align-items: center;
   margin-left: 0.5rem;
 }
 
-/* Nested */
 .list-item-nested {
   padding-left: 2rem;
   list-style: none;
 }
 
-/* Empty State */
 .list-item-empty {
   justify-content: center;
   padding: 2rem !important;
@@ -798,7 +775,6 @@ watch(() => props.items, () => {
   font-size: 0.875rem;
 }
 
-/* Skeleton Loading */
 .list-item-skeleton {
   pointer-events: none;
 }
@@ -831,14 +807,12 @@ watch(() => props.items, () => {
   background: linear-gradient(90deg, var(--border) 25%, var(--surface-secondary) 50%, var(--border) 75%);
   background-size: 200% 100%;
   animation: loading 1.5s infinite;
-  border-radius: 4px;
 }
 
 .skeleton-line.short {
   width: 60%;
 }
 
-/* Animations */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -849,7 +823,6 @@ watch(() => props.items, () => {
   100% { background-position: -200% 0; }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .list-item {
     flex-wrap: wrap;

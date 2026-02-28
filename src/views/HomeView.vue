@@ -14,7 +14,7 @@
         <div class="hero-text">
           <p class="welcome">{{ $t('home.welcome') }}</p>
           <h1 class="title">Mochi Lab</h1>
-          <img class="hero-img" src="../assets/images/mochipuyu.png" alt="Mochi" />
+          <img class="hero-img" src="../assets/images/mochipuyu-1.png" alt="Puyu" />
           <p class="hero-description">{{ $t('home.description') }}</p>
         </div>
         <Tooltip :content="$t('home.tooltip')" position="right" size="lg" class="logo-tooltip">
@@ -33,8 +33,7 @@
       </div>
 
       <div class="features-grid">
-        <!-- Card do Blog -->
-        <Card class="feature-card" :padding="'normal'">
+        <Card class="feature-card"  >
           <template #header>
             <div class="feature-header">
               <div class="feature-icon-wrapper">
@@ -76,6 +75,7 @@
               <p class="post-preview-excerpt">{{ latestPost.excerpt }}</p>
 
               <div class="post-preview-tags" v-if="latestPost.labels && latestPost.labels.length > 0">
+                <span class="tags-text">Tags: </span>
                 <Badge 
                   v-for="label in latestPost.labels.slice(0, 2)" 
                   :key="label"
@@ -111,7 +111,6 @@
           </template>
         </Card>
 
-        <!-- TodayGHCard - Grade Horária do Dia Atual -->
         <TodayGHCard 
           :title="$t('home.features.schedule')"
           icon="bi-calendar-heart"
@@ -123,7 +122,6 @@
           @class-click="handleClassClick"
         />
 
-        <!-- FutureGHCard - Próximas Aulas -->
         <FutureGHCard 
           :title="$t('home.features.nextClasses')"
           icon="bi-calendar-week"
@@ -134,25 +132,6 @@
           @view-full-schedule="goToFullSchedule"
           @class-click="handleClassClick"
         />
-
-        <!-- Future Cards (opcional) -->
-        <slot name="feature-4">
-          <Card class="feature-card future-card" :padding="'normal'">
-            <template #header>
-              <div class="feature-header">
-                <div class="feature-icon-wrapper future">
-                  <OhVueIcon name="gi-coffee-cup" class="feature-icon future-icon" />
-                </div>
-              </div>
-              <h3 class="feature-title future-title">{{ $t('home.features.comingSoon') }}</h3>
-            </template>
-
-            <div class="feature-content future-content">
-              <OhVueIcon name="gi-cat" class="future-main-icon" />
-              <p>{{ $t('inConstruction.note') }}</p>
-            </div>
-          </Card>
-        </slot>
       </div>
     </section>
   </div>
@@ -250,15 +229,12 @@ const goToLatestPost = () => {
   }
 };
 
-// Navegar para grade completa
 const goToFullSchedule = () => {
   router.push('/grade-horaria');
 };
 
-// Lidar com clique em aula
 const handleClassClick = (classItem) => {
   console.log('Class clicked:', classItem);
-  // Aqui você pode implementar um modal com detalhes da aula
 };
 
 onMounted(() => {
@@ -267,10 +243,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Estilos existentes permanecem iguais */
+
 .home {
   max-width: 1400px;
-  margin: 0 auto;
+  margin: 2em auto;
   padding: 1em;
   display: flex;
   flex-direction: column;

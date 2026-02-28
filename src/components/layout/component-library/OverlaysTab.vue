@@ -75,6 +75,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { OhVueIcon } from 'oh-vue-icons'
 import Modal from '@/components/ui/Modal.vue'
 import Tooltip from '@/components/ui/Tooltip.vue'
 import Button from '@/components/ui/Button.vue'

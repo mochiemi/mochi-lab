@@ -79,7 +79,6 @@ const tooltipPosition = ref({})
 const cardRef = ref(null)
 const tooltipRef = ref(null)
 
-// Funções de formatação (inalteradas)
 const formatRoom = (room) => {
   if (!room) return ''
   return room.split('(')[0].trim()
@@ -105,7 +104,6 @@ const getClassTypeLabel = (type) => {
 const updateTooltipPosition = async () => {
   if (!showTooltip.value || !cardRef.value) return
 
-  // Aguarda o tooltip ser renderizado para pegar suas dimensões
   await nextTick()
   if (!tooltipRef.value) return
 
@@ -114,23 +112,17 @@ const updateTooltipPosition = async () => {
   const viewportWidth = window.innerWidth
   const viewportHeight = window.innerHeight
 
-  // Posiciona o tooltip acima do card por padrão
   let top = cardRect.top - tooltipRect.height - 10
   let left = cardRect.left + (cardRect.width / 2) - (tooltipRect.width / 2)
 
-  // Ajusta se estiver saindo pela esquerda
   if (left < 10) {
     left = 10
   }
-  // Ajusta se estiver saindo pela direita
   if (left + tooltipRect.width > viewportWidth - 10) {
     left = viewportWidth - tooltipRect.width - 10
   }
-
-  // Se não couber em cima, coloca embaixo
   if (top < 10) {
     top = cardRect.bottom + 10
-    // Ajusta a seta para apontar para cima (classe será alterada via style)
     tooltipRef.value.classList.add('tooltip-bottom')
   } else {
     tooltipRef.value.classList.remove('tooltip-bottom')
@@ -172,7 +164,7 @@ onBeforeUnmount(() => {
 .class-card {
   background: var(--surface-primary);
   border: 2px dashed var(--border-secondary);
-  border-radius: 12px; /* Bordas um pouco mais arredondadas */
+  border-radius: 12px;
   padding: 0.75rem;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -181,12 +173,11 @@ onBeforeUnmount(() => {
   box-shadow: 0 2px 4px var(--shadow);
 }
 
-/* Estilo unificado no hover */
 .class-card:hover {
   transform: translateY(-3px) scale(1.02);
   border-color: var(--primary);
-  box-shadow: 0 8px 16px var(--shadow-hover);
-  background: var(--surface-contrast); /* Leve destaque no fundo */
+  box-shadow: 0 0 8px 16px var(--shadow-hover);
+  background: var(--surface-contrast);
 }
 
 .class-card.compact {
@@ -215,7 +206,7 @@ onBeforeUnmount(() => {
   margin: 0;
   background: var(--rose-surface);
   padding: 0.2rem 0.6rem;
-  border-radius: 20px; /* Estilo de pílula para o código */
+  border-radius: 20px;
   border: 1px solid var(--border-strong);
   display: inline-block;
 }
@@ -253,7 +244,6 @@ onBeforeUnmount(() => {
   font-size: 0.8rem;
 }
 
-/* Badge para turma prática - agora com um visual mais integrado */
 .practical-badge {
   background: var(--sky-blue-surface) !important;
   color: var(--text-primary) !important;
@@ -262,7 +252,6 @@ onBeforeUnmount(() => {
   padding: 0.2rem 0.5rem;
 }
 
-/* Estilos do Tooltip (ajustados) */
 .class-tooltip {
   position: fixed;
   z-index: 9999;
@@ -272,10 +261,11 @@ onBeforeUnmount(() => {
   padding: 1rem;
   width: 320px;
   max-width: 90vw;
-  box-shadow: 0 12px 28px var(--shadow-hover);
+  box-shadow: 0 0 14px 6px var(--shadow-hover);
   pointer-events: none;
   transition: opacity 0.2s ease;
-  border-top-left-radius: 4px; /* Detalhe divertido */
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 .tooltip-arrow {
@@ -291,7 +281,6 @@ onBeforeUnmount(() => {
   border-bottom-right-radius: 4px;
 }
 
-/* Quando o tooltip estiver embaixo do card, a seta aponta para cima */
 .class-tooltip.tooltip-bottom .tooltip-arrow {
   top: -8px;
   bottom: auto;

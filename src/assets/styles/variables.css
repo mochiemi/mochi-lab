@@ -6,10 +6,10 @@
   --light-rose: #ffd8e8;
   --strong-rose: #ff559c;
   --rose: #dd77a2;
-  --dull-rose: #835769;
-  --dark-rose: #85264d;
+  --dull-rose: #664351;
+  --dark-rose: #811e47;
   --night-blue: #162242;
-  --dull-blue: #3c6a80;
+  --dull-blue: #345a6b;
   --dark-blue: #005ac0;
   --strong-blue: #0099ff;
   --sky-blue: #16bdff;
@@ -51,6 +51,7 @@
   --text-contrast: black;
   --text-disabled: var(--light-gray);
   --text-inverted: var(--white);
+  --text-mint: var(--green);
 
   --disabled-letter: var(--gray);
   --disabled-bg: var(--light-gray);
@@ -135,6 +136,7 @@
   --text-contrast: white;
   --text-disabled: var(--gray);
   --text-inverted: var(--black);
+  --text-mint: var(--mint);
 
   --disabled-letter: var(--gray);
   --disabled-bg: var(--dark-gray);
@@ -153,7 +155,7 @@
   --disabled-surface: var(--dark-gray);
   --sky-blue-surface: var(--dull-blue);
   --rose-surface: var(--dull-rose);
-  --purple-surface: var(--soft-purple);
+  --purple-surface: var(--deep-purple);
   --rose-surface-i: var(--light-rose);
   --navbar-surface: var(--dull-rose);
   --surface-error: var(--orange);
@@ -167,7 +169,7 @@
   --border-navbar: var(--rose);
 
   --shadow: rgba(255, 103, 197, 0.4);
-  --shadow-hover: rgba(255, 255, 255, 0.3);
+  --shadow-hover: rgba(255, 96, 183, 0.4);
 
   --link-color: var(--strong-rose);
   --link-hover: var(--strong-blue);
@@ -175,7 +177,6 @@
   --link-footer: var(--rose);
   --focus: var(--strong-blue);
 
-  /* Badges - Tema Escuro */
   --badge-info: var(--sky-blue);
   --badge-info-bg: var(--dull-blue);
   --badge-info-border: var(--strong-blue);
@@ -184,7 +185,7 @@
   --badge-purple-bg: var(--purple);
   --badge-purple-border: var(--deep-purple);
 
-  --badge-teal: var(--soft-teal);
+  --badge-teal: var(--mint);
   --badge-teal-bg: var(--teal);
   --badge-teal-border: var(--deep-teal);
 

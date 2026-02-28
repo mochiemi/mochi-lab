@@ -52,7 +52,6 @@ import { ref } from 'vue'
 import { OhVueIcon } from 'oh-vue-icons'
 import type { AccordionItem } from '@/types/accordion'
 
-// Props
 interface Props {
   items: AccordionItem[]
   variant?: 'default' | 'primary' | 'secondary'
@@ -68,13 +67,11 @@ const props = withDefaults(defineProps<Props>(), {
   modelValue: () => []
 })
 
-// Emits
 const emit = defineEmits<{
   'update:modelValue': [value: (string | number)[]]
   'item-toggle': [payload: { index: number; expanded: boolean; item: AccordionItem }]
 }>()
 
-// Slots
 defineSlots<{
   content?: (props: { item: AccordionItem; index: number }) => any
 }>()
@@ -133,13 +130,13 @@ const onBeforeLeave = (el: Element): void => {
 }
 
 .accordion-bordered {
-  border: 1px solid var(--border);
+  border: 2px dashed var(--border-contrast);
   border-radius: 8px;
   overflow: hidden;
 }
 
 .accordion-bordered .accordion-item {
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2px dashed var(--border-contrast);
   margin: 0;
 }
 
@@ -167,7 +164,7 @@ const onBeforeLeave = (el: Element): void => {
   padding: 1.25rem 1.5rem;
   background: none;
   border: none;
-  border-bottom: 2px dashed var(--text-contrast);
+  border-bottom: 2px dashed var(--sky-blue);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -206,10 +203,6 @@ const onBeforeLeave = (el: Element): void => {
   flex-shrink: 0;
 }
 
-.accordion-item-expanded .accordion-arrow {
-  transform: rotate(180deg);
-}
-
 .accordion-content {
   overflow: hidden;
   transition: height 0.3s ease;
@@ -221,18 +214,14 @@ const onBeforeLeave = (el: Element): void => {
   line-height: 1.6;
 }
 
-/* Variants */
 .accordion-primary .accordion-header {
   background: var(--bg-primary);
-  border-left: 4px solid var(--primary);
 }
 
 .accordion-secondary .accordion-header {
   background: var(--bg-secondary);
-  border-left: 4px solid var(--secondary);
 }
 
-/* Transition */
 .accordion-slide-enter-active,
 .accordion-slide-leave-active {
   transition: height 0.3s ease;

@@ -3,12 +3,12 @@
     <Card class="hero-card" :flat="true">
       <template #header>
         <h1>{{ $t('blog.title') }}</h1>
+        <img class="hero-img" src="../assets/images/mochipuyu-blog.png" alt="Happy Puyu with a laptop and coffee" />
         <p class="hero-subtitle">{{ $t('blog.description') }}</p>
         <p class="hero-subtitle2">{{ $t('blog.description2') }}</p>
       </template>
     </Card>
 
-    <!-- Filtro de Tags -->
     <Card v-if="availableTags.length > 0" class="tags-filter-card">
       <div class="tags-filter">
         <span class="filter-label">{{ $t('blog.filterByTags') }}</span>
@@ -135,7 +135,6 @@
       </Card>
     </div>
 
-    <!-- Paginação com tokens -->
     <div v-if="!loading && !error && (prevPageToken || nextPageToken)" class="pagination">
       <Button 
         :disabled="!prevPageToken"
@@ -178,7 +177,6 @@ import Badge from '@/components/ui/Badge.vue';
 import Loading from '@/components/ui/Loading.vue';
 import { OhVueIcon } from '@/plugins/icons';
 
-// Configurações da API do Blogger (via .env)
 const API_KEY = import.meta.env.VITE_BLOGGER_API_KEY;
 const BLOG_ID = import.meta.env.VITE_BLOGGER_BLOG_ID;
 const POSTS_PER_PAGE = 6;
@@ -187,7 +185,6 @@ const route = useRoute();
 const router = useRouter();
 const languageStore = useLanguageStore();
 
-// Estados
 const posts = ref([]);
 const allPosts = ref([]);
 const loading = ref(true);
@@ -200,7 +197,6 @@ const currentPageTokens = ref([]);
 const selectedTags = ref([]);
 const availableTags = ref([]);
 
-// Inicializar tags da URL
 const initTagsFromUrl = () => {
   const tagParam = route.query.tag;
   if (tagParam) {
@@ -210,7 +206,6 @@ const initTagsFromUrl = () => {
   }
 };
 
-// Computed para posts filtrados por tags
 const filteredPosts = computed(() => {
   if (selectedTags.value.length === 0) {
     filteredTotalPosts.value = posts.value.length;
@@ -224,7 +219,6 @@ const filteredPosts = computed(() => {
   return filtered;
 });
 
-// Extrair todas as tags disponíveis
 const extractAvailableTags = (postsList) => {
   const tags = new Set();
   postsList.forEach(post => {
@@ -235,7 +229,6 @@ const extractAvailableTags = (postsList) => {
   availableTags.value = Array.from(tags).sort();
 };
 
-// Toggle tag
 const toggleTag = (tag) => {
   const index = selectedTags.value.indexOf(tag);
   if (index === -1) {
@@ -243,24 +236,20 @@ const toggleTag = (tag) => {
   } else {
     selectedTags.value.splice(index, 1);
   }
-  
-  // Atualizar URL
+
   updateUrlWithTags();
 };
 
-// Filtrar por tag (substitui seleção atual)
 const filterByTag = (tag) => {
   selectedTags.value = [tag];
   updateUrlWithTags();
 };
 
-// Limpar filtros
 const clearFilters = () => {
   selectedTags.value = [];
   updateUrlWithTags();
 };
 
-// Atualizar URL com tags selecionadas
 const updateUrlWithTags = () => {
   const query = { ...route.query };
   if (selectedTags.value.length === 1) {
@@ -271,7 +260,6 @@ const updateUrlWithTags = () => {
   router.replace({ query });
 };
 
-// Computed para exibição
 const startItem = computed(() => {
   return (currentPageTokens.value.length * POSTS_PER_PAGE) + 1;
 });
@@ -280,14 +268,12 @@ const endItem = computed(() => {
   return Math.min(startItem.value + posts.value.length - 1, totalPosts.value);
 });
 
-// Função para extrair texto puro do HTML
 const stripHtml = (html) => {
   const tmp = document.createElement('div');
   tmp.innerHTML = html;
   return tmp.textContent || tmp.innerText || '';
 };
 
-// Calcular tempo de leitura
 const calculateReadingTime = (htmlContent) => {
   const text = stripHtml(htmlContent);
   const wordsPerMinute = 200;
@@ -295,7 +281,6 @@ const calculateReadingTime = (htmlContent) => {
   return Math.ceil(wordCount / wordsPerMinute);
 };
 
-// Buscar posts
 const fetchPosts = async (pageToken = null) => {
   try {
     loading.value = true;
@@ -316,15 +301,14 @@ const fetchPosts = async (pageToken = null) => {
     
     const data = await response.json();
     
-    // Mapear posts
     const mappedPosts = data.items.map(item => {
-      const plainTextExcerpt = stripHtml(item.content).substring(0, 150);
+      const plainTextExcerpt = stripHtml(item.content).substring(0, 200);
       
       return {
         id: item.id,
         title: item.title,
         content: item.content,
-        excerpt: plainTextExcerpt + (plainTextExcerpt.length >= 150 ? '...' : ''),
+        excerpt: plainTextExcerpt + (plainTextExcerpt.length >= 200 ? '...' : ''),
         published: item.published,
         updated: item.updated,
         author: item.author?.displayName || 'Mochi Lab',
@@ -342,14 +326,11 @@ const fetchPosts = async (pageToken = null) => {
     posts.value = mappedPosts;
     allPosts.value = mappedPosts;
     
-    // Extrair tags disponíveis
     extractAvailableTags(mappedPosts);
     
-    // Atualizar paginação
     totalPosts.value = data.totalItems;
     nextPageToken.value = data.nextPageToken;
     
-    // Atualizar histórico de tokens
     if (pageToken) {
       if (!currentPageTokens.value.includes(pageToken)) {
         currentPageTokens.value.push(pageToken);
@@ -358,7 +339,6 @@ const fetchPosts = async (pageToken = null) => {
       currentPageTokens.value = [];
     }
     
-    // Determinar token anterior
     const currentIndex = currentPageTokens.value.indexOf(pageToken);
     prevPageToken.value = currentIndex > 0 ? currentPageTokens.value[currentIndex - 1] : null;
     
@@ -370,7 +350,6 @@ const fetchPosts = async (pageToken = null) => {
   }
 };
 
-// Navegação entre páginas
 const goToPage = (direction) => {
   if (direction === 'next' && nextPageToken.value) {
     fetchPosts(nextPageToken.value);
@@ -381,7 +360,6 @@ const goToPage = (direction) => {
   }
 };
 
-// Formatar data
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString(languageStore.currentLanguage, {
     year: 'numeric',
@@ -390,7 +368,6 @@ const formatDate = (dateString) => {
   });
 };
 
-// Watch para mudanças na URL
 watch(() => route.query.tag, (newTag) => {
   if (newTag) {
     selectedTags.value = [decodeURIComponent(newTag)];
@@ -403,12 +380,13 @@ onMounted(() => {
   initTagsFromUrl();
   fetchPosts();
 });
+
 </script>
 
 <style scoped>
 .container {
-  max-width: 1500px;
-  margin: 0 auto;
+  max-width: 1200px;
+  margin: 3em auto;
   padding: 2rem;
 }
 
@@ -416,6 +394,11 @@ onMounted(() => {
   text-align: center;
   margin-bottom: 2em;
   background: var(--rose-surface);
+}
+
+.hero-img {
+  max-width: 480px;
+  width: 30%;
 }
 
 .hero-subtitle {
@@ -611,6 +594,11 @@ onMounted(() => {
 }
 
 @media (max-width: 768px) {
+
+  .hero-img {
+    width: 45%;
+  }
+
   .posts-grid {
     grid-template-columns: 1fr;
   }

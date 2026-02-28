@@ -1,15 +1,24 @@
 <template>
   <div class="icons-catalog-container">
     <header class="catalog-header">
-      <h1><OhVueIcon name="oi-star" class="header-icon"/> {{ $t('iconsLibrary.title') }}</h1>
-      <p>{{ $t('iconsLibrary.description') }} <a href="https://oh-vue-icons.js.org/" target="_blank" alt="Oh Vue Icons Link">Oh, Vue Icons</a></p>
+      <div class="header-top">
+        <h1>
+          <OhVueIcon name="oi-star" class="header-icon" /> 
+          Biblioteca de Ícones
+        </h1>
+        <Button variant="secondary" size="small" @click="logout">
+          🚪 Sair
+        </Button>
+      </div>
+      <p>Ícones disponíveis via <a href="https://oh-vue-icons.js.org/" target="_blank" alt="Oh Vue Icons Link">Oh, Vue Icons</a></p>
+      <p class="icons-count">Total: {{ iconsList.length }} ícones registrados</p>
     </header>
 
     <section class="filters-section">
       <div class="search-controls">
         <Input
           v-model="searchQuery"
-          :placeholder="$t('iconsLibrary.searchPlaceholder')"
+          placeholder="Buscar ícone por nome..."
           class="search-input"
         />
         <Button 
@@ -17,32 +26,31 @@
           size="small"
           @click="clearFilters"
         >
-          <OhVueIcon name="oi-x-circle" /> {{ $t('iconsLibrary.clear') }}
+          <OhVueIcon name="oi-x-circle" /> Limpar
         </Button>
       </div>
-
     </section>
 
     <section class="icons-grid-section">
       <div v-if="filteredIcons.length === 0" class="no-results">
         <OhVueIcon name="oi-comment" size="2x" />
-        <h3>{{ $t('iconsLibrary.noResults.title') }}</h3>
-        <p>{{ $t('iconsLibrary.noResults.description') }}</p>
+        <h3>Nenhum ícone encontrado</h3>
+        <p>Tente buscar por outro termo</p>
       </div>
 
       <div v-else class="icons-grid">
         <div 
           v-for="icon in filteredIcons" 
-          :key="icon.name"
+          :key="icon"
           class="icon-card"
-          @click="copyIconName(icon.name)"
+          @click="copyIconCode(icon)"
         >
           <div class="icon-preview">
-            <OhVueIcon :name="icon.name" size="2x" />
+            <OhVueIcon :name="icon" size="2x" />
           </div>
           <div class="icon-info">
-            <h4 class="icon-name">{{ icon.name }}</h4>
-            <code class="icon-usage">&lt;OhVueIcon name="{{ icon.name }}" /&gt;</code>
+            <h4 class="icon-name">{{ icon }}</h4>
+            <code class="icon-usage">&lt;OhVueIcon name="{{ icon }}" /&gt;</code>
           </div>
           <div class="copy-indicator">
             <OhVueIcon name="oi-pencil" class="copy-icon" />
@@ -54,7 +62,7 @@
     <Toast
       v-if="showCopyToast"
       :type="toastType"
-      :position="toastPosition"
+      position="bottom-right"
       :auto-close="3000"
       @dismiss="showCopyToast = false"
     >
@@ -66,143 +74,147 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { OhVueIcon } from 'oh-vue-icons'
+import { useRouter } from 'vue-router'
+import { useAdminStore } from '@/stores/admin'
+import { OhVueIcon } from '@/plugins/icons'
 import Input from '@/components/ui/Input.vue'
 import Button from '@/components/ui/Button.vue'
-import Badge from '@/components/ui/Badge.vue'
 import Toast from '@/components/ui/Toast.vue'
-import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
+const router = useRouter()
+const adminStore = useAdminStore()
 
-const searchQuery = ref('')
-const selectedCategory = ref(null)
-const showCopyToast = ref(false)
-const toastMessage = ref('')
-const toastType = ref('success')
-const toastIcon = ref('oi-check')
-const toastPosition = ref('bottom-right')
-
-const iconsList = ref([])
-
-const initializeIconsList = () => {
-  iconsList.value = [
-    { name: 'hi-home', category: 'Navigation', package: 'Heroicons' },
-    { name: 'fa-regular-paper-plane', category: 'Communication', package: 'Font Awesome' },
-    { name: 'hi-information-circle', category: 'UI_Actions', package: 'Heroicons' },
-    { name: 'fa-arrow-right', category: 'Directional', package: 'Font Awesome' },
-    { name: 'md-settingssuggest-outlined', category: 'Settings', package: 'Material Design' },
-    { name: 'gi-cat', category: 'Animals', package: 'Game Icons' },
-    { name: 'fa-linkedin', category: 'Social', package: 'Font Awesome' },
-    { name: 'fa-github', category: 'Social', package: 'Font Awesome' },
-    { name: 'fa-blogger', category: 'Social', package: 'Font Awesome' },
-    { name: 'wi-time-2', category: 'Weather', package: 'Weather Icons' },
-    { name: 'hi-light-bulb', category: 'Ideas', package: 'Heroicons' },
-    { name: 'oi-person', category: 'People', package: 'Octicons' },
-    { name: 'oi-chevron-down', category: 'Directional', package: 'Octicons' },
-    { name: 'hi-sun', category: 'Weather', package: 'Heroicons' },
-    { name: 'ri-moon-clear-line', category: 'Weather', package: 'Remix Icon' },
-    { name: 'md-catchingpokemon-twotone', category: 'Fun', package: 'Material Design' },
-    { name: 'fa-cannabis', category: 'Fun', package: 'Font Awesome' },
-    { name: 'gi-coffee-cup', category: 'Food_Drink', package: 'Game Icons' },
-    { name: 'oi-star', category: 'UI_Actions', package: 'Octicons' },
-    { name: 'oi-x-circle', category: 'UI_Actions', package: 'Octicons' },
-    { name: 'oi-comment', category: 'Communication', package: 'Octicons' },
-    { name: 'co-freecodecamp', category: 'Technology', package: 'Simple Icons' },
-    { name: 'co-mozilla-firefox', category: 'Technology', package: 'Simple Icons' },
-    { name: 'vi-file-type-vue', category: 'Technology', package: 'VS Code Icons' },
-    { name: 'bi-chat-heart', category: 'Communication', package: 'Bootstrap Icons' },
-    { name: 'ri-mental-health-line', category: 'Health', package: 'Remix Icon' },
-    { name: 'gi-health-potion', category: 'Health', package: 'Game Icons' },
-    { name: 'gi-brazil', category: 'Location', package: 'Game Icons' },
-    { name: 'gi-capybara', category: 'Animals', package: 'Game Icons' },
-    { name: 'gi-erlenmeyer', category: 'Science', package: 'Game Icons' },
-    { name: 'oi-check', category: 'UI_Actions', package: 'Octicons' },
-    { name: 'oi-pencil', category: 'UI_Actions', package: 'Octicons' },
-    { name: 'hi-solid-selector', category: 'UI_Actions', package: 'Heroicons' },
-    { name: 'hi-solid-chevron-double-left', category: 'Directional', package: 'Heroicons' },
-    { name: 'hi-solid-chevron-double-right', category: 'Directional', package: 'Heroicons' },
-    { name: 'hi-arrow-circle-up', category: 'Directional', package: 'Heroicons' },
-    { name: 'bi-play-circle', category: 'Media', package: 'Bootstrap Icons' },
-    { name: 'fa-regular-comment-dots', category: 'Communication', package: 'Font Awesome' },
-    { name: 'hi-solid-code', category: 'Technology', package: 'Heroicons' },
-    { name: 'md-librarybooks-outlined', category: 'Education', package: 'Material Design' },
-    { name: 'bi-play-fill', category: 'Media', package: 'Bootstrap Icons' },
-    { name: 'bi-pause-fill', category: 'Media', package: 'Bootstrap Icons' },
-    { name: 'fa-regular-heart', category: 'UI_Actions', package: 'Font Awesome' },
-    { name: 'co-share-all', category: 'Actions', package: 'Simple Icons' },
-    { name: 'fa-chevron-circle-left', category: 'Directional', package: 'Font Awesome' },
-    { name: 'fa-chevron-circle-right', category: 'Directional', package: 'Font Awesome' },
-    { name: 'hi-clock', category: 'Weather', package: 'Heroicons' },
-    { name: 'bi-calendar-heart', category: 'Calendar', package: 'Bootstrap Icons' },
-    { name: 'la-bug-solid', category: 'Development', package: 'Line Awesome' },
-    { name: 'md-warning-round', category: 'UI_Actions', package: 'Material Design' },
-    { name: 'bi-window', category: 'UI_Actions', package: 'Bootstrap Icons' },
-    { name: 'md-toggleoff-outlined', category: 'UI_Actions', package: 'Material Design' },
-    { name: 'bi-chat-square-text', category: 'Communication', package: 'Bootstrap Icons' },
-    { name: 'md-radiobuttonchecked', category: 'Forms', package: 'Material Design' },
-    { name: 'bi-card-checklist', category: 'UI_Actions', package: 'Bootstrap Icons' },
-    { name: 'fa-question-circle', category: 'UI_Actions', package: 'Font Awesome' },
-    { name: 'ri-delete-back-2-line', category: 'Actions', package: 'Remix Icon' },
-    { name: 'fa-redo-alt', category: 'Actions', package: 'Font Awesome' },
-    { name: 'la-puzzle-piece-solid', category: 'UI_Actions', package: 'Line Awesome' },
-    { name: 'gi-world', category: 'Location', package: 'Game Icons' },
-    { name: 'md-playlistadd-round', category: 'Media', package: 'Material Design' },
-    { name: 'md-addbox-outlined', category: 'UI_Actions', package: 'Material Design' },
-    { name: 'md-radiobuttonunchecked', category: 'Forms', package: 'Material Design' },
-    { name: 'md-checkcircleoutline', category: 'UI_Actions', package: 'Material Design' },
-    { name: 'ri-share-forward-line', category: 'Actions', package: 'Remix Icon' },
-    { name: 'fa-plus', category: 'UI_Actions', package: 'Font Awesome' },
-    { name: 'fa-minus', category: 'UI_Actions', package: 'Font Awesome' },
-    { name: 'io-construct', category: 'Tools', package: 'Ionicons' },
-    { name: 'md-rocketlaunch-round', category: 'Technology', package: 'Material Design' },
-    { name: 'gi-pineapple', category: 'Food_Drink', package: 'Game Icons' },
-    { name: 'si-typescript', category: 'Technology', package: 'Simple Icons' },
-    { name: 'fa-paint-brush', category: 'Design', package: 'Font Awesome' },
-    { name: 'vi-file-type-vite', category: 'Technology', package: 'VS Code Icons' },
-    { name: 'ri-stethoscope-line', category: 'Health', package: 'Remix Icon' },
-    { name: 'co-gamepad', category: 'Gaming', package: 'Simple Icons' }
-  ]
+const logout = (): void => {
+  adminStore.logout()
+  router.push('/admin')
 }
 
-const filteredIcons = computed(() => {
-  let filtered = iconsList.value
+const iconsList = ref<string[]>([
+  'hi-home',
+  'fa-regular-paper-plane',
+  'hi-information-circle',
+  'fa-arrow-right',
+  'md-settingssuggest-outlined',
+  'gi-cat',
+  'fa-linkedin',
+  'fa-github',
+  'fa-blogger',
+  'wi-time-2',
+  'hi-light-bulb',
+  'oi-person',
+  'oi-chevron-down',
+  'hi-sun',
+  'ri-moon-clear-line',
+  'md-catchingpokemon-twotone',
+  'fa-cannabis',
+  'gi-coffee-cup',
+  'oi-star',
+  'oi-x-circle',
+  'oi-comment',
+  'co-freecodecamp',
+  'co-mozilla-firefox',
+  'vi-file-type-vue',
+  'bi-chat-heart',
+  'ri-mental-health-line',
+  'gi-health-potion',
+  'gi-brazil',
+  'gi-capybara',
+  'gi-erlenmeyer',
+  'oi-check',
+  'oi-pencil',
+  'hi-solid-selector',
+  'hi-solid-chevron-double-left',
+  'hi-solid-chevron-double-right',
+  'hi-arrow-circle-up',
+  'bi-play-circle',
+  'fa-regular-comment-dots',
+  'hi-solid-code',
+  'md-librarybooks-outlined',
+  'bi-play-fill',
+  'bi-pause-fill',
+  'fa-regular-heart',
+  'fa-chevron-circle-left',
+  'fa-chevron-circle-right',
+  'hi-clock',
+  'bi-calendar-heart',
+  'la-bug-solid',
+  'md-warning-round',
+  'bi-window',
+  'md-toggleoff-outlined',
+  'bi-chat-square-text',
+  'md-radiobuttonchecked',
+  'bi-card-checklist',
+  'fa-question-circle',
+  'ri-delete-back-2-line',
+  'fa-redo-alt',
+  'la-puzzle-piece-solid',
+  'gi-world',
+  'md-playlistadd-round',
+  'md-addbox-outlined',
+  'md-radiobuttonunchecked',
+  'md-checkcircleoutline',
+  'ri-share-forward-line',
+  'fa-plus',
+  'fa-minus',
+  'io-construct',
+  'md-rocketlaunch-round',
+  'gi-pineapple',
+  'si-typescript',
+  'fa-paint-brush',
+  'vi-file-type-vite',
+  'ri-stethoscope-line',
+  'co-gamepad',
+  'la-cheese-solid',
+  'ai-scihub',
+  'la-pills-solid',
+  'bi-clipboard-data-fill',
+  'bi-eyedropper',
+  'hi-solid-chevron-double-up',
+  'hi-solid-chevron-double-down',
+  'md-noteadd-outlined',
+  'io-calendar-outline',
+  'fa-regular-edit',
+  'hi-document-download',
+  'hi-trash',
+  'bi-search-heart',
+  'md-donotdisturb'
+])
 
-  if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase()
-    filtered = filtered.filter(icon => 
-      icon.name.toLowerCase().includes(query) ||
-      t(`iconsLibrary.categories.${icon.category}`).toLowerCase().includes(query) ||
-      icon.package.toLowerCase().includes(query)
-    )
+const searchQuery = ref<string>('')
+const showCopyToast = ref<boolean>(false)
+const toastMessage = ref<string>('')
+const toastType = ref<'success' | 'error' | 'info' | 'warning'>('success')
+const toastIcon = ref<string>('oi-check')
+
+const filteredIcons = computed<string[]>(() => {
+  if (!searchQuery.value) {
+    return iconsList.value
   }
-
-  if (selectedCategory.value) {
-    filtered = filtered.filter(icon => icon.category === selectedCategory.value)
-  }
-
-  return filtered
+  
+  const query = searchQuery.value.toLowerCase()
+  return iconsList.value.filter(icon => 
+    icon.toLowerCase().includes(query)
+  )
 })
 
-
-const clearFilters = () => {
+const clearFilters = (): void => {
   searchQuery.value = ''
-  selectedCategory.value = null
 }
 
-const copyIconName = async (iconName) => {
+const copyIconCode = async (iconName: string): Promise<void> => {
+  const code = `<OhVueIcon name="${iconName}" />`
+  
   try {
-
     if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(iconName)
-      showToast('success', t('iconsLibrary.copySuccess'), 'oi-check')
+      await navigator.clipboard.writeText(code)
+      showToast('success', 'Código copiado!', 'oi-check')
       return
     }
     
     const textArea = document.createElement('textarea')
-    textArea.value = iconName
+    textArea.value = code
     textArea.style.position = 'fixed'
     textArea.style.left = '-999999px'
     textArea.style.top = '-999999px'
@@ -214,26 +226,37 @@ const copyIconName = async (iconName) => {
     document.body.removeChild(textArea)
     
     if (successful) {
-      showToast('success', t('iconsLibrary.copySuccess'), 'oi-check')
+      showToast('success', 'Código copiado!', 'oi-check')
     } else {
-      throw new Error('execCommand failed')
+      throw new Error('Falha ao copiar')
     }
     
   } catch (err) {
-    console.error('Copy failed:', err)
-    showToast('error', t('iconsLibrary.copyError'), 'oi-x-circle')
+    console.error('Erro ao copiar:', err)
+    showToast('error', 'Erro ao copiar código', 'oi-x-circle')
   }
 }
 
-const showToast = (type, message, icon) => {
+const showToast = (type: 'success' | 'error' | 'info' | 'warning', message: string, icon: string): void => {
   toastType.value = type
   toastMessage.value = message
   toastIcon.value = icon
   showCopyToast.value = true
 }
 
-onMounted(() => {
-  initializeIconsList()
+const refresh = (): void => {
+  // Função de refresh - pode ser usada para recarregar dados se necessário
+  // Por enquanto, apenas garante que a lista de ícones está carregada
+  console.log('Ícones carregados:', iconsList.value.length)
+}
+
+onMounted((): void => {
+  adminStore.checkAuth()
+  if (!adminStore.isAuthenticated) {
+    router.push('/admin')
+    return
+  }
+  refresh()
 })
 </script>
 
@@ -251,14 +274,35 @@ onMounted(() => {
   border-bottom: 2px solid var(--border);
 }
 
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header-top h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
 .catalog-header p {
   font-size: 1.2rem;
   color: var(--text-secondary);
 }
 
+.icons-count {
+  font-size: 1rem !important;
+  margin-top: 0.5rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
 .header-icon {
   transform: scale(2);
-  margin:0.5rem;
+  margin: 0.5rem;
 }
 
 .filters-section {
@@ -273,26 +317,10 @@ onMounted(() => {
   display: flex;
   gap: 1rem;
   align-items: center;
-  margin-bottom: 1.5rem;
 }
 
 .search-input {
   flex: 1;
-}
-
-.filter-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.category-badge {
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.category-badge:hover {
-  transform: translateY(-1px);
 }
 
 .icons-grid-section {
@@ -366,12 +394,6 @@ onMounted(() => {
   word-break: break-word;
 }
 
-.icon-category {
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.75rem;
-}
-
 .icon-usage {
   background: var(--gray-90);
   color: var(--gray-10);
@@ -409,6 +431,11 @@ onMounted(() => {
   
   .catalog-header h1 {
     font-size: 2rem;
+  }
+  
+  .header-top {
+    flex-direction: column;
+    gap: 1rem;
   }
   
   .search-controls {

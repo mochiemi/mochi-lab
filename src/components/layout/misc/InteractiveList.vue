@@ -868,25 +868,25 @@ onMounted(() => {
 
 header {
   text-align: center;
-  margin-bottom: 2em;
+  margin-bottom: 2rem;
 }
 
 .header-icon{
   color: var(--strong-rose);
-  margin: 0 0.5em;
+  margin: 0 0.5rem;
   transform: scale(3) !important;
 }
 
 .description {
   color: var(--text-secondary);
-  font-size: 1.1em;
+  font-size: 1.1rem;
 }
 
 .sub-description {
   color: var(--text-secondary);
-  font-size: 0.9em;
+  font-size: 0.9rem;
   font-style: italic;
-  margin-top: 0.5em;
+  margin-top: 0.5rem;
   opacity: 0.8;
 }
 
@@ -894,13 +894,13 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5em;
-  padding: 1em;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
   background: var(--surface-primary);
   border-radius: 12px;
   border: 2px dashed var(--border-secondary);
   flex-wrap: wrap;
-  gap: 1em;
+  gap: 1rem;
 }
 
 .toolbar-group {
@@ -935,11 +935,11 @@ header {
 }
 
 .filters-panel {
-  background: var(--surface-secondary);
+  background: var(--surface-primary);
   padding: 1em;
   border-radius: 8px;
   margin-bottom: 1.5em;
-  border: 2px solid var(--border-primary);
+  border: 2px dashed var(--border-primary);
 }
 
 .filters-grid {
@@ -976,10 +976,11 @@ header {
 .list-container {
   display: flex;
   flex-direction: column;
-  gap: 0.75em;
+  gap: 0.75rem;
 }
 
 .list-item-card {
+  background-color: var(--surface-primary);
   transition: all 0.3s ease;
   border-width: 2px;
 }
@@ -993,13 +994,13 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1em;
+  gap: 1rem;
 }
 
 .item-main {
   display: flex;
   align-items: flex-start;
-  gap: 1em;
+  gap: 1rem;
   flex: 1;
 }
 
@@ -1010,14 +1011,14 @@ header {
 .item-header {
   display: flex;
   align-items: center;
-  gap: 0.5em;
-  font-size: 1.5em;
+  gap: 0.5rem;
+  font-size: 1.5rem;
   flex-wrap: wrap;
   margin-bottom: 0.25em;
 }
 
 .item-text {
-  font-size: 1.1em;
+  font-size: 1.2rem;
   font-weight: 500;
   color: var(--text-primary);
 }
@@ -1029,7 +1030,7 @@ header {
 }
 
 .priority-badge {
-  font-size: 0.8em;
+  font-size: 1rem;
   cursor: help;
 }
 

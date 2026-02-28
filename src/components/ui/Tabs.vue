@@ -12,7 +12,7 @@
       </button>
       
       <div class="tabs-header-wrapper" ref="tabsHeaderRef">
-        <div class="tabs-header" role="tablist">
+        <div class="tabs-header" :class="`${variant}-variant`" role="tablist">
           <button
             v-for="(tab, index) in tabs"
             :key="index"
@@ -32,7 +32,7 @@
               {{ tab.badge }}
             </Badge>
           </button>
-          <div class="tab-indicator" :style="indicatorStyle"></div>
+          <div class="tab-indicator" :style="indicatorStyle as any"></div>
         </div>
       </div>
       
@@ -65,42 +65,58 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+<script setup lang="ts">
+import { ref, computed, onMounted, onBeforeUnmount, type Ref, type CSSProperties } from 'vue'
 import Badge from './Badge.vue'
 import { OhVueIcon } from 'oh-vue-icons'
 
+// Tipos
+export interface Tab {
+  label: string
+  icon?: string
+  badge?: string | number
+  badgeVariant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'tag' | 'info' | 'purple' | 'teal' | 'coral' | 'lavender' | 'mint' | 'peach' | 'plum'
+  content?: string
+}
+
+// Props com tipagem
 const props = defineProps({
   modelValue: {
     type: Number,
     default: 0
   },
   tabs: {
-    type: Array,
+    type: Array as () => Tab[],
     required: true,
-    validator: (tabs) => tabs.every(tab => 
+    validator: (tabs: Tab[]): boolean => tabs.every(tab => 
       typeof tab.label === 'string' && 
       (tab.content === undefined || typeof tab.content === 'string')
     )
   },
   variant: {
-    type: String,
+    type: String as () => 'default' | 'pills' | 'underline',
     default: 'default',
-    validator: (value) => ['default', 'pills', 'underline'].includes(value)
+    validator: (value: string): boolean => ['default', 'pills', 'underline'].includes(value)
   }
 })
 
-const emit = defineEmits(['update:modelValue', 'change'])
+// Emits com tipagem
+const emit = defineEmits<{
+  (e: 'update:modelValue', index: number): void
+  (e: 'change', index: number): void
+}>()
 
-const showScrollControls = ref(false)
-const isAtStart = ref(true)
-const isAtEnd = ref(false)
-const tabsHeaderRef = ref(null)
-const tabButtonsRef = ref([])
+// Refs com tipagem
+const showScrollControls = ref<boolean>(false)
+const isAtStart = ref<boolean>(true)
+const isAtEnd = ref<boolean>(false)
+const tabsHeaderRef = ref<HTMLElement | null>(null)
+const tabButtonsRef = ref<HTMLElement[]>([])
 
-const indicatorStyle = computed(() => {
+// Computed com tipagem CSSProperties
+const indicatorStyle = computed<CSSProperties>(() => {
   const activeTab = tabButtonsRef.value[props.modelValue]
-  if (!activeTab) return {}
+  if (!activeTab) return { width: '0px', transform: 'translateX(0px)' }
   
   return {
     width: `${activeTab.offsetWidth}px`,
@@ -108,24 +124,29 @@ const indicatorStyle = computed(() => {
   }
 })
 
-const selectTab = (index) => {
+// Métodos com tipagem
+const selectTab = (index: number): void => {
   emit('update:modelValue', index)
   emit('change', index)
   scrollTabIntoView(index)
 }
 
-const checkScrollNeeded = () => {
+const checkScrollNeeded = (): void => {
   if (!tabsHeaderRef.value) return
   
   const container = tabsHeaderRef.value
-  const content = container.querySelector('.tabs-header')
+  const content = container.querySelector('.tabs-header') as HTMLElement | null
   
-  showScrollControls.value = content.scrollWidth > container.offsetWidth
-  updateScrollState()
+  if (content) {
+    showScrollControls.value = content.scrollWidth > container.offsetWidth
+    updateScrollState()
+  }
 }
 
-const scrollTabs = (direction) => {
+const scrollTabs = (direction: number): void => {
   const container = tabsHeaderRef.value
+  if (!container) return
+  
   const scrollAmount = 200
   
   container.scrollBy({
@@ -133,12 +154,12 @@ const scrollTabs = (direction) => {
     behavior: 'smooth'
   })
   
-  setTimeout(() => {
+  setTimeout((): void => {
     updateScrollState()
   }, 300)
 }
 
-const scrollTabIntoView = (index) => {
+const scrollTabIntoView = (index: number): void => {
   if (!tabsHeaderRef.value || !tabButtonsRef.value[index]) return
   
   const container = tabsHeaderRef.value
@@ -162,7 +183,7 @@ const scrollTabIntoView = (index) => {
   }
 }
 
-const updateScrollState = () => {
+const updateScrollState = (): void => {
   if (!tabsHeaderRef.value) return
   
   const container = tabsHeaderRef.value
@@ -174,12 +195,13 @@ const updateScrollState = () => {
   isAtEnd.value = scrollLeft + clientWidth >= scrollWidth - 1
 }
 
-onMounted(() => {
+// Lifecycle hooks
+onMounted((): void => {
   checkScrollNeeded()
   window.addEventListener('resize', checkScrollNeeded)
 })
 
-onBeforeUnmount(() => {
+onBeforeUnmount((): void => {
   window.removeEventListener('resize', checkScrollNeeded)
 })
 </script>

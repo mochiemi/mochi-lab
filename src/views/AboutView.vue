@@ -4,33 +4,31 @@
       <template #header>
         <div class="about-header">
           <div class="header-content">
-            <h1>{{ $t('about.title') }}</h1>
-            
+            <h1><OhVueIcon name="gi-health-potion" class="header-icon"/>Sobre o Mochi Lab<OhVueIcon name="gi-erlenmeyer" class="header-icon"/></h1>
           </div>
         </div>
       </template>
       
       <div class="about-content">
         <div class="intro-section">
-          <div class="profile-section">
-            <div class="profile-image">
-              <img src="@/assets/images/profile-selfie.jpg" alt="Mochiemi" />
+          <div class="lab-section">
+            <div class="lab-description">
+              <p>Olá, como descrito no início aqui é um espaço (laboratório) onde escrevo textos, estruturo páginas e até mesmo crio algumas pequenas aplicações e ferramentas para treinar programação ou mesmo para facilitar meu cotidiano (vide a <a href="/grade-horaria">grade horária</a> ).</p>
+              <p>Aqui funcionará como um <abbr title="Single Page Application">SPA</abbr> relativamente simples onde vou aos poucos adicionando mais funcionalidades.</p>
+              <p>Também pretendo escrever pequenos artigos no blog relacionados a Farmácia/Medicina e registrar algumas coisas do cotidiano acadêmico. </p>
             </div>
-            <div class="profile-content">
-              <h2>{{ $t('about.welcome') }}</h2>
-              <p class="intro-text">
-                {{ $t('about.description') }}
-              </p>
-              <p class="dory-quote"><q>{{ $t('about.dory') }}</q></p>
-            </div>
+            <Tooltip size="xl" variant="secondary" position="right" content="Esta é a Puyu, mascote deste lugar, ela é uma cientista e suas cores são para destacar na tematica rosa/azul geral daqui. Seu nome pode ter vários significados, mas é mais inspirado em 'puyu', que em japonês significa 'pedaço de papel', representando este espaço como um lugar de anotações e simplicidade." class="puyu-tooltip">
+              <img src="@/assets/images/mochipuyu-2.png" alt="Scientist Puyu-chan" loading="lazy"/>
+            </Tooltip>
           </div>
         </div>
         <hr />
-        <section class="features">
-      <h2>{{ $t('about.features.title') }}</h2>
+        <section class="future-features">
+      <h2>Projetos Futuros</h2>
+        <p class="future-projects">Projetos que tenho em mente para implantar aqui em algum momento. Estão sujeitos a mudanças e dependem da minha disponibilidade ao longo da jornada da vida.</p>
         <div class="features-grid">
           <Card 
-            v-for="feature in features" 
+            v-for="feature in futureFeatures" 
             :key="feature.id"
             class="feature-card"
             :padding="'medium'"
@@ -38,70 +36,42 @@
             <div class="feature-icon">
               <OhVueIcon :name="feature.icon" />
             </div>
-            <h3>{{ $t(feature.titleKey) }}</h3>
-            <p>{{ $t(feature.descriptionKey) }}</p>
-            <div class="feature-tags">
-              <Badge 
-                v-for="tag in feature.tags" 
-                :key="tag"
-                variant="tag"
-                size="small"
-              >
-                {{ tag }}
-              </Badge>
-            </div>
+            <h3>{{ feature.titleKey }}</h3>
+            <p>{{ feature.descriptionKey }}</p>
           </Card>
         </div>
         </section>
-        <hr />
-        <div class="tech-stack">
-          <h2>{{ $t('about.techStack') }}</h2>
-          <p class="tech-description">{{ $t('about.techDescription') }}</p>
-          <div class="tech-badges">
-            <Badge 
-              v-for="tech in techStack" 
-              :key="tech.name"
-              :variant="tech.variant"
-              class="tech-badge"
-            >
-              <OhVueIcon :name="tech.icon" class="tech-icon" />
-              {{ tech.name }}
-            </Badge>
-          </div>
-        </div>
-        <hr />
-      <Card class="fun-fact" :padding="'normal'">
-        <div class="fun-fact-content">
-          <OhVueIcon name="gi-capybara" class="fun-fact-icon" />
-          <p><strong>{{ $t('abouts.contact.header.funFact.title') }}</strong> {{ $t('abouts.contact.header.funFact.description') }}</p>
-        </div>
-      </Card>
 
-        <div class="fun-facts">
-          <h2>{{ $t('about.funFacts') }}</h2>  
-          <div class="facts-grid">
-            <Card class="fact-card" :padding="'small'">
-              <OhVueIcon name="gi-cat" class="fact-icon" />
-              <h4>{{ $t('about.fact1.title') }}</h4>
-              <p>{{ $t('about.fact1.description') }}</p>
-            </Card>
-            <Card class="fact-card" :padding="'small'">
-              <OhVueIcon name="co-gamepad" class="fact-icon" />
-              <h4>{{ $t('about.fact2.title') }}</h4>
-              <p>{{ $t('about.fact2.description') }}</p>
-            </Card>
-            <Card class="fact-card" :padding="'small'">
-              <OhVueIcon name="io-construct" class="fact-icon" />
-              <h4>{{ $t('about.fact3.title') }}</h4>
-              <p>{{ $t('about.fact3.description') }}</p>
-            </Card>
-            <Card class="fact-card" :padding="'small'">
-              <OhVueIcon name="ri-stethoscope-line" class="fact-icon" />
-              <h4>{{ $t('about.fact4.title') }}</h4>
-              <p>{{ $t('about.fact4.description') }}</p>
-            </Card>
+        <hr />
+
+        <section class="profile-section">
+            <h2>Sobre quem escreve</h2>
+          <div class="profile-start">
+            <div class="profile-image">
+              <img src="@/assets/images/profile-selfie.jpg" alt="Mochiemi" />
+            </div>
+            <div class="profile-text">
+              <p>
+                Olá, meu nome é Juliana Tiemi, mas podem me chamar de Ju, Tiemi, Mochiemi, Mochi, etc. Não tenho muita preferência por pronomes, mas estou acostumada com Ela/Dela. Também tenho um apelido engraçado que gosto que é Diferentona ou 'Dif'.
+              </p>
+              <p>
+                Nasci em São Paulo em 94, vivi dez anos em Botucatu/SP e agora em 2026 inicío minha saga rumo à Alfenas/MG. Tenho quatro gatos (fotinhas deles mais embaixo) e moro com eles e meu esposo. 
+              </p>
+              <p>
+                Em geral sou do tipo de pessoa que gosta de ficar em casa, tem dia que sou quieta, é mais raro mas tem dia que falo demais  também. Sou neurodivertida com diagnóstico tardio aprendendo porque eu sofria tanto e hoje as vezes sou fria.
+              </p>
+              <p class="dory-quote"><q>Continue a nadar — Dory</q><cite class="dory-cite"> (Procurando Nemo - 2003)</cite></p>
+            </div>
           </div>
-        </div>
+          <hr />
+          <div class="fun-facts">
+            <h2>Fatos Curiosos</h2>  
+            <List 
+              :items="funFactsListItems" 
+              :custom-bullet="customBulletImage"
+            />
+          </div>
+      </section>
         <hr />
         <div class="cats-slide">
           <MyCatsSlide />
@@ -116,7 +86,7 @@
             class="footer-btn"
           >
             <OhVueIcon name="hi-home" class="btn-icon" />
-            {{ $t('about.backToHome') }}
+            Início
           </Button>
           <Button 
             variant="secondary"
@@ -124,7 +94,7 @@
             class="footer-btn"
           >
             <OhVueIcon name="fa-regular-paper-plane" class="btn-icon" />
-            {{ $t('about.getInTouch') }}
+            Contato
           </Button>
         </div>
       </template>
@@ -133,63 +103,59 @@
 </template>
 
 <script setup>
+import { OhVueIcon } from 'oh-vue-icons'
 import Card from '@/components/ui/Card.vue'
 import Button from '@/components/ui/Button.vue'
-import Badge from '@/components/ui/Badge.vue'
-import { OhVueIcon } from 'oh-vue-icons'
+import Tooltip from '@/components/ui/Tooltip.vue'
+import List from '@/components/ui/List.vue'
 import MyCatsSlide from '@/components/layout/misc/myCatsSlide.vue'
 
-const features = [
+const customBulletImage = 'src/assets/icons/mini-mochi.gif'
+
+const futureFeatures = [
   {
     id: 1,
-    icon: 'md-rocketlaunch-round',
-    titleKey: 'about.features.fastNavigation.title',
-    descriptionKey: 'about.features.fastNavigation.description',
-    tags: ['Vue Router', 'SPA', 'Performance']
+    icon: 'la-pills-solid',
+    titleKey: 'Lista de Medicamentos',
+    descriptionKey: 'Aos poucos quero adicionar uma lista de medicamentos e fitoterápicos (principalmente os disponíveis na farmácia popular e no SUS)',
   },
   {
     id: 2,
-    icon: 'md-settingssuggest-outlined',
-    titleKey: 'about.features.components.title',
-    descriptionKey: 'about.features.components.description',
-    tags: ['Reusable', 'Customizable', 'TypeScript']
+    icon: 'io-construct',
+    titleKey: 'Calculadoras e outras ferramentas',
+    descriptionKey: 'Desde calculadoras simples de doses medicamentosas, e talvez outras ferramentas úteis',
   },
   {
     id: 3,
-    icon: 'oi-star',
-    titleKey: 'about.features.modernDesign.title',
-    descriptionKey: 'about.features.modernDesign.description',
-    tags: ['CSS Variables', 'Responsive', 'Accessibility']
+    icon: 'md-librarybooks-outlined',
+    titleKey: 'Divulgação Científica',
+    descriptionKey: 'Futuramente em uma seção própria, a medida que aprendo e participo mais da comunidade científica quero trazer textos acessíveis de divulgação científica.',
   },
   {
     id: 4,
-    icon: 'gi-world',
-    titleKey: 'about.features.internationalization.title',
-    descriptionKey: 'about.features.internationalization.description',
-    tags: ['i18n', 'Multi-language', 'Localization']
+    icon: 'md-donotdisturb',
+    titleKey: 'Interações medicamentosas',
+    descriptionKey: 'Uma ferramenta que gostaria de criar, principalmente em relação aos medicamentos já registrados, dando destaque a misturas perigosas.',
   }
 ]
 
-const techStack = [
-  { name: 'Vue 3', variant: 'primary', icon: 'vi-file-type-vue' },
-  { name: 'Vue Router', variant: 'secondary', icon: 'bi-window' },
-  { name: 'Pinia', variant: 'primary', icon: 'gi-pineapple' },
-  { name: 'TypeScript', variant: 'secondary', icon: 'si-typescript' },
-  { name: 'CSS', variant: 'primary', icon: 'fa-paint-brush' },
-  { name: 'Vite', variant: 'secondary', icon: 'vi-file-type-vite' },
+const funFactsListItems = [
+  { id: 1, text: 'Sonhos de infância', description: 'A primeira coisa que "quis ser quando crescesse" foi ser cantora aos 6 anos por causa de Sandy&Junior, depois entre uns 8 - 12 anos de idade queria ser veterinária. Hoje sou estudante.' },
+  { id: 2, text: 'Já comecei 2 outras graduações e não terminei', description: '2013 - Poli-USP Engenharia (falhei no 1º semestre) e 2016-2023 - Unesp - Medicina (Falhei burnautada)' },
+  { id: 3, text: 'Sobrenome materno', description: 'Bom, sou a irmã mais velha entre três e a única com sobrenome materno, meus pais acharam meu nome muito longo na hora de escrever e decidiram não repetir isso com os outros dois.' }
 ]
+
 </script>
 
 <style scoped>
 .about {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 3em auto;
 }
 
 .about-card {
-  background: var(--gradient-surface-1);
-  border: 1px solid var(--border);
+  margin-top: 3em;
+  background: var(--surface-primary);
 }
 
 .about-header {
@@ -198,8 +164,8 @@ const techStack = [
   align-items: center;
   text-align: center;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-bottom: 1rem;
+  gap: 1em;
+  margin: 1em auto;
 }
 
 .header-content {
@@ -207,15 +173,12 @@ const techStack = [
 }
 
 .header-content h1 {
-  color: var(--title-primary);
-  margin-bottom: 0.5em;
+  margin-bottom: -0.5em;
 }
 
-.dory-quote {
-  font-size: 1.8em;
-  color: var(--text-secondary);
-  margin: 0;
-  line-height: 1.5;
+.header-icon {
+  color: var(--badge-teal);
+  transform: scale(3);
 }
 
 .about-content {
@@ -223,23 +186,60 @@ const techStack = [
 }
 
 .intro-section {
-  margin-bottom: 4rem;
+  margin-bottom: 2em;
+}
+
+.lab-section {
+  display: flex;
+  flex: row;
+  align-items: center;
+  justify-content: space-around;
+  text-align: justify;
+}
+
+.lab-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.lab-description p {
+  margin: 0.5em;
+}
+
+.lab-section img {
+  margin: 0.5em;
+  display: inline-block;
+  max-width: 800px;
+  min-width: 200px;
+  width: 35%;
 }
 
 .profile-section {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 3rem;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.profile-start {
+  display: flex;
+  flex: row;
+  align-items: center;
+  justify-content: space-between;
+  text-align: justify;
 }
 
 .profile-image {
+  display: inline-block;
+  margin: 1rem;
   width: 200px;
   height: 200px;
   border-radius: 50%;
   overflow: hidden;
   border: 4px solid var(--primary);
-  box-shadow: 0 8px 32px var(--shadow);
+  box-shadow: 0px 0px 20px 6px var(--shadow);
 }
 
 .profile-image img {
@@ -256,19 +256,33 @@ const techStack = [
   transform: rotate(0deg);
 }
 
-.profile-content h2 {
-  color: var(--title-primary);
-  text-align: left;
+.profile-text {
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  font-size: 1rem;
+  line-height: 1.5;
   margin-bottom: 1rem;
-  font-size: 2rem;
-}
-
-.intro-text {
-  font-size: 1.2rem;
-  line-height: 1.7;
-  margin-bottom: 2rem;
+  max-width: 70%;
   color: var(--text-primary);
 }
+
+.profile-text p {
+  margin-bottom: 1rem;
+}
+
+.dory-quote {
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.dory-cite {
+  font-size: 1.3rem;
+}
+
 
 hr {
   margin: 1rem;
@@ -278,27 +292,32 @@ h2 {
   text-align: center;
 }
 
+.future-projects {
+  text-align: center;
+  margin: 1rem auto;
+}
+
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
   margin: 2rem 0;
+  margin-bottom: 4rem;
 }
 
 .feature-card {
   text-align: center;
   transition: all 0.3s ease;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: var(--inner-surface);
 }
 
 .feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px var(--shadow-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px var(--shadow-hover);
 }
 
 .feature-icon {
-  color: var(--title-secondary);
+  color: var(--strong-rose);
   margin: 1rem;
   transform: scale(2);
 }
@@ -310,118 +329,22 @@ h2 {
 }
 
 .feature-card p {
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.5;
   margin-bottom: 1.5rem;
   color: var(--text-primary);
 }
 
-.feature-tags {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.tech-stack {
-  margin: 3rem 0;
-  text-align: center;
-}
-
-.tech-description {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  margin-bottom: 2rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.tech-badges {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.tech-badge {
-  padding: 0.75rem 1.25rem;
-  font-size: 1rem;
-}
-
-.tech-icon {
-  margin-right: 0.5rem;
-}
-
-.fun-fact {
-  margin: 2rem 0;
-  background: var(--gradient-primary);
-  text-align: center;
-}
-
-.fun-fact-content {
-  margin: 1rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.fun-fact-icon {
-  margin: 1rem;
-  color: var(--title-primary);
-  transform: scale(2);
-}
-
-.fun-fact p {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
 .fun-facts {
-  margin: 4rem 0;
+  margin: 0;
 }
 
 .fun-facts h2 {
 margin-bottom: 2rem;
 }
 
-.facts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
-.fact-card {
-  text-align: center;
-  transition: transform 0.3s ease;
-  background: var(--inner-surface);
-}
-
-.fact-card:hover {
-  transform: scale(1.05);
-}
-
-.fact-icon {
-  font-size: 2.5rem;
-  color: var(--secondary);
-  margin-bottom: 1rem;
-}
-
-.fact-card h4 {
-  color: var(--text-primary);
-  margin-bottom: 0.75rem;
-}
-
-.fact-card p {
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin: 0;
-}
-
 .cats-slide {
-  margin: 1rem;
+  margin-top: 2rem;
 }
 
 .about-footer {
@@ -450,7 +373,10 @@ margin-bottom: 2rem;
   
   .profile-image {
     margin: 0 auto;
+    width: 150px;
+    height: 150px;
   }
+  
   
   .profile-stats {
     justify-content: center;
@@ -458,8 +384,11 @@ margin-bottom: 2rem;
 }
 
 @media (max-width: 768px) {
+  .header-icon {
+    transform: scale(1.5);
+  }
   .about {
-    padding: 1rem;
+    padding: 0.5rem;
   }
   
   .about-header {
@@ -474,16 +403,7 @@ margin-bottom: 2rem;
   
   .features-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  
-  .profile-stats {
     gap: 1rem;
-  }
-  
-  .stat {
-    min-width: 80px;
-    padding: 0.75rem;
   }
   
   .about-footer {
@@ -495,21 +415,12 @@ margin-bottom: 2rem;
     width: 100%;
     max-width: 300px;
   }
-  
-  .tech-badges {
-    gap: 0.5rem;
-  }
-  
-  .tech-badge {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-  }
 }
 
 @media (max-width: 480px) {
   .profile-image {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
   }
   
   .facts-grid {

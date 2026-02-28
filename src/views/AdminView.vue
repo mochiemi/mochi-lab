@@ -1,6 +1,5 @@
 <template>
   <div class="admin-gateway">
-    <!-- ESTADO: NÃO LOGADO -->
     <div v-if="!adminStore.isAuthenticated" class="login-box">
       <h1>🔐 Área Administrativa</h1>
       <p class="subtitle">Acesso restrito</p>
@@ -25,7 +24,6 @@
       </form>
     </div>
 
-    <!-- ESTADO: LOGADO (Dashboard) -->
     <div v-else class="admin-dashboard">
       <div class="dashboard-header">
         <h1>🎛️ Painel Administrativo</h1>
@@ -68,7 +66,6 @@ const adminStore = useAdminStore()
 const password = ref('')
 const isLoading = ref(false)
 
-// Verifica auth ao montar (para redirecionar se já estiver logado, opcional)
 onMounted(() => {
   adminStore.checkAuth()
 })
@@ -78,15 +75,10 @@ const handleLogin = async () => {
   const success = adminStore.login(password.value)
   isLoading.value = false
   
-  if (success) {
-    // Opcional: redireciona direto para moderação ou fica no dashboard
-    // router.push('/admin/moderacao')
-  }
 }
 
 const logout = () => {
   adminStore.logout()
-  // Recarrega a página para resetar estados se necessário
   router.push('/admin')
 }
 </script>
@@ -99,7 +91,6 @@ const logout = () => {
   font-family: 'Comfortaa', sans-serif;
 }
 
-/* LOGIN */
 .login-box {
   background: var(--surface-primary);
   border: 2px solid var(--border);
@@ -190,7 +181,6 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* DASHBOARD */
 .admin-dashboard {
   animation: fadeIn 0.3s ease;
 }

@@ -37,12 +37,12 @@
       "edit": "Edit task and note",
       "duplicate": "Duplicate",
       "delete": "Delete",
+      "addTask": "Add new task",
       "priority": {
         "low": "Low priority - can wait",
         "medium": "Medium priority - should be done soon",
         "high": "High priority - needs attention now"
-      },
-      "addTask": "Add new task"
+      }
     },
     "modal": {
       "edit": "Edit task",

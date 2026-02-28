@@ -6,6 +6,7 @@
           :show-indicators="true"
           :show-controls="true"
           :autoplay="true"
+          :autoplay-interval="5000"
           card-variant="image"
           size="medium"
         />

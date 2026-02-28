@@ -1,4 +1,3 @@
-<!-- src/components/layout/cards/FutureGHCard.vue -->
 <template>
   <Card class="future-gh-card" :variant="variant" :padding="padding">
     <div class="card-header">
@@ -11,7 +10,6 @@
       </Badge>
     </div>
 
-    <!-- Dia da semana em destaque (próximo dia com aula) -->
     <div v-if="nextDayWithClass" class="next-day-header">
       <h4 class="next-day-title">
         <OhVueIcon :name="headerDayIcon" class="day-icon" />
@@ -21,12 +19,10 @@
     </div>
 
     <div class="card-content">
-      <!-- Loading State -->
       <div v-if="loading" class="loading-state">
         <Loading :text="loadingText" />
       </div>
 
-      <!-- Error State -->
       <div v-else-if="error" class="error-state">
         <OhVueIcon name="md-warning-round" class="error-icon" />
         <p>{{ error }}</p>
@@ -35,9 +31,7 @@
         </Button>
       </div>
 
-      <!-- Content States -->
       <template v-else>
-        <!-- Próximo dia com aulas -->
         <div v-if="nextDayClasses.length > 0" class="next-day-classes-section">
           <div class="section-header">
             <span class="section-label">
@@ -49,7 +43,6 @@
             </span>
           </div>
 
-          <!-- Lista completa das aulas do próximo dia com horários -->
           <div class="classes-list">
             <div
               v-for="(classItem, index) in nextDayClasses"
@@ -70,7 +63,6 @@
           </div>
         </div>
 
-        <!-- Sem aulas nos próximos dias -->
         <div v-else class="no-future-classes">
           <OhVueIcon name="bi-calendar-heart" class="no-classes-icon" />
           <span>{{ $t('schedule.noFutureClasses') }}</span>
@@ -78,7 +70,6 @@
       </template>
     </div>
 
-    <!-- Footer com botão para grade completa -->
     <div class="card-footer">
       <Button 
         variant="secondary" 
@@ -103,6 +94,20 @@ import Loading from '@/components/ui/Loading.vue'
 import ClassCard from './ClassCard.vue'
 import type { ClassItem } from '@/stores/schedule'
 import { useLanguageStore } from '@/stores/language'
+
+// Constantes
+const WEEK_DAYS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'] as const
+type WeekDay = typeof WEEK_DAYS[number]
+
+const DAY_ICONS: Record<WeekDay, string> = {
+  'Domingo': 'wi-time2',
+  'Segunda': 'hi-clock',
+  'Terça': 'bi-calendar-heart',
+  'Quarta': 'wi-time2',
+  'Quinta': 'hi-clock',
+  'Sexta': 'bi-calendar-heart',
+  'Sábado': 'wi-time2'
+}
 
 const props = withDefaults(defineProps<{
   title: string
@@ -134,33 +139,45 @@ const emit = defineEmits<{
 const languageStore = useLanguageStore()
 
 const today = new Date()
-const weekDaysMap: string[] = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
-const currentDayIndex: number = today.getDay()
+const currentDayIndex = today.getDay()
+
+function isValidWeekDay(day: string | undefined): day is WeekDay {
+  return day !== undefined && WEEK_DAYS.includes(day as WeekDay)
+}
 
 const classesByDay = computed((): Map<string, ClassItem[]> => {
   const map = new Map<string, ClassItem[]>()
-  weekDaysMap.forEach(day => map.set(day, []))
   
-  props.classes.forEach(c => {
-    const dayClasses = map.get(c.day)
+  WEEK_DAYS.forEach(day => map.set(day, []))
+  
+  props.classes.forEach(classItem => {
+    const day = classItem.day  
+    if (!day) return    
+  
+    const dayClasses = map.get(day)
     if (dayClasses) {
-      dayClasses.push(c)
+      dayClasses.push(classItem)
     }
   })
 
   map.forEach(classes => {
-    classes.sort((a, b) => a.time.localeCompare(b.time))
+    classes.sort((a, b) => {
+      const timeA = a.time || ''
+      const timeB = b.time || ''
+      return timeA.localeCompare(timeB)
+    })
   })
   
   return map
 })
 
-const nextDayWithClass = computed((): string | undefined => {
+const nextDayWithClass = computed((): WeekDay | undefined => {
   for (let i = 1; i <= 7; i++) {
     const nextIndex = (currentDayIndex + i) % 7
-    const nextDay = weekDaysMap[nextIndex]
-    const dayClasses = classesByDay.value.get(nextDay) || []
-    if (dayClasses.length > 0) {
+    const nextDay = WEEK_DAYS[nextIndex]
+    const dayClasses = nextDay ? classesByDay.value.get(nextDay) : []
+    
+    if (dayClasses && dayClasses.length > 0) {
       return nextDay
     }
   }
@@ -168,18 +185,20 @@ const nextDayWithClass = computed((): string | undefined => {
 })
 
 const nextDate = computed((): Date | undefined => {
-  if (!nextDayWithClass.value) return undefined
+  const nextDay = nextDayWithClass.value
   
-  const daysToAdd = (() => {
-    for (let i = 1; i <= 7; i++) {
-      const nextIndex = (currentDayIndex + i) % 7
-      const nextDay = weekDaysMap[nextIndex]
-      if (nextDay === nextDayWithClass.value) {
-        return i
-      }
+  if (!isValidWeekDay(nextDay)) {
+    return undefined
+  }
+  
+  let daysToAdd = 0
+  for (let i = 1; i <= 7; i++) {
+    const nextIndex = (currentDayIndex + i) % 7
+    if (WEEK_DAYS[nextIndex] === nextDay) {
+      daysToAdd = i
+      break
     }
-    return 0
-  })()
+  }
 
   if (daysToAdd === 0) return undefined
   
@@ -189,35 +208,43 @@ const nextDate = computed((): Date | undefined => {
 })
 
 const formattedNextDate = computed((): string => {
-  if (!nextDate.value) return ''
-  return nextDate.value.toLocaleDateString(languageStore.currentLanguage, {
+  const date = nextDate.value
+  if (!date) return ''
+  
+  return date.toLocaleDateString(languageStore.currentLanguage, {
     day: 'numeric',
     month: 'long'
   })
 })
 
 const nextDayClasses = computed((): ClassItem[] => {
-  if (!nextDayWithClass.value) return []
-  const classes = classesByDay.value.get(nextDayWithClass.value) || []
-  return [...classes].sort((a, b) => a.time.localeCompare(b.time))
+  const nextDay = nextDayWithClass.value
+  
+  if (!nextDay) {
+    return []
+  }
+
+  const dayClasses = classesByDay.value.get(nextDay)
+  
+  if (!dayClasses || dayClasses.length === 0) {
+    return []
+  }
+  
+  return [...dayClasses].sort((a, b) => {
+    const timeA = a.time || ''
+    const timeB = b.time || ''
+    return timeA.localeCompare(timeB)
+  })
 })
 
 const headerDayIcon = computed((): string => {
   const currentDay = nextDayWithClass.value
   
-  if (currentDay === undefined) return 'bi-calendar-heart'
-  
-  const dayIcons: Record<string, string> = {
-    'Domingo': 'wi-time2',
-    'Segunda': 'hi-clock',
-    'Terça': 'bi-calendar-heart',
-    'Quarta': 'wi-time2',
-    'Quinta': 'hi-clock',
-    'Sexta': 'bi-calendar-heart',
-    'Sábado': 'wi-time2'
+  if (!isValidWeekDay(currentDay)) {
+    return 'bi-calendar-heart'
   }
   
-  return dayIcons[currentDay] ?? 'bi-calendar-heart'
+  return DAY_ICONS[currentDay as WeekDay] ?? 'bi-calendar-heart'
 })
 
 const nextDayIcon = computed((): string => {
@@ -231,8 +258,6 @@ const nextDayIcon = computed((): string => {
   display: flex;
   flex-direction: column;
   background-color: var(--surface-primary);
-  border-style: dashed;
-  border-color: var(--border-secondary);
 }
 
 .card-header {
@@ -262,7 +287,6 @@ const nextDayIcon = computed((): string => {
   font-size: 1.1rem;
 }
 
-/* Next Day Header */
 .next-day-header {
   display: flex;
   align-items: baseline;
@@ -270,9 +294,6 @@ const nextDayIcon = computed((): string => {
   padding: 0.5rem 0;
   margin-bottom: 0.75rem;
   border-bottom: 2px dashed var(--border-secondary);
-  background-color: var(--surface-secondary);
-  border-radius: 8px;
-  padding: 0.75rem;
 }
 
 .next-day-title {
@@ -301,7 +322,6 @@ const nextDayIcon = computed((): string => {
   min-height: 200px;
 }
 
-/* Loading State */
 .loading-state {
   display: flex;
   justify-content: center;
@@ -309,7 +329,6 @@ const nextDayIcon = computed((): string => {
   min-height: 200px;
 }
 
-/* Error State */
 .error-state {
   display: flex;
   flex-direction: column;
@@ -326,7 +345,6 @@ const nextDayIcon = computed((): string => {
   color: var(--red);
 }
 
-/* Next Day Classes Section */
 .next-day-classes-section {
   margin-top: 0.5rem;
 }
@@ -358,7 +376,6 @@ const nextDayIcon = computed((): string => {
   color: var(--text-secondary);
 }
 
-/* Classes List */
 .classes-list {
   display: flex;
   flex-direction: column;
@@ -390,12 +407,11 @@ const nextDayIcon = computed((): string => {
   flex: 1;
 }
 
-/* No Future Classes */
 .no-future-classes {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 2rem;
+  padding: 1rem;
   color: var(--text-disabled);
   font-style: italic;
   font-size: 0.9rem;
@@ -406,7 +422,7 @@ const nextDayIcon = computed((): string => {
 }
 
 .no-classes-icon {
-  font-size: 2rem;
+  font-size: 1.2rem;
   color: var(--border);
 }
 

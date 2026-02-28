@@ -16,12 +16,11 @@
           <span>02/03/2026 – 16/07/2026</span>
         </div>
         <div class="info-row">
-          <OhVueIcon name="wi-time2" class="info-icon" />
+          <OhVueIcon name="bi-clipboard-data-fill" class="info-icon" />
           <span>{{ totalSubjects }} disciplinas · {{ totalClasses }} aulas/semana</span>
         </div>
       </div>
 
-      <!-- Filtros por período (simplificados) -->
       <div class="period-filters">
         <Badge
           variant="primary"
@@ -55,9 +54,7 @@
       </div>
     </div>
 
-    <!-- Grade de Horários -->
     <div class="schedule-grid">
-      <!-- Mobile View -->
       <div class="mobile-view">
         <Accordion
           :items="accordionItems"
@@ -82,7 +79,6 @@
         </Accordion>
       </div>
 
-      <!-- Desktop View (Matrix Table) -->
       <div class="desktop-view">
         <div class="table-container">
           <table class="schedule-table">
@@ -95,8 +91,8 @@
             <tbody>
               <tr v-for="timeSlot in filteredTimeSlots" :key="timeSlot" class="time-row">
                 <td class="time-cell">
-                  <Badge variant="primary" size="small" outlined>
-                    <OhVueIcon name="wi-time2" /> {{ timeSlot }}
+                  <Badge variant="primary" size="medium">
+                    <OhVueIcon name="hi-clock" class="time-icon"/> {{ timeSlot }}
                   </Badge>
                 </td>
                 <td v-for="day in weekDays" :key="`${day}-${timeSlot}`" class="schedule-cell" :data-day="day">
@@ -116,8 +112,6 @@
         </div>
       </div>
     </div>
-
-    <!-- LEGENDA REMOVIDA -->
   </div>
 </template>
 
@@ -129,14 +123,6 @@ import Badge from '@/components/ui/Badge.vue'
 import Accordion from '@/components/ui/Accordion.vue'
 import ClassCard from '@/components/layout/cards/ClassCard.vue'
 import type { ClassItem } from '@/stores/schedule'
-
-interface AccordionItem {
-  id: string
-  day: string
-  title: string
-  icon: string
-  classes: ClassItem[]
-}
 
 const scheduleStore = useScheduleStore()
 const expandedDays = ref<string[]>([])
@@ -230,7 +216,6 @@ const getClassAtTimeSlot = (day: string, timeSlot: string): ClassItem | null => 
   return filteredClassMatrix.value[day]?.[timeSlot] || null
 }
 
-// Ícones para os filtros (variante 'primary' já é a padrão, então removemos a lógica de variant)
 const getPeriodIcon = (period: number): string => {
   const icons = ['bi-1-circle', 'bi-2-circle', 'bi-3-circle', 'bi-4-circle', 'bi-5-circle', 'bi-6-circle', 'bi-7-circle', 'bi-8-circle', 'bi-9-circle']
   return icons[(period - 1) % icons.length] || 'bi-calendar-heart'
@@ -240,7 +225,7 @@ const getPeriodIcon = (period: number): string => {
 <style scoped>
 .schedule-view {
   max-width: 1400px;
-  margin: 0 auto;
+  margin: 3rem auto;
   padding: 0.5em;
   width: 100%;
 }
@@ -250,7 +235,6 @@ const getPeriodIcon = (period: number): string => {
 }
 
 .schedule-title {
-  font-size: 1.5em;
   margin-bottom: 1em;
   display: flex;
   align-items: center;
@@ -260,13 +244,14 @@ const getPeriodIcon = (period: number): string => {
 }
 
 .title-icon {
-  color: var(--primary);
+  color: var(--strong-rose);
   font-size: 1.5em;
-  transform: scale(1.5);
+  transform: scale(2);
   margin-right: 0.5em;
 }
 
 .period-badge {
+  margin-left: 1.5em;
   font-size: 0.7em;
 }
 
@@ -290,10 +275,9 @@ const getPeriodIcon = (period: number): string => {
 }
 
 .info-icon {
-  color: var(--primary);
+  color: var(--title-primary);
 }
 
-/* Period Filters - Ajustados para usar outline como indicador de inativo */
 .period-filters {
   display: flex;
   gap: 0.75em;
@@ -306,7 +290,7 @@ const getPeriodIcon = (period: number): string => {
   cursor: pointer;
   transition: all 0.3s ease;
   opacity: 0.9;
-  border-width: 2px; /* Garantir uma borda consistente */
+  border-width: 2px;
 }
 
 .period-filters .badge:hover {
@@ -318,14 +302,13 @@ const getPeriodIcon = (period: number): string => {
 .period-filters .active-filter {
   opacity: 1;
   transform: scale(1.05);
-  border-width: 3px; /* Destaca o filtro ativo */
+  border-width: 3px; 
   box-shadow: 0 4px 12px var(--shadow-hover);
-  background: var(--primary) !important; /* Força o fundo no ativo */
+  background: var(--primary) !important;
   color: var(--text-contrast) !important;
   border-color: var(--border-contrast) !important;
 }
 
-/* Schedule Grid */
 .schedule-grid {
   margin: 1em 0;
   width: 100%;
@@ -337,7 +320,7 @@ const getPeriodIcon = (period: number): string => {
 
 .mobile-view :deep(.accordion-header) {
   font-family: 'Gloria Hallelujah', cursive;
-  font-size: 1.1em;
+  font-size: 1.2em;
   padding: 1em;
 }
 
@@ -372,7 +355,6 @@ const getPeriodIcon = (period: number): string => {
   width: 100%;
   overflow-x: visible;
   border-radius: 16px;
-  box-shadow: 0 4px 12px var(--shadow);
 }
 
 .schedule-table {
@@ -380,9 +362,10 @@ const getPeriodIcon = (period: number): string => {
   table-layout: fixed;
   border-collapse: separate;
   border-spacing: 0;
-  background: var(--surface-primary);
+  background: transparent;
   border-radius: 16px;
   overflow: hidden;
+  border: 2px dashed var(--border-contrast);
 }
 
 .schedule-table thead tr {
@@ -392,11 +375,11 @@ const getPeriodIcon = (period: number): string => {
 .schedule-table th {
   padding: 1em 0.5em;
   font-family: 'Gloria Hallelujah', cursive;
-  font-size: 1.1em;
+  font-size: 1.2em;
   color: var(--title-primary);
   text-align: center;
   white-space: nowrap;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-primary);
   border-bottom: 3px solid var(--border-primary);
 }
 
@@ -411,7 +394,7 @@ const getPeriodIcon = (period: number): string => {
 .schedule-table td {
   padding: 0.5em;
   vertical-align: top;
-  border: 1px solid var(--border);
+  border: 1px dotted var(--border-secondary);
   position: relative;
   overflow: visible;
 }
@@ -424,14 +407,16 @@ const getPeriodIcon = (period: number): string => {
   background: var(--sky-blue-surface);
   font-weight: 600;
   white-space: nowrap;
-  border-right: 2px solid var(--border-primary);
 }
 
-/* Ajuste para o badge de horário na célula */
 .time-cell .badge {
   background: transparent;
   border: 1px solid var(--border-secondary);
   color: var(--text-primary);
+}
+
+.time-icon {
+  margin: 0.1rem;
 }
 
 .schedule-table td:not(.time-cell),
@@ -448,22 +433,22 @@ const getPeriodIcon = (period: number): string => {
   position: relative;
   min-height: 100px;
   background-color: var(--surface-primary);
+  padding: 0;
   transition: background-color 0.2s ease;
 }
 
 .schedule-cell:hover {
-  background-color: var(--surface-hover);
+  background-color: var(--rose-surface);
 }
 
-/* Ajustes para o ClassCard dentro da tabela */
 .schedule-cell :deep(.class-card) {
-  max-width: 100%;
+  width: 100%;
   margin: 0;
   padding: 0.5em;
   font-size: 0.9em;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px var(--shadow);
-  border-width: 1px; /* Linha mais fina na tabela compacta */
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .schedule-cell :deep(.class-card:hover) {
@@ -500,20 +485,10 @@ const getPeriodIcon = (period: number): string => {
   color: var(--text-disabled);
   font-style: italic;
   font-size: 0.9em;
-  background-color: var(--surface-secondary);
+  background-color: transparent;
   border-radius: 4px;
 }
 
-.schedule-table tbody tr:nth-child(even) .schedule-cell {
-  background-color: var(--surface-secondary);
-}
-
-.schedule-table tbody tr:nth-child(even) .time-cell {
-  background-color: var(--sky-blue-surface);
-  filter: brightness(0.95);
-}
-
-/* Responsividade */
 @media (min-width: 768px) {
   .schedule-view {
     padding: 1.5em;

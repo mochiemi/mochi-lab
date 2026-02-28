@@ -47,7 +47,7 @@
     </section>
 
     <section class="catalog-section">
-      <h2><OhVueIcon name="oi-task" /> Barras de Progresso</h2>
+      <h2><OhVueIcon name="bi-card-checklist" /> Barras de Progresso</h2>
       <p class="section-description">Componentes para visualizar o progresso de tarefas e processos.</p>
       
       <div class="component-demo">

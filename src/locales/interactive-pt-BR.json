@@ -37,12 +37,12 @@
       "edit": "Editar tarefa e nota",
       "duplicate": "Duplicar",
       "delete": "Excluir",
+      "addTask": "Adicionar nova tarefa",
       "priority": {
         "low": "Prioridade baixa - pode esperar",
         "medium": "Prioridade média - deve ser feito em breve",
         "high": "Prioridade alta - precisa de atenção agora"
-      },
-      "addTask": "Adicionar nova tarefa"
+      }
     },
     "modal": {
       "edit": "Editar tarefa",
