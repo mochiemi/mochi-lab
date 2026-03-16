@@ -18,9 +18,23 @@ export interface ClassItem {
 }
 
 export const useScheduleStore = defineStore('schedule', () => {
-  // Todas as matérias disponíveis - DADOS CORRIGIDOS conforme planilha oficial 2026/1
   const allClasses = ref<ClassItem[]>([
-    // 3º Período - Físico-química (DF227)
+
+    {
+      day: 'Segunda',
+      time: '16:00 - 17:00',
+      subject: 'Metodologia Científica aplicada à saúde',
+      code: 'DF228',
+      practicalClass: 'A',
+      room: 'AL-V-303 (02/03/2026 a 13/07/2026, semanalmente)',
+      professor: 'Luiz Carlos do Nascimento', 
+      period: 3,
+      type: 'required',
+      details: {
+        credits: '1 crédito',
+        description: 'Introdução à metodologia científica aplicada à área da saúde. Elaboração de projetos de pesquisa, normas técnicas, busca bibliográfica e análise crítica de artigos científicos.'
+      }
+    },
     {
       day: 'Terça',
       time: '13:00 - 14:00',
@@ -69,11 +83,11 @@ export const useScheduleStore = defineStore('schedule', () => {
     {
       day: 'Quarta',
       time: '15:00 - 16:00',
-      subject: 'Físico-química',
+      subject: 'Físico-química - Prática T2',
       code: 'DF227',
       practicalClass: 'A',
       room: 'AL-Q-208 (04/03/2026 a 15/07/2026, semanalmente)',
-      professor: 'Yara Luiza Coelho Zampier',
+      professor: 'Luciano Sindra Virtuoso',
       period: 3,
       type: 'required',
       details: {
@@ -84,11 +98,11 @@ export const useScheduleStore = defineStore('schedule', () => {
     {
       day: 'Quarta',
       time: '16:00 - 17:00',
-      subject: 'Físico-química',
+      subject: 'Físico-química - Prática T2',
       code: 'DF227',
       practicalClass: 'A',
       room: 'AL-Q-208 (04/03/2026 a 15/07/2026, semanalmente)',
-      professor: 'Yara Luiza Coelho Zampier',
+      professor: 'Luciano Sindra Virtuoso',
       period: 3,
       type: 'required',
       details: {
@@ -96,7 +110,6 @@ export const useScheduleStore = defineStore('schedule', () => {
         description: 'Termodinâmica, equilíbrio químico, cinética química, fenômenos de superfície e sistemas dispersos.'
       }
     },
-    // 3º Período - Deontologia e Legislação Farmacêutica (DF223)
     {
       day: 'Sexta',
       time: '09:00 - 10:00',
@@ -127,7 +140,6 @@ export const useScheduleStore = defineStore('schedule', () => {
         description: 'Ética profissional, legislação farmacêutica, código de ética, direitos e deveres do farmacêutico.'
       }
     },
-    // 4º Período - Química Analítica (DCE415)
     {
       day: 'Quinta',
       time: '15:00 - 16:00',
@@ -188,7 +200,6 @@ export const useScheduleStore = defineStore('schedule', () => {
         description: 'Equilíbrio químico em soluções, métodos clássicos de análise, volumetria e gravimetria.'
       }
     },
-    // 6º Período - Bromatologia (DF239)
     {
       day: 'Terça',
       time: '09:00 - 10:00',
@@ -222,7 +233,7 @@ export const useScheduleStore = defineStore('schedule', () => {
     {
       day: 'Quinta',
       time: '13:00 - 14:00',
-      subject: 'Bromatologia',
+      subject: 'Bromatologia - Prática',
       code: 'DF239',
       practicalClass: 'A',
       room: 'AL-S-209 (05/03/2026 a 16/07/2026, semanalmente)',
@@ -237,7 +248,7 @@ export const useScheduleStore = defineStore('schedule', () => {
     {
       day: 'Quinta',
       time: '14:00 - 15:00',
-      subject: 'Bromatologia',
+      subject: 'Bromatologia - Prática',
       code: 'DF239',
       practicalClass: 'A',
       room: 'AL-S-209 (05/03/2026 a 16/07/2026, semanalmente)',
@@ -249,7 +260,6 @@ export const useScheduleStore = defineStore('schedule', () => {
         description: 'Análise de alimentos, composição centesimal, valor nutricional, adulterantes e fraudes.'
       }
     },
-    // 6º Período - Tecnologia de Alimentos (DF240)
     {
       day: 'Quarta',
       time: '09:00 - 10:00',
@@ -280,7 +290,6 @@ export const useScheduleStore = defineStore('schedule', () => {
         description: 'Processamento e conservação de alimentos, operações unitárias, embalagens e aditivos.'
       }
     },
-    // Eletiva - Farmácia Integrada (DF309)
     {
       day: 'Terça',
       time: '16:00 - 17:00',
@@ -298,21 +307,17 @@ export const useScheduleStore = defineStore('schedule', () => {
     }
   ])
 
-  // Dias da semana em ordem
   const weekDays = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
 
-  // Filtrar por período selecionado
   const getClassesByPeriod = (period: number | 'all' = 'all'): ClassItem[] => {
     if (period === 'all') return allClasses.value
     return allClasses.value.filter(c => c.period === period)
   }
 
-  // Filtrar por tipo (obrigatória/eletiva/optativa)
   const getClassesByType = (type: 'required' | 'elective' | 'optional'): ClassItem[] => {
     return allClasses.value.filter(c => c.type === type)
   }
 
-  // Agrupar por dia
   const classesByDay = computed((): Map<string, ClassItem[]> => {
     const map = new Map<string, ClassItem[]>()
     weekDays.forEach(day => map.set(day, []))
@@ -332,7 +337,6 @@ export const useScheduleStore = defineStore('schedule', () => {
     return map
   })
 
-  // Obter todos os horários únicos ordenados
   const allTimeSlots = computed((): string[] => {
     const slots = new Set<string>()
     allClasses.value.forEach(c => slots.add(c.time))
@@ -343,7 +347,6 @@ export const useScheduleStore = defineStore('schedule', () => {
     })
   })
 
-  // Matriz de aulas (dia x horário)
   const classMatrix = computed((): Record<string, Record<string, ClassItem | null>> => {
     const matrix: Record<string, Record<string, ClassItem | null>> = {}
     
@@ -363,19 +366,16 @@ export const useScheduleStore = defineStore('schedule', () => {
     return matrix
   })
 
-  // Obter aulas de um dia específico
   const getClassesByDay = (day: string): ClassItem[] => {
     return classesByDay.value.get(day) || []
   }
 
-  // Obter aula em um dia e horário específicos
   const getClassAtTimeSlot = (day: string, timeSlot: string): ClassItem | null => {
     const dayMatrix = classMatrix.value[day]
     if (!dayMatrix) return null
     return dayMatrix[timeSlot] || null
   }
 
-  // Estatísticas
   const totalClasses = computed((): number => allClasses.value.length)
   
   const totalSubjects = computed((): number => {
@@ -383,7 +383,6 @@ export const useScheduleStore = defineStore('schedule', () => {
     return subjects.size
   })
 
-  // Aulas de hoje
   const getTodayClasses = (): ClassItem[] => {
     const today = new Date()
     const weekDaysMap = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
@@ -391,7 +390,6 @@ export const useScheduleStore = defineStore('schedule', () => {
     return getClassesByDay(todayName)
   }
 
-  // Próxima aula (considerando dia/horário atual)
   const getNextClass = (): ClassItem | null => {
     const now = new Date()
     const currentHour = now.getHours()
@@ -406,21 +404,19 @@ export const useScheduleStore = defineStore('schedule', () => {
     const nextToday = todayClasses.find(c => c.time > currentTimeStr)
     if (nextToday) return nextToday
 
-    // Se não houver mais aulas hoje, buscar próximo dia com aulas
     const todayIndex = weekDaysMap.indexOf(todayName)
     for (let i = 1; i <= 7; i++) {
       const nextDayIndex = (todayIndex + i) % 7
       const nextDayName = weekDaysMap[nextDayIndex] || 'Domingo'
       const nextDayClasses = getClassesByDay(nextDayName)
       if (nextDayClasses.length > 0) {
-        return nextDayClasses[0] || null // Primeira aula do próximo dia
+        return nextDayClasses[0] || null 
       }
     }
 
     return null
   }
 
-  // Aulas restantes hoje
   const getRemainingToday = (): number => {
     const now = new Date()
     const currentHour = now.getHours()
