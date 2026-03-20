@@ -57,7 +57,12 @@ const router = createRouter({
       path: '/grade-horaria',
       name: 'gradehoraria',
       component: () => import('@/views/GradeHorariaView.vue')
-    }
+    },
+    {
+  path: '/calculators',
+  name: 'scientific-calculators',
+  component: () => import('@/views/ScientificCalculatorsView.vue')
+}
   ]
 })
 

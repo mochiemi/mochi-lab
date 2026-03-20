@@ -5,19 +5,25 @@ import esCommons from '@/locales/commons-es.json'
 import enInteractive from '@/locales/interactive-en.json'
 import ptInteractive from '@/locales/interactive-pt-BR.json'
 import esInteractive from '@/locales/interactive-es.json'
+import enScientificCalculators from '@/locales/scientific-calculators-en.json'
+import esScientificCalculators from '@/locales/scientific-calculators-es.json'
+import ptScientificCalculators from '@/locales/scientific-calculators-pt-BR.json'
 
 const messages = {
   'en': {
     ...enCommons,
     ...enInteractive,
+    ...enScientificCalculators,
   },
   'pt-BR': {
     ...ptBRCommons,
     ...ptInteractive,
+    ...ptScientificCalculators,
   },
   'es': {
     ...esCommons,
     ...esInteractive,
+    ...esScientificCalculators,
   }
 }
 

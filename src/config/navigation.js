@@ -59,11 +59,11 @@ export const navigationConfig = [
       //   labelKey: 'nav.drugInteractions',
       //   icon: 'fa-regular-paper-plane'
       // },
-      //       {
-      //   path: '/calculators,
-      //   labelKey: 'nav.calculators',
-      //   icon: 'fa-regular-paper-plane'
-      // }
+      {
+      path: '/calculators',
+      labelKey: 'nav.calculators',
+      icon: 'fa-regular-paper-plane'
+      }
     ]
   }
 ]

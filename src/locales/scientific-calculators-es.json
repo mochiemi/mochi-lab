@@ -1,0 +1,138 @@
+{
+  "scientificCalculators": {
+    "title": "Calculadora de Incertidumbres Experimentales",
+    "subtitle": "Análisis Estadístico de Mediciones de Laboratorio",
+    "description": "Agregue valores de medición para calcular parámetros estadísticos incluyendo media, desviación absoluta, desviación estándar e incertidumbre de la medición, según metodología de laboratorios de Fisicoquímica.",
+    "inputs": {
+      "title": "Nueva Medición",
+      "value": "Valor Medido (xᵢ)",
+      "valuePlaceholder": "Ej: 10,5",
+      "unit": "Unidad",
+      "unitPlaceholder": "Ej: m, kg, s, °C",
+      "significantFigures": "Cifras Significativas",
+      "sigFigsPlaceholder": "Ej: 4",
+      "add": "Agregar Medición",
+      "clearAll": "Limpiar Todas",
+      "delete": "Eliminar",
+      "instrumentPrecision": "Precisión del instrumento"
+    },
+    "tooltips": {
+      "addValue": "Agregar nueva medición al conjunto de datos",
+      "clearAll": "Eliminar todas las mediciones"
+    },
+    "table": {
+      "header": "Tabla de Valores Medidos",
+      "value": "Valor (xᵢ)",
+      "deviation": "Desviación |xᵢ - x̄|",
+      "deviationSquared": "Desviación² (xᵢ - x̄)²",
+      "actions": "Acciones",
+      "empty": "Ninguna medición agregada",
+      "emptyHint": "Agregue al menos 2 valores para calcular la incertidumbre",
+      "sum": "Sumatoria",
+      "variance": "Varianza muestral (s²)"
+    },
+    "results": {
+      "probableMean": {
+        "label": "Media Aritmética (x̄)",
+        "tooltip": "Valor más probable: suma de todas las mediciones dividida por el número de mediciones"
+      },
+      "meanAbsoluteDeviation": {
+        "label": "Desviación Absoluta Media (Δx)",
+        "tooltip": "Promedio de desviaciones absolutas de la media - representa la incertidumbre de medición"
+      },
+      "standardDeviation": {
+        "label": "Desviación Estándar Muestral (s)",
+        "tooltip": "Raíz cuadrada de la varianza - medida de dispersión de los datos"
+      },
+      "relativeUncertainty": {
+        "label": "Incertidumbre Relativa (εᵣ)",
+        "tooltip": "Desviación absoluta media expresada como porcentaje de la media"
+      },
+      "finalResult": {
+        "label": "Valor Medido con Incertidumbre",
+        "tooltip": "Mejor estimación del valor verdadero: media ± incertidumbre"
+      },
+      "significantFigures": "Cifras significativas",
+      "explanation": {
+        "mean": "x̄ = (Σxᵢ) / n",
+        "mad": "Δx = (Σ|xᵢ - x̄|) / n",
+        "mpd": "ε = (Δx / |x̄|) × 100%",
+        "variance": "s² = Σ(xᵢ - x̄)² / (n-1)",
+        "stdDev": "s = √[Σ(xᵢ - x̄)² / (n-1)]"
+      }
+    },
+    "explanation": {
+      "title": "Fundamentos Teóricos: Mediciones e Incertidumbres",
+      "uncertainty": {
+        "title": "¿Qué es la Incertidumbre de Medición?",
+        "content": "La incertidumbre de medición cuantifica la dispersión de valores que podrían atribuirse razonablemente a una magnitud medida. No es posible encontrar el valor exacto de una magnitud, ya que solo puede medirse con un instrumento que siempre tiene limitaciones. El valor verdadero es desconocido, por lo que representamos la medida por un intervalo de confianza.",
+        "formula": "δx = p/2 = (x_máx - x_mín)/2",
+        "example": "Ejemplo: Regla milimetrada (menor división = 1 mm) → precisión ≈ 0,5 mm. Lectura: 7,8 cm → resultado: 7,80 ± 0,05 cm"
+      },
+      "meanDeviation": {
+        "title": "Desviación Absoluta Media (DAM)",
+        "content": "La desviación absoluta media mide la distancia promedio entre cada punto de datos y la media. Proporciona una medida robusta de variabilidad, menos sensible a valores atípicos que la desviación estándar. Se utiliza frecuentemente para representar la incertidumbre de medición (Δx).",
+        "formula": "DAM = Δx = (Σ|xᵢ - x̄|) / n",
+        "example": "Ejemplo: Mediciones: 10,2; 10,4; 10,3; Media = 10,3; Desviaciones: 0,1; 0,1; 0,0; DAM = 0,07"
+      },
+      "standardDeviation": {
+        "title": "Desviación Estándar (σ o s)",
+        "content": "La desviación estándar es la medida de variación más importante, pues considera todos los valores de la muestra. Para análisis experimentales, utilizamos la desviación estándar muestral (s) cuando trabajamos con una muestra de la población. La desviación estándar del valor medio (σx̄ = s/√n) se utiliza para expresar la incertidumbre final.",
+        "formula": "s = √[Σ(xᵢ - x̄)²/(n-1)]",
+        "example": "Ejemplo: Mediciones: 10,2; 10,4; 10,3; s = √[(0,01+0,01+0,00)/2] = √0,01 = 0,1"
+      },
+      "significantFigures": {
+        "title": "Cifras Significativas",
+        "content": "Son todos los dígitos obtenidos en el proceso de medida. Los ceros incluidos para localizar el punto decimal no son significativos (ceros a la izquierda). La incertidumbre debe contener solo UNA cifra significativa, y la media debe redondearse a la misma posición decimal que la incertidumbre.",
+        "formula": "Reglas: 1) Dígitos distintos de cero son siempre significativos. 2) Ceros entre dígitos distintos de cero son significativos. 3) Ceros a la izquierda no son significativos. 4) Ceros a la derecha en número con decimal son significativos.",
+        "example": "Ejemplos: 1945,1 (5 CS); 0,00034 (2 CS); 1000 (4 CS); 2×10⁵ (1 CS); 4,189×10⁻⁷ (4 CS)"
+      },
+      "rounding": {
+        "title": "Criterios de Redondeo",
+        "content": "Los redondeos solo deben efectuarse al final de todos los cálculos, pues cada redondeo introduce error que puede acumularse. Si el dígito a la derecha del punto de redondeo es 0-4: se elimina la parte derecha. Si es 5-9: se incrementa el dígito a la izquierda.",
+        "formula": "Ejemplo: 0,563729452 → 8 decimales: 0,56372945; → 4 decimales: 0,5637; → 2 decimales: 0,56; → 1 decimal: 0,6",
+        "example": "Medida: (0,126446 ± 0,0005885) V → Ajustando incertidumbre a 1 CS: (0,1264 ± 0,0006) V"
+      },
+      "references": "Referencias Bibliográficas",
+      "example": "Ejemplo"
+    },
+    "statistics": {
+      "summary": "Resumen Estadístico Detallado",
+      "count": "Número de mediciones",
+      "min": "Valor mínimo",
+      "max": "Valor máximo",
+      "range": "Amplitud total",
+      "sum": "Suma de valores",
+      "mean": "Media aritmética",
+      "sumOfDeviations": "Suma de desviaciones absolutas",
+      "sumOfSquaredDeviations": "Suma de cuadrados de desviaciones",
+      "variance": "Varianza muestral",
+      "median": "Mediana",
+      "varianceNote": "Varianza muestral: s² = Σ(xᵢ - x̄)²/(n-1)"
+    },
+    "messages": {
+      "valueAdded": "Medición agregada exitosamente",
+      "valueRemoved": "Medición eliminada",
+      "allCleared": "Todas las mediciones eliminadas",
+      "invalidValue": "Por favor ingrese un número válido",
+      "minValues": "Agregue al menos 2 valores para calcular las incertidumbres",
+      "exported": "Datos exportados exitosamente",
+      "copied": "Resultados copiados al portapapeles",
+      "copyError": "Error al copiar resultados"
+    },
+    "siUnits": {
+      "meter": "Metro (m)",
+      "kilogram": "Kilogramo (kg)",
+      "second": "Segundo (s)",
+      "kelvin": "Kelvin (K)",
+      "mole": "Mol (mol)",
+      "candela": "Candela (cd)",
+      "celsius": "Grado Celsius (°C)",
+      "other": "Otra unidad"
+    },
+    "actions": {
+      "export": "Exportar Datos (JSON)",
+      "copy": "Copiar Resultados"
+    }
+  }
+}

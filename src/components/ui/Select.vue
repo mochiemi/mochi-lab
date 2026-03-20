@@ -102,9 +102,11 @@ const handleBlur = (event) => {
 }
 
 .select-label {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.9em;
   color: var(--text-primary);
+  line-height: 1.2; /* Mesma altura de linha do input-label */
+  margin-bottom: 0.5em; /* Mesmo margin-bottom do input-label */
 }
 
 .required {
@@ -119,17 +121,19 @@ const handleBlur = (event) => {
 
 .select {
   width: 100%;
-  padding: 0.75em;
+  padding: 0.75em 2.5em 0.75em 1em; 
   border: 2px solid var(--border);
   border-radius: 8px;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Comfortaa', sans-serif;
   font-size: 1em;
+  line-height: 1.5; 
+  height: calc(1.5em + 1.5em);
   cursor: pointer;
   transition: all 0.2s ease;
   appearance: none;
-  padding-right: 2.5em; 
+  box-sizing: border-box; 
 }
 
 select:open {
@@ -144,6 +148,7 @@ select:open {
   pointer-events: none;
   color: var(--secondary);
   font-size: 1em;
+  line-height: 1; 
 }
 
 .select:focus {

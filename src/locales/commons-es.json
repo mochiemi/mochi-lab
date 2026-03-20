@@ -114,7 +114,8 @@
     "tools": "Aplicaciones",
     "contact": "Contacto",
     "toggleMenu": "Alternar menú",
-    "iList": "Lista de tareas"
+    "iList": "Lista de tareas",
+    "calculators": "Calculadoras"
   },
   "toTop": {
     "ariaLabel": "Volver arriba"

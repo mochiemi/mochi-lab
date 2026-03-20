@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import Loading from './Loading.vue'
 
@@ -56,9 +56,16 @@ const props = defineProps({
   padding: {
     type: String,
     default: 'normal',
-    validator: (value) => ['none', 'small', 'normal', 'large'].includes(value)
+    validator: (value: string) => ['none', 'small', 'normal', 'large'].includes(value)
   }
 })
+
+// Define os slots com tipagem TypeScript
+defineSlots<{
+  default?: () => any,
+  header?: () => any,
+  footer?: () => any
+}>()
 
 const emit = defineEmits(['click'])
 
@@ -196,5 +203,4 @@ const handleClick = () => {
 }
 
 }
-
-</style>  
+</style>

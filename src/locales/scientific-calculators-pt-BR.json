@@ -1,0 +1,138 @@
+{
+  "scientificCalculators": {
+    "title": "Calculadora de Incertezas Experimentais",
+    "subtitle": "Análise Estatística de Medições de Laboratório",
+    "description": "Adicione valores de medição para calcular parâmetros estatísticos incluindo média, desvio absoluto, desvio padrão e incerteza da medição, conforme metodologia de laboratórios de Físico-Química.",
+    "inputs": {
+      "title": "Nova Medição",
+      "value": "Valor Medido (xᵢ)",
+      "valuePlaceholder": "Ex: 10,5",
+      "unit": "Unidade",
+      "unitPlaceholder": "Ex: m, kg, s, °C",
+      "significantFigures": "Algarismos Significativos",
+      "sigFigsPlaceholder": "Ex: 4",
+      "add": "Adicionar Medição",
+      "clearAll": "Limpar Todas",
+      "delete": "Remover",
+      "instrumentPrecision": "Precisão do instrumento"
+    },
+    "tooltips": {
+      "addValue": "Adicionar nova medição ao conjunto de dados",
+      "clearAll": "Remover todas as medições"
+    },
+    "table": {
+      "header": "Tabela de Valores Medidos",
+      "value": "Valor (xᵢ)",
+      "deviation": "Desvio |xᵢ - x̄|",
+      "deviationSquared": "Desvio² (xᵢ - x̄)²",
+      "actions": "Ações",
+      "empty": "Nenhuma medição adicionada",
+      "emptyHint": "Adicione pelo menos 2 valores para calcular a incerteza",
+      "sum": "Somatório",
+      "variance": "Variância amostral (s²)"
+    },
+    "results": {
+      "probableMean": {
+        "label": "Média Aritmética (x̄)",
+        "tooltip": "Valor mais provável da grandeza: soma de todas as medições dividida pelo número de medições"
+      },
+      "meanAbsoluteDeviation": {
+        "label": "Desvio Absoluto Médio (Δx)",
+        "tooltip": "Média dos desvios absolutos em relação à média - representa a incerteza da medição"
+      },
+      "standardDeviation": {
+        "label": "Desvio Padrão Amostral (s)",
+        "tooltip": "Raiz quadrada da variância - medida de dispersão dos dados"
+      },
+      "relativeUncertainty": {
+        "label": "Incerteza Relativa (εᵣ)",
+        "tooltip": "Desvio absoluto médio expresso como porcentagem da média"
+      },
+      "finalResult": {
+        "label": "Valor Medido com Incerteza",
+        "tooltip": "Melhor estimativa do valor verdadeiro: média ± incerteza"
+      },
+      "significantFigures": "Algarismos significativos",
+      "explanation": {
+        "mean": "x̄ = (Σxᵢ) / n",
+        "mad": "Δx = (Σ|xᵢ - x̄|) / n",
+        "mpd": "ε = (Δx / |x̄|) × 100%",
+        "variance": "s² = Σ(xᵢ - x̄)² / (n-1)",
+        "stdDev": "s = √[Σ(xᵢ - x̄)² / (n-1)]"
+      }
+    },
+    "explanation": {
+      "title": "Fundamentos Teóricos: Medidas e Incertezas",
+      "uncertainty": {
+        "title": "O que é Incerteza de Medição?",
+        "content": "A incerteza de medição quantifica a dispersão dos valores que podem ser razoavelmente atribuídos a uma grandeza medida. Não é possível encontrar o valor exato de uma grandeza, uma vez que ele só pode ser medido com um instrumento, que sempre tem limitações. O valor verdadeiro é desconhecido, portanto representamos a medida por um intervalo de confiança.",
+        "formula": "δx = p/2 = (x_máx - x_mín)/2",
+        "example": "Exemplo: Régua milimetrada (menor divisão = 1 mm) → precisão ≈ 0,5 mm. Leitura: 7,8 cm → resultado: 7,80 ± 0,05 cm"
+      },
+      "meanDeviation": {
+        "title": "Desvio Absoluto Médio (DAM)",
+        "content": "O desvio absoluto médio mede a distância média entre cada ponto de dados e a média. Fornece uma medida robusta de variabilidade, menos sensível a valores atípicos que o desvio padrão. É frequentemente utilizado para representar a incerteza da medição (Δx).",
+        "formula": "DAM = Δx = (Σ|xᵢ - x̄|) / n",
+        "example": "Exemplo: Medições: 10,2; 10,4; 10,3; Média = 10,3; Desvios: 0,1; 0,1; 0,0; DAM = 0,07"
+      },
+      "standardDeviation": {
+        "title": "Desvio Padrão (σ ou s)",
+        "content": "O desvio padrão é a mais importante medida de variação, pois considera todos os valores da amostra. Para análises experimentais, utilizamos o desvio padrão amostral (s) quando trabalhamos com uma amostra da população. O desvio padrão do valor médio (σx̄ = s/√n) é utilizado para expressar a incerteza final.",
+        "formula": "s = √[Σ(xᵢ - x̄)²/(n-1)]",
+        "example": "Exemplo: Medições: 10,2; 10,4; 10,3; s = √[(0,01+0,01+0,00)/2] = √0,01 = 0,1"
+      },
+      "significantFigures": {
+        "title": "Algarismos Significativos",
+        "content": "São todos os algarismos obtidos no processo de medida. Os zeros incluídos para localizar o ponto decimal não são significativos (zeros à esquerda). A incerteza deve conter apenas UM algarismo significativo, e a média deve ser arredondada para a mesma casa decimal da incerteza.",
+        "formula": "Regras: 1) Dígitos não-zero são sempre significativos. 2) Zeros entre dígitos não-zero são significativos. 3) Zeros à esquerda não são significativos. 4) Zeros à direita em número com decimal são significativos.",
+        "example": "Exemplos: 1945,1 (5 AS); 0,00034 (2 AS); 1000 (4 AS); 2×10⁵ (1 AS); 4,189×10⁻⁷ (4 AS)"
+      },
+      "rounding": {
+        "title": "Critérios de Arredondamento",
+        "content": "Os arredondamentos somente devem ser efetuados no final de todas as contas, pois cada arredondamento introduz erro que pode se acumular. Se o número à direita do ponto de arredondamento é 0-4: elimina-se a parte à direita. Se é 5-9: incrementa o algarismo à esquerda.",
+        "formula": "Exemplo: 0,563729452 → 8 casas: 0,56372945; → 4 casas: 0,5637; → 2 casas: 0,56; → 1 casa: 0,6",
+        "example": "Medida: (0,126446 ± 0,0005885) V → Ajustando incerteza para 1 AS: (0,1264 ± 0,0006) V"
+      },
+      "references": "Referências Bibliográficas",
+      "example": "Exemplo"
+    },
+    "statistics": {
+      "summary": "Resumo Estatístico Detalhado",
+      "count": "Número de medições",
+      "min": "Valor mínimo",
+      "max": "Valor máximo",
+      "range": "Amplitude total",
+      "sum": "Soma dos valores",
+      "mean": "Média aritmética",
+      "sumOfDeviations": "Soma dos desvios absolutos",
+      "sumOfSquaredDeviations": "Soma dos quadrados dos desvios",
+      "variance": "Variância amostral",
+      "median": "Mediana",
+      "varianceNote": "Variância amostral: s² = Σ(xᵢ - x̄)²/(n-1)"
+    },
+    "messages": {
+      "valueAdded": "Medição adicionada com sucesso",
+      "valueRemoved": "Medição removida",
+      "allCleared": "Todas as medições removidas",
+      "invalidValue": "Por favor, insira um número válido",
+      "minValues": "Adicione pelo menos 2 valores para calcular as incertezas",
+      "exported": "Dados exportados com sucesso",
+      "copied": "Resultados copiados para a área de transferência",
+      "copyError": "Falha ao copiar resultados"
+    },
+    "siUnits": {
+      "meter": "Metro (m)",
+      "kilogram": "Quilograma (kg)",
+      "second": "Segundo (s)",
+      "kelvin": "Kelvin (K)",
+      "mole": "Mol (mol)",
+      "candela": "Candela (cd)",
+      "celsius": "Grau Celsius (°C)",
+      "other": "Outra unidade"
+    },
+    "actions": {
+      "export": "Exportar Dados (JSON)",
+      "copy": "Copiar Resultados"
+    }
+  }
+}

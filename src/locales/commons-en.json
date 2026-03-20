@@ -114,7 +114,8 @@
     "tools": "Apps/Tools",
     "contact": "Contact",
     "toggleMenu": "Toggle menu",
-    "iList": "Task List"
+    "iList": "Task List",
+    "calculators": "Calculators"
   },
   "toTop": {
     "ariaLabel": "Scroll to top"

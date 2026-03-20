@@ -86,20 +86,24 @@ const handleBlur = (event) => {
   margin-bottom: 0.5em;
   font-weight: 700;
   color: var(--text-primary);
-  font-size: 0.875em;
+  font-size: 0.9em;
+  line-height: 1.2;
 }
 
 .base-input {
   width: 100%;
-  padding: 0.25em 0.5em;
+  padding: 0.75em 1em;
   border: 2px solid var(--border);
   border-radius: 8px;
   font-family: 'Comic Neue', cursive;
   font-size: 1em;
+  line-height: 1.5; 
+  height: calc(1.5em + 1.5em);
   background-color: var(--surface-secondary);
   color: var(--text-secondary);
   transition: all 0.3s ease;
   outline: none;
+  box-sizing: border-box; 
 }
 
 .base-input:focus {

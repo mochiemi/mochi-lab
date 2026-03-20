@@ -1,0 +1,138 @@
+{
+  "scientificCalculators": {
+    "title": "Experimental Uncertainty Calculator",
+    "subtitle": "Statistical Analysis of Laboratory Measurements",
+    "description": "Add measurement values to calculate statistical parameters including mean, absolute deviation, standard deviation, and measurement uncertainty, following Physical Chemistry laboratory methodology.",
+    "inputs": {
+      "title": "New Measurement",
+      "value": "Measured Value (xᵢ)",
+      "valuePlaceholder": "e.g., 10.5",
+      "unit": "Unit",
+      "unitPlaceholder": "e.g., m, kg, s, °C",
+      "significantFigures": "Significant Figures",
+      "sigFigsPlaceholder": "e.g., 4",
+      "add": "Add Measurement",
+      "clearAll": "Clear All",
+      "delete": "Remove",
+      "instrumentPrecision": "Instrument precision"
+    },
+    "tooltips": {
+      "addValue": "Add new measurement to dataset",
+      "clearAll": "Remove all measurements"
+    },
+    "table": {
+      "header": "Measurement Values Table",
+      "value": "Value (xᵢ)",
+      "deviation": "Deviation |xᵢ - x̄|",
+      "deviationSquared": "Deviation² (xᵢ - x̄)²",
+      "actions": "Actions",
+      "empty": "No measurements added",
+      "emptyHint": "Add at least 2 values to calculate uncertainty",
+      "sum": "Sum",
+      "variance": "Sample variance (s²)"
+    },
+    "results": {
+      "probableMean": {
+        "label": "Arithmetic Mean (x̄)",
+        "tooltip": "Most probable value: sum of all measurements divided by number of measurements"
+      },
+      "meanAbsoluteDeviation": {
+        "label": "Mean Absolute Deviation (Δx)",
+        "tooltip": "Average of absolute deviations from the mean - represents measurement uncertainty"
+      },
+      "standardDeviation": {
+        "label": "Sample Standard Deviation (s)",
+        "tooltip": "Square root of variance - measure of data dispersion"
+      },
+      "relativeUncertainty": {
+        "label": "Relative Uncertainty (εᵣ)",
+        "tooltip": "Mean absolute deviation expressed as percentage of the mean"
+      },
+      "finalResult": {
+        "label": "Measured Value with Uncertainty",
+        "tooltip": "Best estimate of true value: mean ± uncertainty"
+      },
+      "significantFigures": "Significant figures",
+      "explanation": {
+        "mean": "x̄ = (Σxᵢ) / n",
+        "mad": "Δx = (Σ|xᵢ - x̄|) / n",
+        "mpd": "ε = (Δx / |x̄|) × 100%",
+        "variance": "s² = Σ(xᵢ - x̄)² / (n-1)",
+        "stdDev": "s = √[Σ(xᵢ - x̄)² / (n-1)]"
+      }
+    },
+    "explanation": {
+      "title": "Theoretical Foundations: Measurements and Uncertainties",
+      "uncertainty": {
+        "title": "What is Measurement Uncertainty?",
+        "content": "Measurement uncertainty quantifies the dispersion of values that could reasonably be attributed to a measured quantity. It is impossible to find the exact value of a quantity, as it can only be measured with an instrument that always has limitations. The true value is unknown, so we represent the measurement by a confidence interval.",
+        "formula": "δx = p/2 = (x_max - x_min)/2",
+        "example": "Example: Millimeter ruler (smallest division = 1 mm) → precision ≈ 0.5 mm. Reading: 7.8 cm → result: 7.80 ± 0.05 cm"
+      },
+      "meanDeviation": {
+        "title": "Mean Absolute Deviation (MAD)",
+        "content": "The mean absolute deviation measures the average distance between each data point and the mean. It provides a robust measure of variability, less sensitive to outliers than standard deviation. It is often used to represent measurement uncertainty (Δx).",
+        "formula": "MAD = Δx = (Σ|xᵢ - x̄|) / n",
+        "example": "Example: Measurements: 10.2, 10.4, 10.3; Mean = 10.3; Deviations: 0.1, 0.1, 0.0; MAD = 0.07"
+      },
+      "standardDeviation": {
+        "title": "Standard Deviation (σ or s)",
+        "content": "Standard deviation is the most important measure of variation, as it considers all sample values. For experimental analysis, we use sample standard deviation (s) when working with a sample of the population. The standard deviation of the mean (σx̄ = s/√n) is used to express final uncertainty.",
+        "formula": "s = √[Σ(xᵢ - x̄)²/(n-1)]",
+        "example": "Example: Measurements: 10.2, 10.4, 10.3; s = √[(0.01+0.01+0.00)/2] = √0.01 = 0.1"
+      },
+      "significantFigures": {
+        "title": "Significant Figures",
+        "content": "These are all digits obtained in the measurement process. Zeros included to locate the decimal point are not significant (leading zeros). Uncertainty should contain only ONE significant figure, and the mean should be rounded to the same decimal place as the uncertainty.",
+        "formula": "Rules: 1) Non-zero digits are always significant. 2) Zeros between non-zero digits are significant. 3) Leading zeros are not significant. 4) Trailing zeros in a number with a decimal point are significant.",
+        "example": "Examples: 1945.1 (5 SF); 0.00034 (2 SF); 1000 (4 SF); 2×10⁵ (1 SF); 4.189×10⁻⁷ (4 SF)"
+      },
+      "rounding": {
+        "title": "Rounding Criteria",
+        "content": "Rounding should only be done at the end of all calculations, as each rounding introduces error that can accumulate. If the digit to the right of the rounding point is 0-4: discard the right part. If it is 5-9: increment the left digit.",
+        "formula": "Example: 0.563729452 → 8 decimals: 0.56372945; → 4 decimals: 0.5637; → 2 decimals: 0.56; → 1 decimal: 0.6",
+        "example": "Measurement: (0.126446 ± 0.0005885) V → Adjusting uncertainty to 1 SF: (0.1264 ± 0.0006) V"
+      },
+      "references": "References",
+      "example": "Example"
+    },
+    "statistics": {
+      "summary": "Detailed Statistical Summary",
+      "count": "Number of measurements",
+      "min": "Minimum value",
+      "max": "Maximum value",
+      "range": "Total range",
+      "sum": "Sum of values",
+      "mean": "Arithmetic mean",
+      "sumOfDeviations": "Sum of absolute deviations",
+      "sumOfSquaredDeviations": "Sum of squared deviations",
+      "variance": "Sample variance",
+      "median": "Median",
+      "varianceNote": "Sample variance: s² = Σ(xᵢ - x̄)²/(n-1)"
+    },
+    "messages": {
+      "valueAdded": "Measurement added successfully",
+      "valueRemoved": "Measurement removed",
+      "allCleared": "All measurements cleared",
+      "invalidValue": "Please enter a valid number",
+      "minValues": "Add at least 2 values to calculate uncertainties",
+      "exported": "Data exported successfully",
+      "copied": "Results copied to clipboard",
+      "copyError": "Failed to copy results"
+    },
+    "siUnits": {
+      "meter": "Meter (m)",
+      "kilogram": "Kilogram (kg)",
+      "second": "Second (s)",
+      "kelvin": "Kelvin (K)",
+      "mole": "Mole (mol)",
+      "candela": "Candela (cd)",
+      "celsius": "Degree Celsius (°C)",
+      "other": "Other unit"
+    },
+    "actions": {
+      "export": "Export Data (JSON)",
+      "copy": "Copy Results"
+    }
+  }
+}
