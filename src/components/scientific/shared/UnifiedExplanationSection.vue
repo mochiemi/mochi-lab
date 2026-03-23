@@ -1,14 +1,14 @@
 <template>
-  <div class="explanation-section">
+  <div class="unified-explanation-section">
     <Accordion
-      :items="accordionItems"
+      :items="unifiedAccordionItems"
       variant="primary"
       :multiple="true"
       :bordered="true"
     >
-      <template #content="{ item, index }">
+      <template #content="{ item }">
         <div class="accordion-content-wrapper">
-          <p class="item-content">{{ item.content }}</p>
+          <div class="item-content" v-html="item.content"></div>
           <div class="formula-box" v-if="item.formula">
             <code>{{ item.formula }}</code>
           </div>
@@ -20,15 +20,15 @@
       </template>
     </Accordion>
 
-    <Card class="references-card" v-if="showReferences">
+    <Card class="references-card">
       <template #header>
         <div class="references-header">
-          <OhVueIcon name="bi-book" class="header-icon" />
+          <OhVueIcon name="fa-book" class="header-icon" />
           <h4>{{ t('scientificCalculators.explanation.references') }}</h4>
         </div>
       </template>
       <ul class="references-list">
-        <li v-for="(ref, index) in references" :key="index">
+        <li v-for="(ref, index) in referencesList" :key="index">
           {{ ref }}
         </li>
       </ul>
@@ -37,6 +37,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Accordion from '@/components/ui/Accordion.vue'
 import Card from '@/components/ui/Card.vue'
@@ -45,66 +46,77 @@ import { OhVueIcon } from 'oh-vue-icons'
 
 const { t } = useI18n()
 
-interface Props {
-  showReferences?: boolean
-}
-
-withDefaults(defineProps<Props>(), {
-  showReferences: true
-})
-
-const accordionItems = [
+const unifiedAccordionItems = computed(() => [
+  {
+    id: 'intro',
+    title: t('scientificCalculators.theory.intro.title'),
+    content: t('scientificCalculators.theory.intro.content')
+  },
+  {
+    id: 'errors',
+    title: t('scientificCalculators.theory.errors.title'),
+    content: t('scientificCalculators.theory.errors.content')
+  },
+  {
+    id: 'definitions',
+    title: t('scientificCalculators.theory.definitions.title'),
+    content: t('scientificCalculators.theory.definitions.content'),
+    formula: t('scientificCalculators.theory.definitions.formula')
+  },
+  {
+    id: 'operations',
+    title: t('scientificCalculators.theory.operations.title'),
+    content: t('scientificCalculators.theory.operations.content'),
+    formula: t('scientificCalculators.theory.operations.formula'),
+    example: t('scientificCalculators.theory.operations.example')
+  },
+  {
+    id: 'rounding',
+    title: t('scientificCalculators.explanation.rounding.title'),
+    content: t('scientificCalculators.explanation.rounding.content'),
+    formula: t('scientificCalculators.explanation.rounding.formula'),
+    example: t('scientificCalculators.explanation.rounding.example')
+  },
   {
     id: 'uncertainty',
     title: t('scientificCalculators.explanation.uncertainty.title'),
-    icon: 'bi-question-circle',
     content: t('scientificCalculators.explanation.uncertainty.content'),
-    formula: 'δx = p/2 = (x_máx - x_mín)/2',
+    formula: t('scientificCalculators.explanation.uncertainty.formula'),
     example: t('scientificCalculators.explanation.uncertainty.example')
   },
   {
     id: 'meanDeviation',
     title: t('scientificCalculators.explanation.meanDeviation.title'),
-    icon: 'bi-graph-up',
     content: t('scientificCalculators.explanation.meanDeviation.content'),
-    formula: 'DAM = (Σ|xᵢ - x̄|)/n  ou  Δx = (Σ|xᵢ - x̄|)/n',
+    formula: t('scientificCalculators.explanation.meanDeviation.formula'),
     example: t('scientificCalculators.explanation.meanDeviation.example')
   },
   {
     id: 'standardDeviation',
     title: t('scientificCalculators.explanation.standardDeviation.title'),
-    icon: 'bi-bar-chart',
     content: t('scientificCalculators.explanation.standardDeviation.content'),
-    formula: 'σ = √[Σ(xᵢ - x̄)²/(n-1)]  (amostral)',
+    formula: t('scientificCalculators.explanation.standardDeviation.formula'),
     example: t('scientificCalculators.explanation.standardDeviation.example')
   },
   {
     id: 'significantFigures',
     title: t('scientificCalculators.explanation.significantFigures.title'),
-    icon: 'bi-123',
     content: t('scientificCalculators.explanation.significantFigures.content'),
     formula: t('scientificCalculators.explanation.significantFigures.formula'),
     example: t('scientificCalculators.explanation.significantFigures.example')
-  },
-  {
-    id: 'rounding',
-    title: t('scientificCalculators.explanation.rounding.title'),
-    icon: 'bi-arrow-repeat',
-    content: t('scientificCalculators.explanation.rounding.content'),
-    formula: t('scientificCalculators.explanation.rounding.formula'),
-    example: t('scientificCalculators.explanation.rounding.example')
   }
-]
+])
 
-const references = [
+const referencesList = [
   'HELENE, Otaviano Augusto Marcondes, VANIN, Vito Roberto. Tratamento Estatístico de Dados em Física Experimental. Edgard Blücher, 2ª edição, 1991.',
   'VUOLO, José Henrique. Fundamentos da Teoria de Erros. Edgard Blücher, 2ª edição, 1996.',
-  'Bureau Internacional de Pesos e Medidas. Guide to the Expression of Uncertainty in Measurement (GUM). 2004.'
+  'Bureau Internacional de Pesos e Medidas. Guide to the Expression of Uncertainty in Measurement (GUM). 2004.',
+  'UNIVERSIDADE FEDERAL DE ALFENAS. Apostila de Aulas Práticas de Físico-Química - Curso de Farmácia. Prof. Dr. Luciano Sindra Virtuoso, 2026.'
 ]
 </script>
 
 <style scoped>
-.explanation-section {
+.unified-explanation-section {
   margin: 1rem 0;
 }
 
@@ -117,6 +129,10 @@ const references = [
   line-height: 1.6;
   margin-bottom: 1rem;
   font-size: 0.95rem;
+}
+
+.item-content :deep(strong) {
+  color: var(--primary);
 }
 
 .formula-box {
@@ -167,6 +183,11 @@ const references = [
   font-size: 1.2rem;
 }
 
+.references-header h4 {
+  margin: 0;
+  color: var(--title-primary);
+}
+
 .references-list {
   list-style-type: none;
   padding: 0;
@@ -189,5 +210,11 @@ const references = [
   content: "📚";
   margin-right: 0.5rem;
   opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .formula-box code {
+    font-size: 0.85rem;
+  }
 }
 </style>

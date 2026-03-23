@@ -15,7 +15,7 @@
             <OhVueIcon name="bi-calculator" class="card-icon" />
             <h5 class="result-title">{{ t('scientificCalculators.results.probableMean.label') }}</h5>
             <Tooltip :content="t('scientificCalculators.results.probableMean.tooltip')" position="top">
-              <OhVueIcon name="bi-question-circle" class="help-icon" />
+              <OhVueIcon name="oi-question" class="help-icon" />
             </Tooltip>
           </div>
         </template>
@@ -29,34 +29,8 @@
             <Badge variant="secondary" size="small">x̄ = Σxᵢ/n</Badge>
           </div>
           <div class="calculation-detail">
-            <span>Σxᵢ = {{ formatNumber(sum) }} {{ unit }}</span>
+            <span>Σxᵢ = {{ formatNumber(sum ?? 0) }} {{ unit }}</span>
             <span>n = {{ values.length }}</span>
-          </div>
-        </div>
-      </Card>
-
-      <!-- MAD Card -->
-      <Card class="result-card">
-        <template #header>
-          <div class="result-header">
-            <OhVueIcon name="bi-arrow-left-right" class="card-icon" />
-            <h5 class="result-title">{{ t('scientificCalculators.results.meanAbsoluteDeviation.label') }}</h5>
-            <Tooltip :content="t('scientificCalculators.results.meanAbsoluteDeviation.tooltip')" position="top">
-              <OhVueIcon name="bi-question-circle" class="help-icon" />
-            </Tooltip>
-          </div>
-        </template>
-
-        <div class="result-content">
-          <div class="result-value secondary">
-            ±{{ formatNumber(meanAbsoluteDeviation) }}
-            <span v-if="unit" class="unit">{{ unit }}</span>
-          </div>
-          <div class="formula">
-            <Badge variant="secondary" size="small">Δx = Σ|xᵢ - x̄|/n</Badge>
-          </div>
-          <div class="calculation-detail">
-            <span>Σ|xᵢ - x̄| = {{ formatNumber(sumDeviations) }} {{ unit }}</span>
           </div>
         </div>
       </Card>
@@ -68,21 +42,21 @@
             <OhVueIcon name="bi-bar-chart" class="card-icon" />
             <h5 class="result-title">{{ t('scientificCalculators.results.standardDeviation.label') }}</h5>
             <Tooltip :content="t('scientificCalculators.results.standardDeviation.tooltip')" position="top">
-              <OhVueIcon name="bi-question-circle" class="help-icon" />
+              <OhVueIcon name="oi-question" class="help-icon" />
             </Tooltip>
           </div>
         </template>
 
         <div class="result-content">
           <div class="result-value accent">
-            ±{{ formatNumber(standardDeviation) }}
+            ±{{ formatNumber(standardDeviation ?? 0) }}
             <span v-if="unit" class="unit">{{ unit }}</span>
           </div>
           <div class="formula">
             <Badge variant="secondary" size="small">σ = √[Σ(xᵢ - x̄)²/(n-1)]</Badge>
           </div>
           <div class="calculation-detail">
-            <span>Σ(xᵢ - x̄)² = {{ formatNumber(sumDeviationsSquared) }} {{ unit }}²</span>
+            <span>Σ(xᵢ - x̄)² = {{ formatNumber(sumDeviationsSquared ?? 0) }} {{ unit }}²</span>
           </div>
         </div>
       </Card>
@@ -94,17 +68,17 @@
             <OhVueIcon name="bi-percent" class="card-icon" />
             <h5 class="result-title">{{ t('scientificCalculators.results.relativeUncertainty.label') }}</h5>
             <Tooltip :content="t('scientificCalculators.results.relativeUncertainty.tooltip')" position="top">
-              <OhVueIcon name="bi-question-circle" class="help-icon" />
+              <OhVueIcon name="oi-question" class="help-icon" />
             </Tooltip>
           </div>
         </template>
 
         <div class="result-content">
           <div class="result-value accent">
-            {{ formatNumber(relativeUncertainty) }}%
+            {{ formatNumber(relativeUncertainty ?? 0) }}%
           </div>
           <div class="formula">
-            <Badge variant="secondary" size="small">εᵣ = (Δx/|x̄|) × 100%</Badge>
+            <Badge variant="secondary" size="small">εᵣ = (σ/|x̄|) × 100%</Badge>
           </div>
         </div>
       </Card>
@@ -116,7 +90,7 @@
             <OhVueIcon name="bi-check-circle" class="card-icon" />
             <h5 class="result-title">{{ t('scientificCalculators.results.finalResult.label') }}</h5>
             <Tooltip :content="t('scientificCalculators.results.finalResult.tooltip')" position="top">
-              <OhVueIcon name="bi-question-circle" class="help-icon" />
+              <OhVueIcon name="oi-question" class="help-icon" />
             </Tooltip>
           </div>
         </template>
@@ -125,11 +99,11 @@
           <div class="final-value-display">
             <span class="final-value">{{ formatNumber(mean) }}</span>
             <span class="final-plusminus"> ± </span>
-            <span class="final-uncertainty">{{ formatNumber(meanAbsoluteDeviation) }}</span>
+            <span class="final-uncertainty">{{ formatNumber(standardDeviation ?? 0) }}</span>
             <span v-if="unit" class="final-unit">{{ unit }}</span>
           </div>
           <div class="formula">
-            <Badge variant="secondary" size="small">x = x̄ ± Δx</Badge>
+            <Badge variant="secondary" size="small">x = x̄ ± σ</Badge>
           </div>
           <div class="calculation-detail">
             <span>{{ t('scientificCalculators.results.significantFigures') }}: {{ significantFigures }}</span>
@@ -141,18 +115,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Card from '@/components/ui/Card.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Tooltip from '@/components/ui/Tooltip.vue'
 import Alert from '@/components/ui/Alert.vue'
 import { OhVueIcon } from 'oh-vue-icons'
-
-export interface ValueItem {
-  id: string
-  value: number
-}
+import type { ValueItem } from '@/types/scientific'
+import { formatNumber as formatNumberUtil } from '../utils/statistics'
 
 const { t } = useI18n()
 
@@ -163,53 +133,17 @@ const props = defineProps<{
   meanAbsoluteDeviation: number
   meanPercentageDeviation: number
   significantFigures: number
+  standardDeviation?: number
+  relativeUncertainty?: number
+  sum?: number
+  sumDeviations?: number
+  sumDeviationsSquared?: number
+  variance?: number
 }>()
 
-const sum = computed(() => {
-  return props.values.reduce((acc, item) => acc + item.value, 0)
-})
-
-const sumDeviations = computed(() => {
-  return props.values.reduce((acc, item) => acc + Math.abs(item.value - props.mean), 0)
-})
-
-const sumDeviationsSquared = computed(() => {
-  return props.values.reduce((acc, item) => {
-    const dev = item.value - props.mean
-    return acc + (dev * dev)
-  }, 0)
-})
-
-const variance = computed(() => {
-  if (props.values.length < 2) return 0
-  return sumDeviationsSquared.value / (props.values.length - 1)
-})
-
-const standardDeviation = computed(() => {
-  return Math.sqrt(variance.value)
-})
-
-const relativeUncertainty = computed(() => {
-  if (props.mean === 0) return 0
-  return (props.meanAbsoluteDeviation / Math.abs(props.mean)) * 100
-})
-
 const formatNumber = (num: number): string => {
-  if (num === 0) return '0'
-  if (isNaN(num) || !isFinite(num)) return '—'
-
-  try {
-    if (props.significantFigures > 0 && num !== 0) {
-      return num.toPrecision(props.significantFigures)
-    }
-
-    if (Math.abs(num) < 0.001 || Math.abs(num) > 10000) {
-      return num.toExponential(3)
-    }
-    return num.toFixed(4).replace(/\.?0+$/, '')
-  } catch {
-    return num.toString()
-  }
+  if (num === undefined || num === null || isNaN(num)) return '0'
+  return formatNumberUtil(num, props.significantFigures)
 }
 </script>
 
@@ -239,8 +173,8 @@ const formatNumber = (num: number): string => {
 }
 
 .result-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px var(--shadow-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--shadow);
 }
 
 .result-card-full {
@@ -374,21 +308,6 @@ const formatNumber = (num: number): string => {
   .calculation-detail {
     flex-direction: column;
     align-items: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .result-header {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .result-value {
-    font-size: 1.4rem;
-  }
-
-  .final-value-display {
-    font-size: 1.5rem;
   }
 }
 </style>

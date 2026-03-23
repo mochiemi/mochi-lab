@@ -2,7 +2,7 @@
   <Card v-if="values.length >= 2" class="stats-summary-card">
     <template #header>
       <div class="card-header">
-        <OhVueIcon name="bi-clipboard-data" class="header-icon" />
+        <OhVueIcon name="bi-clipboard-data-fill" class="header-icon" />
         <h4>{{ t('scientificCalculators.statistics.summary') }}</h4>
       </div>
     </template>
@@ -61,7 +61,7 @@
 
     <div class="stats-note" v-if="values.length >= 2">
       <Badge variant="info" size="small">
-        <OhVueIcon name="bi-info-circle" class="note-icon" />
+        <OhVueIcon name="oi-info" class="note-icon" />
         {{ t('scientificCalculators.statistics.varianceNote') }}
       </Badge>
     </div>
@@ -132,7 +132,6 @@ const computedMedian = computed<number>(() => {
   if (sorted.length % 2 === 0) {
     const val1 = sorted[mid - 1]
     const val2 = sorted[mid]
-    // Verificar se os valores existem (não são undefined)
     if (val1 !== undefined && val2 !== undefined) {
       return (val1 + val2) / 2
     }

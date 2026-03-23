@@ -2,80 +2,70 @@
   <Card class="measurement-input-card">
     <template #header>
       <div class="input-header">
-        <OhVueIcon name="bi-rulers" class="header-icon" />
-        <h4>{{ t('scientificCalculators.inputs.title') }}</h4>
+        <OhVueIcon name="bi-input-cursor" class="header-icon" />
+        <h3>{{ t('scientificCalculators.inputs.title') }}</h3>
       </div>
     </template>
-
+    
     <div class="measurement-input">
       <div class="input-row">
-        <div class="input-group value-group">
-          <Input
+        <div class="input-group">
+          <label>{{ t('scientificCalculators.inputs.value') }}</label>
+          <Input 
             v-model.number="localValue"
-            :label="t('scientificCalculators.inputs.value')"
-            :placeholder="t('scientificCalculators.inputs.valuePlaceholder')"
             type="number"
             step="any"
-            @keyup.enter="handleAdd"
+            :placeholder="t('scientificCalculators.inputs.valuePlaceholder')"
             :error="inputError"
+            @keyup.enter="handleAdd"
           />
         </div>
-
-        <div class="input-group unit-group">
-          <Select
+        
+        <div class="unit-group">
+          <label>{{ t('scientificCalculators.inputs.unit') }}</label>
+          <Input 
             v-model="localUnit"
-            :label="t('scientificCalculators.inputs.unit')"
-            :placeholder="t('scientificCalculators.inputs.unitPlaceholder')"
-            :options="unitOptions"
+            type="text"
+            :placeholder="t('scientificCalculators.inputs.selectUnit')"
           />
         </div>
-
-        <div class="input-group sig-figs-group">
-          <Input
+        
+        <div class="sig-figs-group">
+          <label>{{ t('scientificCalculators.inputs.significantFigures') }}</label>
+          <Input 
             v-model.number="localSigFigs"
-            :label="t('scientificCalculators.inputs.significantFigures')"
             type="number"
-            min="1"
-            max="15"
-            step="1"
-            :placeholder="t('scientificCalculators.inputs.sigFigsPlaceholder')"
+            :min="1"
+            :max="15"
+            :step="1"
           />
         </div>
       </div>
-
-      <div class="precision-info" v-if="instrumentPrecision !== undefined && instrumentPrecision !== null">
+      
+      <div v-if="instrumentPrecision" class="precision-info">
         <Badge variant="info" size="small">
-          <OhVueIcon name="bi-info-circle" class="badge-icon" />
-          {{ t('scientificCalculators.inputs.instrumentPrecision') }}: ±{{ instrumentPrecision }} {{ localUnit }}
+          <OhVueIcon name="la-ruler-solid" class="badge-icon" />
+          {{ t('scientificCalculators.inputs.precision') }}: ±{{ formatPrecision(instrumentPrecision) }}
         </Badge>
       </div>
-
+      
       <div class="button-group">
-        <Tooltip :content="t('scientificCalculators.tooltips.addValue')" position="top">
-          <Button
-            variant="primary"
-            @click="handleAdd"
-            :disabled="!isValidInput"
-            :class="{ 'pulse-animation': isValidInput }"
-          >
-            <OhVueIcon name="bi-plus-circle" />
-            {{ t('scientificCalculators.inputs.add') }}
-          </Button>
-        </Tooltip>
-
-        <Tooltip
-          v-if="showClear"
-          :content="t('scientificCalculators.tooltips.clearAll')"
-          position="top"
+        <Button 
+          variant="primary" 
+          @click="handleAdd"
+          :disabled="!isValidInput"
         >
-          <Button
-            variant="danger"
-            @click="handleClearAll"
-          >
-            <OhVueIcon name="bi-trash3" />
-            {{ t('scientificCalculators.inputs.clearAll') }}
-          </Button>
-        </Tooltip>
+          <OhVueIcon name="fa-plus" />
+          {{ t('scientificCalculators.actions.add') }}
+        </Button>
+        
+        <Button 
+          variant="secondary" 
+          @click="handleClearAll"
+        >
+          <OhVueIcon name="hi-trash" />
+          {{ t('scientificCalculators.actions.clearAll') }}
+        </Button>
       </div>
     </div>
   </Card>
@@ -86,11 +76,10 @@ import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Card from '@/components/ui/Card.vue'
 import Input from '@/components/ui/Input.vue'
-import Select from '@/components/ui/Select.vue'
 import Button from '@/components/ui/Button.vue'
-import Tooltip from '@/components/ui/Tooltip.vue'
 import Badge from '@/components/ui/Badge.vue'
 import { OhVueIcon } from 'oh-vue-icons'
+import type { UnitOption } from '@/types/scientific'
 
 const { t } = useI18n()
 
@@ -99,7 +88,7 @@ const props = defineProps<{
   unit: string
   significantFigures: number
   inputError?: string
-  unitOptions: Array<{ value: string; label: string }>
+  unitOptions: UnitOption[]
   instrumentPrecision?: number | string | null
 }>()
 
@@ -150,10 +139,6 @@ const isValidInput = computed(() => {
   return localValue.value !== null && !isNaN(localValue.value) && localValue.value !== undefined
 })
 
-const showClear = computed(() => {
-  return true
-})
-
 const handleAdd = () => {
   if (isValidInput.value) {
     emit('add')
@@ -162,6 +147,12 @@ const handleAdd = () => {
 
 const handleClearAll = () => {
   emit('clear-all')
+}
+
+const formatPrecision = (value: number | string): string => {
+  const num = typeof value === 'string' ? parseFloat(value) : value
+  if (isNaN(num)) return String(value)
+  return num.toPrecision(2)
 }
 </script>
 
@@ -188,12 +179,24 @@ const handleClearAll = () => {
   gap: 1.5rem;
 }
 
+.input-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.input-group,
+.unit-group,
+.sig-figs-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
 .input-group {
   flex: 2;
   min-width: 200px;
-  display: flex;
-  flex-direction: column;
 }
 
 .unit-group,
@@ -202,30 +205,10 @@ const handleClearAll = () => {
   min-width: 150px;
 }
 
-.input-group :deep(.input-wrapper),
-.input-group :deep(.select-wrapper) {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.input-group :deep(.input-wrapper) {
-  margin-bottom: 0; 
-}
-
-.input-group :deep(.input-label),
-.input-group :deep(.select-label) {
-  min-height: 1.2em; 
-  margin: 0.75em;
-  display: block;
-}
-
-.input-group :deep(.base-input),
-.input-group :deep(.select) {
-  width: 100%;
-  height: calc(1.5em + 1.5em); 
-  box-sizing: border-box;
+label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
 .precision-info {
@@ -245,10 +228,20 @@ const handleClearAll = () => {
   justify-content: center;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input {
+  appearance: none;
+}
+
 @media (max-width: 768px) {
   .input-row {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
   }
 
   .input-group,

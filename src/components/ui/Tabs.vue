@@ -70,7 +70,6 @@ import { ref, computed, onMounted, onBeforeUnmount, type Ref, type CSSProperties
 import Badge from './Badge.vue'
 import { OhVueIcon } from 'oh-vue-icons'
 
-// Tipos
 export interface Tab {
   label: string
   icon?: string
@@ -79,7 +78,6 @@ export interface Tab {
   content?: string
 }
 
-// Props com tipagem
 const props = defineProps({
   modelValue: {
     type: Number,
@@ -94,26 +92,23 @@ const props = defineProps({
     )
   },
   variant: {
-    type: String as () => 'default' | 'pills' | 'underline',
+    type: String as () => 'default' | 'pills' | 'underline' | 'square',
     default: 'default',
-    validator: (value: string): boolean => ['default', 'pills', 'underline'].includes(value)
+    validator: (value: string): boolean => ['default', 'pills', 'underline', 'square'].includes(value)
   }
 })
 
-// Emits com tipagem
 const emit = defineEmits<{
   (e: 'update:modelValue', index: number): void
   (e: 'change', index: number): void
 }>()
 
-// Refs com tipagem
 const showScrollControls = ref<boolean>(false)
 const isAtStart = ref<boolean>(true)
 const isAtEnd = ref<boolean>(false)
 const tabsHeaderRef = ref<HTMLElement | null>(null)
 const tabButtonsRef = ref<HTMLElement[]>([])
 
-// Computed com tipagem CSSProperties
 const indicatorStyle = computed<CSSProperties>(() => {
   const activeTab = tabButtonsRef.value[props.modelValue]
   if (!activeTab) return { width: '0px', transform: 'translateX(0px)' }
@@ -124,7 +119,6 @@ const indicatorStyle = computed<CSSProperties>(() => {
   }
 })
 
-// Métodos com tipagem
 const selectTab = (index: number): void => {
   emit('update:modelValue', index)
   emit('change', index)
@@ -195,7 +189,6 @@ const updateScrollState = (): void => {
   isAtEnd.value = scrollLeft + clientWidth >= scrollWidth - 1
 }
 
-// Lifecycle hooks
 onMounted((): void => {
   checkScrollNeeded()
   window.addEventListener('resize', checkScrollNeeded)
@@ -232,112 +225,117 @@ onBeforeUnmount((): void => {
 .tabs-header {
   display: flex;
   position: relative;
-  gap: 0.25em;
-  border-bottom: 2px dashed var(--border-contrast);
+  gap: 0;
+  border-bottom: 2px solid var(--border-contrast);
   min-width: min-content;
-  border-radius: 16px 16px 0 0;
-  padding: 0.5rem 0.5rem 0 0.5rem;
-  backdrop-filter: blur(10px);
+  padding: 0;
+  background: var(--bg-secondary);
 }
 
 .scroll-button {
-  background: var(--strong-rose);
+  background: var(--surface-primary);
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 0.75em;
   cursor: pointer;
   color: var(--text-secondary);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   min-width: 44px;
   min-height: 44px;
-  backdrop-filter: blur(10px);
 }
 
 .scroll-button:hover:not(:disabled) {
-  background: var(--dull-blue);
-  color: var(--text-primary);
+  background: var(--primary);
+  color: var(--white);
 }
 
 .scroll-button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
-  transform: none;
 }
 
 .scroll-button-prev {
-  margin-right: 0.75em;
+  margin-right: 0;
+  border-right: none;
 }
 
 .scroll-button-next {
-  margin-left: 0.75em;
+  margin-left: 0;
+  border-left: none;
 }
 
+/* Estilo SQUARE - sem bordas arredondadas */
+.tabs-header.square-variant {
+  border-bottom: 3px solid var(--primary);
+  gap: 0;
+  background: var(--surface-secondary);
+}
+
+.tabs-header.square-variant .tab-button {
+  border: none;
+  border-radius: 0;
+  padding: 1em 2em;
+  margin: 0;
+  background: var(--surface-secondary);
+  border-bottom: 3px solid transparent;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.tabs-header.square-variant .tab-button:hover {
+  background: var(--inner-surface);
+  border-bottom-color: var(--secondary);
+}
+
+.tabs-header.square-variant .tab-active {
+  background: var(--surface-primary);
+  border-bottom-color: var(--primary);
+  color: var(--primary);
+}
+
+.tabs-header.square-variant .tab-indicator {
+  display: none;
+}
+
+/* Estilo padrão para outras variantes */
 .tab-button {
-  background: var(--sky-blue-surface);
-  border: 2px dashed var(--border-contrast);
-  border-bottom: none;
-  padding: 0.5em 1.5em;
+  background: var(--surface-secondary);
+  border: none;
+  padding: 0.75em 1.5em;
   cursor: pointer;
   font-family: 'Comic Neue', cursive;
-  font-style: bold;
-  font-size: 1.2em;
+  font-weight: 600;
+  font-size: 1em;
   color: var(--text-secondary);
-  transition: all 0.4s ease;
+  transition: all 0.3s ease;
   position: relative;
   display: flex;
   align-items: center;
   gap: 0.75em;
   white-space: nowrap;
   flex-shrink: 0;
-  border-radius: 12px 12px 0 0;
-  margin-bottom:0 ;
-  overflow: hidden;
-}
-
-.tab-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  transition: left 0.4s ease;
-  z-index: -1;
-  opacity: 0.5;
-}
-
-.tab-button:hover::before {
-  left: 0;
 }
 
 .tab-button:hover {
-  color: var(--text-primary);
-  background: var(--sky-blue);
+  color: var(--primary);
+  background: var(--inner-surface);
 }
 
 .tab-active {
-  color: var(--text-primary);
+  color: var(--primary);
   font-weight: 700;
-  background: var(--rose-surface);
-}
-
-.tab-active::before {
-  left: 0;
-  opacity: 0.15;
 }
 
 .tab-icon {
   display: flex;
   align-items: center;
-  transition: transform 0.3s ease;
   font-size: 1.2em;
 }
 
 .tab-active .tab-icon {
-  transform: scale(1.1);
   color: var(--primary);
 }
 
@@ -354,29 +352,29 @@ onBeforeUnmount((): void => {
 .tab-indicator {
   position: absolute;
   bottom: -2px;
-  left: 0px;
-  height: 4px;
-  background: var(--gradient-secondary);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  left: 0;
+  height: 3px;
+  background: var(--primary);
+  transition: all 0.3s ease;
   z-index: 2;
 }
 
 .tabs-content {
   min-height: 200px;
-  border-radius: 0 0 16px 16px;
   padding: 2em;
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--border);
+  background: var(--surface-primary);
+  border: 2px solid var(--border);
+  border-top: none;
 }
 
 .tab-panel {
-  animation: tab-fade 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: tab-fade 0.3s ease;
 }
 
 @keyframes tab-fade {
   0% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
   }
   100% {
     opacity: 1;
@@ -398,13 +396,21 @@ onBeforeUnmount((): void => {
 }
 
 .tabs-header.pills-variant .tab-active {
-  background: var(--gradient-primary);
+  background: var(--primary);
   color: white;
   box-shadow: 0 4px 16px var(--shadow-hover);
 }
 
 .tabs-header.pills-variant .tab-indicator {
   display: none;
+}
+.tabs-header.underline-variant .tab-button {
+  background: transparent;
+  border-bottom: 3px solid transparent;
+}
+
+.tabs-header.underline-variant .tab-active {
+  border-bottom-color: var(--primary);
 }
 
 @media (max-width: 768px) {
@@ -414,16 +420,8 @@ onBeforeUnmount((): void => {
     min-height: 36px;
   }
   
-  .scroll-button-prev {
-    margin-right: 0.5em;
-  }
-  
-  .scroll-button-next {
-    margin-left: 0.5em;
-  }
-  
   .tab-button {
-    padding: 0.875em 1.25em;
+    padding: 0.75em 1.25em;
     font-size: 0.9em;
     gap: 0.5em;
   }
@@ -435,7 +433,7 @@ onBeforeUnmount((): void => {
 
 @media (max-width: 480px) {
   .tab-button {
-    padding: 0.75em 1em;
+    padding: 0.6em 1em;
   }
   
   .tabs-content {

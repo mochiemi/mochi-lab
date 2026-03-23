@@ -1,138 +1,192 @@
 {
   "scientificCalculators": {
-    "title": "Calculadora de Incertidumbres Experimentales",
-    "subtitle": "Análisis Estadístico de Mediciones de Laboratorio",
-    "description": "Agregue valores de medición para calcular parámetros estadísticos incluyendo media, desviación absoluta, desviación estándar e incertidumbre de la medición, según metodología de laboratorios de Fisicoquímica.",
-    "inputs": {
-      "title": "Nueva Medición",
-      "value": "Valor Medido (xᵢ)",
-      "valuePlaceholder": "Ej: 10,5",
-      "unit": "Unidad",
-      "unitPlaceholder": "Ej: m, kg, s, °C",
-      "significantFigures": "Cifras Significativas",
-      "sigFigsPlaceholder": "Ej: 4",
-      "add": "Agregar Medición",
-      "clearAll": "Limpiar Todas",
-      "delete": "Eliminar",
-      "instrumentPrecision": "Precisión del instrumento"
+    "title": "Calculadora Científica: Análisis de Mediciones",
+    "subtitle": "📊 Análisis Estadístico de Datos Experimentales",
+    "description": "Ingrese sus mediciones, visualice estadísticas y exporte sus resultados. Ideal para laboratorios de física, química y experimentos científicos.",
+    "tabs": {
+      "apostila": "📚 Método del Cuaderno",
+      "traditional": "📐 Método Tradicional",
+      "theory": "📚 Fundamentos Teóricos"
     },
-    "tooltips": {
-      "addValue": "Agregar nueva medición al conjunto de datos",
-      "clearAll": "Eliminar todas las mediciones"
+    "apostilaCalculator": {
+      "title": "Calculadora basada en el cuaderno (simplificada)",
+      "subtitle": "Basado en el cuaderno de Química Física Experimental - UNIFAL-MG"
+    },
+    "traditionalCalculator": {
+      "title": "Calculadora de Incerteza Tradicional",
+      "subtitle": "Basado en cálculos consagrados"
+    },
+    "theory": {
+      "intro": {
+        "title": "📏 ¿Qué es Medir?",
+        "content": "Medir es comparar. Cuando se mide una magnitud empleando los mismos instrumentos de medida, se obtienen, en general, resultados discordantes. Estas discrepancias son una característica inherente de cualquier experimento, porque: somos nosotros quienes hacemos las medidas y somos humanos; la precisión de los aparatos es limitada; el ambiente interfiere en los resultados."
+      },
+      "errors": {
+        "title": "🔬 Clasificación de los Errores Experimentales",
+        "content": "<strong>Errores Graves:</strong> frutos de la poca práctica y descuidos del experimentador en lecturas, cálculos y manejo del material.<br><br><strong>Errores Sistemáticos:</strong> errores de paralaje, de escalas no muy bien establecidas y de aparatos no \"puestos a cero\". Estos errores afectan los resultados siempre en el mismo sentido.<br><br><strong>Errores Accidentales:</strong> errores impredecibles derivados de variaciones de las condiciones ambientales (presión, temperatura, etc.). Los factores casuales pueden llevar a errores en ambos sentidos."
+      },
+      "definitions": {
+        "title": "📊 Definiciones Básicas",
+        "content": "<strong>Valor más probable (Vmp):</strong> es la media aritmética de la serie de medidas efectuadas: Vmp = (X₁ + X₂ + ... + Xₙ)/n<br><br><strong>Desviación absoluta (δ):</strong> valor absoluto de la diferencia entre el resultado obtenido y el valor más probable: δ = |X - Vmp|<br><br><strong>Desviación absoluta media (δ̄):</strong> media aritmética de las desviaciones absolutas: δ̄ = (Σδ)/n<br><br><strong>Desviación relativa media (δᵣ):</strong> δᵣ = δ̄ / Vmp<br><br><strong>Representación final:</strong> X = Vmp ± δ̄",
+        "formula": "Vmp = (ΣXᵢ)/n  |  δ̄ = (Σ|Xᵢ - Vmp|)/n"
+      },
+      "operations": {
+        "title": "➕ Reglas Operativas con Cifras Significativas",
+        "content": "<strong>Adición y Sustracción:</strong> El resultado debe presentar el mismo número de decimales que el término de menor precisión.<br><br><strong>Multiplicación y División:</strong> El resultado debe tener el mismo número de cifras significativas que la medida más \"pobre\".<br><br><strong>Potenciación y Radicación:</strong> Se conserva en el resultado el mismo número de cifras significativas de la base o del radicando.",
+        "formula": "Regla de redondeo: ≥ 5 redondea hacia arriba; < 5 redondea hacia abajo.",
+        "example": "2,89 kg + 0,5683 kg = 3,46 kg<br>0,20 m × 7,561 m = 1,5 m² (2 C.S.)"
+      }
+    },
+    "apostila": {
+      "mean": {
+        "label": "Media de las Mediciones"
+      },
+      "deviation": {
+        "label": "Desviación Media Absoluta"
+      },
+      "finalResult": {
+        "label": "Resultado Final"
+      }
+    },
+    "inputs": {
+      "title": "📏 Ingresar Medición",
+      "value": "Valor de la Medición",
+      "valuePlaceholder": "Ej: 10.5",
+      "unit": "Unidad de Medida",
+      "selectUnit": "Seleccione una unidad",
+      "significantFigures": "Cifras Significativas",
+      "precision": "Precisión del instrumento",
+      "add": "Agregar Medición",
+      "clearAll": "Limpiar Todo",
+      "instrumentPrecision": "Precisión Estimada del Instrumento",
+      "delete": "Eliminar"
     },
     "table": {
-      "header": "Tabla de Valores Medidos",
-      "value": "Valor (xᵢ)",
+      "title": "📋 Tabla de Mediciones",
+      "count": "{count} mediciones",
+      "value": "Valor",
+      "unit": "Unidad",
+      "actions": "Acciones",
+      "mean": "Media",
+      "stdDev": "Desviación Estándar",
+      "empty": "No hay mediciones registradas aún.",
+      "emptyHint": "Agregue mediciones usando el formulario superior",
       "deviation": "Desviación |xᵢ - x̄|",
       "deviationSquared": "Desviación² (xᵢ - x̄)²",
-      "actions": "Acciones",
-      "empty": "Ninguna medición agregada",
-      "emptyHint": "Agregue al menos 2 valores para calcular la incertidumbre",
-      "sum": "Sumatoria",
-      "variance": "Varianza muestral (s²)"
+      "sum": "Suma",
+      "variance": "Varianza",
+      "outlier": "Valor sospechoso",
+      "outlierHint": "Valor con desviación > 3σ"
     },
     "results": {
       "probableMean": {
-        "label": "Media Aritmética (x̄)",
-        "tooltip": "Valor más probable: suma de todas las mediciones dividida por el número de mediciones"
+        "label": "Media Probable",
+        "tooltip": "Media aritmética de los valores medidos: suma de todos los valores dividida por el número de mediciones."
       },
       "meanAbsoluteDeviation": {
-        "label": "Desviación Absoluta Media (Δx)",
-        "tooltip": "Promedio de desviaciones absolutas de la media - representa la incertidumbre de medición"
+        "label": "Desviación Media Absoluta",
+        "tooltip": "Promedio de las desviaciones absolutas respecto a la media. Representa la dispersión promedio de los datos."
       },
       "standardDeviation": {
-        "label": "Desviación Estándar Muestral (s)",
-        "tooltip": "Raíz cuadrada de la varianza - medida de dispersión de los datos"
+        "label": "Desviación Estándar",
+        "tooltip": "Medida de dispersión que indica cuánto se alejan los valores de la media. Cuanto mayor, más dispersos son los datos."
       },
       "relativeUncertainty": {
-        "label": "Incertidumbre Relativa (εᵣ)",
-        "tooltip": "Desviación absoluta media expresada como porcentaje de la media"
+        "label": "Incertidumbre Relativa",
+        "tooltip": "Incertidumbre expresada en porcentaje. Permite comparar la precisión entre diferentes experimentos."
       },
       "finalResult": {
-        "label": "Valor Medido con Incertidumbre",
-        "tooltip": "Mejor estimación del valor verdadero: media ± incertidumbre"
+        "label": "Resultado Final",
+        "tooltip": "Resultado expresado como: valor medio ± incertidumbre."
       },
-      "significantFigures": "Cifras significativas",
-      "explanation": {
-        "mean": "x̄ = (Σxᵢ) / n",
-        "mad": "Δx = (Σ|xᵢ - x̄|) / n",
-        "mpd": "ε = (Δx / |x̄|) × 100%",
-        "variance": "s² = Σ(xᵢ - x̄)² / (n-1)",
-        "stdDev": "s = √[Σ(xᵢ - x̄)² / (n-1)]"
-      }
-    },
-    "explanation": {
-      "title": "Fundamentos Teóricos: Mediciones e Incertidumbres",
-      "uncertainty": {
-        "title": "¿Qué es la Incertidumbre de Medición?",
-        "content": "La incertidumbre de medición cuantifica la dispersión de valores que podrían atribuirse razonablemente a una magnitud medida. No es posible encontrar el valor exacto de una magnitud, ya que solo puede medirse con un instrumento que siempre tiene limitaciones. El valor verdadero es desconocido, por lo que representamos la medida por un intervalo de confianza.",
-        "formula": "δx = p/2 = (x_máx - x_mín)/2",
-        "example": "Ejemplo: Regla milimetrada (menor división = 1 mm) → precisión ≈ 0,5 mm. Lectura: 7,8 cm → resultado: 7,80 ± 0,05 cm"
-      },
-      "meanDeviation": {
-        "title": "Desviación Absoluta Media (DAM)",
-        "content": "La desviación absoluta media mide la distancia promedio entre cada punto de datos y la media. Proporciona una medida robusta de variabilidad, menos sensible a valores atípicos que la desviación estándar. Se utiliza frecuentemente para representar la incertidumbre de medición (Δx).",
-        "formula": "DAM = Δx = (Σ|xᵢ - x̄|) / n",
-        "example": "Ejemplo: Mediciones: 10,2; 10,4; 10,3; Media = 10,3; Desviaciones: 0,1; 0,1; 0,0; DAM = 0,07"
-      },
-      "standardDeviation": {
-        "title": "Desviación Estándar (σ o s)",
-        "content": "La desviación estándar es la medida de variación más importante, pues considera todos los valores de la muestra. Para análisis experimentales, utilizamos la desviación estándar muestral (s) cuando trabajamos con una muestra de la población. La desviación estándar del valor medio (σx̄ = s/√n) se utiliza para expresar la incertidumbre final.",
-        "formula": "s = √[Σ(xᵢ - x̄)²/(n-1)]",
-        "example": "Ejemplo: Mediciones: 10,2; 10,4; 10,3; s = √[(0,01+0,01+0,00)/2] = √0,01 = 0,1"
-      },
-      "significantFigures": {
-        "title": "Cifras Significativas",
-        "content": "Son todos los dígitos obtenidos en el proceso de medida. Los ceros incluidos para localizar el punto decimal no son significativos (ceros a la izquierda). La incertidumbre debe contener solo UNA cifra significativa, y la media debe redondearse a la misma posición decimal que la incertidumbre.",
-        "formula": "Reglas: 1) Dígitos distintos de cero son siempre significativos. 2) Ceros entre dígitos distintos de cero son significativos. 3) Ceros a la izquierda no son significativos. 4) Ceros a la derecha en número con decimal son significativos.",
-        "example": "Ejemplos: 1945,1 (5 CS); 0,00034 (2 CS); 1000 (4 CS); 2×10⁵ (1 CS); 4,189×10⁻⁷ (4 CS)"
-      },
-      "rounding": {
-        "title": "Criterios de Redondeo",
-        "content": "Los redondeos solo deben efectuarse al final de todos los cálculos, pues cada redondeo introduce error que puede acumularse. Si el dígito a la derecha del punto de redondeo es 0-4: se elimina la parte derecha. Si es 5-9: se incrementa el dígito a la izquierda.",
-        "formula": "Ejemplo: 0,563729452 → 8 decimales: 0,56372945; → 4 decimales: 0,5637; → 2 decimales: 0,56; → 1 decimal: 0,6",
-        "example": "Medida: (0,126446 ± 0,0005885) V → Ajustando incertidumbre a 1 CS: (0,1264 ± 0,0006) V"
-      },
-      "references": "Referencias Bibliográficas",
-      "example": "Ejemplo"
+      "significantFigures": "Cifras Significativas"
     },
     "statistics": {
-      "summary": "Resumen Estadístico Detallado",
-      "count": "Número de mediciones",
-      "min": "Valor mínimo",
-      "max": "Valor máximo",
-      "range": "Amplitud total",
-      "sum": "Suma de valores",
-      "mean": "Media aritmética",
-      "sumOfDeviations": "Suma de desviaciones absolutas",
-      "sumOfSquaredDeviations": "Suma de cuadrados de desviaciones",
-      "variance": "Varianza muestral",
-      "median": "Mediana",
-      "varianceNote": "Varianza muestral: s² = Σ(xᵢ - x̄)²/(n-1)"
+      "summary": "📊 Resumen Estadístico",
+      "count": "Número de Mediciones",
+      "sum": "Suma de Valores",
+      "mean": "Media",
+      "sumOfDeviations": "Suma de Desviaciones Absolutas",
+      "sumOfSquaredDeviations": "Suma de Desviaciones al Cuadrado",
+      "variance": "Varianza Muestral",
+      "varianceNote": "Usando varianza muestral (n-1) para estimar la varianza poblacional",
+      "min": "Valor Mínimo",
+      "max": "Valor Máximo",
+      "range": "Rango",
+      "median": "Mediana"
     },
     "messages": {
-      "valueAdded": "Medición agregada exitosamente",
-      "valueRemoved": "Medición eliminada",
-      "allCleared": "Todas las mediciones eliminadas",
-      "invalidValue": "Por favor ingrese un número válido",
-      "minValues": "Agregue al menos 2 valores para calcular las incertidumbres",
-      "exported": "Datos exportados exitosamente",
-      "copied": "Resultados copiados al portapapeles",
-      "copyError": "Error al copiar resultados"
-    },
-    "siUnits": {
-      "meter": "Metro (m)",
-      "kilogram": "Kilogramo (kg)",
-      "second": "Segundo (s)",
-      "kelvin": "Kelvin (K)",
-      "mole": "Mol (mol)",
-      "candela": "Candela (cd)",
-      "celsius": "Grado Celsius (°C)",
-      "other": "Otra unidad"
+      "invalidValue": "Por favor, ingrese un valor numérico válido",
+      "valueAdded": "✅ ¡Medición agregada con éxito!",
+      "valueRemoved": "🗑️ Medición eliminada",
+      "confirmClearAll": "¿Está seguro de que desea eliminar todas las mediciones?",
+      "allCleared": "🧹 Todas las mediciones han sido eliminadas",
+      "minValues": "⚠️ Agregue al menos 2 mediciones para ver los resultados estadísticos",
+      "minValuesApostila": "⚠️ Agregue al menos 1 medición para ver los resultados",
+      "selectUnit": "⚠️ Por favor seleccione una unidad de medida",
+      "saved": "💾 ¡Datos guardados con éxito!",
+      "loaded": "📂 ¡Datos cargados con éxito!",
+      "deleted": "🗑️ ¡Datos eliminados con éxito!",
+      "selectDataset": "📁 Seleccione un conjunto de datos para cargar",
+      "exported": "📄 ¡Datos exportados con éxito!",
+      "copied": "📋 ¡Resultados copiados al portapapeles!",
+      "copyError": "❌ Error al copiar resultados",
+      "confirmDelete": "¿Está seguro de que desea eliminar este conjunto de datos?"
     },
     "actions": {
-      "export": "Exportar Datos (JSON)",
-      "copy": "Copiar Resultados"
+      "add": "Agregar",
+      "clearAll": "Limpiar Todo",
+      "saveData": "💾 Guardar y Exportar Datos",
+      "datasetName": "Nombre del Conjunto de Datos",
+      "saveDataset": "Guardar Dataset",
+      "loadDataset": "Cargar Dataset",
+      "savedDatasets": "Datasets Guardados",
+      "exportJSON": "Exportar como JSON",
+      "exportCSV": "Exportar como CSV",
+      "copyResults": "Copiar Resultados",
+      "showTable": "Mostrar Tabla",
+      "showChart": "Mostrar Gráfico"
+    },
+    "visualization": {
+      "measurementNumber": "Número de Medición"
+    },
+    "tooltips": {
+      "addValue": "Agregar nueva medición",
+      "clearAll": "Limpiar todas las mediciones"
+    },
+    "explanation": {
+      "example": "Ejemplo",
+      "references": "📚 Referencias Bibliográficas",
+      "uncertainty": {
+        "title": "🔬 Incertidumbre de Medición (Instrumental)",
+        "content": "La incertidumbre instrumental está relacionada con la precisión del instrumento de medida. Para instrumentos analógicos, se considera la mitad de la división más pequeña de la escala. Para instrumentos digitales, se considera la resolución de la pantalla (último dígito significativo).",
+        "formula": "δx = p/2 = (xₘₐₓ - xₘᵢₙ)/2",
+        "example": "Ejemplo: Una regla con escala en milímetros tiene incertidumbre de ±0.5 mm. Un cronómetro digital que marca centésimas tiene incertidumbre de ±0.01 s."
+      },
+      "meanDeviation": {
+        "title": "📈 Desviación Media Absoluta (DMA)",
+        "content": "La desviación media absoluta es el promedio de las desviaciones absolutas de cada valor respecto a la media. Representa la dispersión promedio de los datos y es una medida simple de incertidumbre experimental.",
+        "formula": "DAM = (Σ|xᵢ - x̄|)/n",
+        "example": "Ejemplo: Para mediciones [10.2, 10.3, 10.1], media = 10.2, desviaciones: [0.0, 0.1, 0.1], DMA = 0.07"
+      },
+      "standardDeviation": {
+        "title": "📊 Desviación Estándar (σ)",
+        "content": "La desviación estándar es la medida de dispersión más utilizada en estadística. Indica cuánto se alejan los valores de la media. Para muestras pequeñas (n < 30), usamos la varianza muestral (n-1) para una mejor estimación poblacional.",
+        "formula": "σ = √[Σ(xᵢ - x̄)²/(n-1)] (muestral)",
+        "example": "Ejemplo: Para mediciones [10.2, 10.3, 10.1], σ ≈ 0.082"
+      },
+      "significantFigures": {
+        "title": "🔢 Cifras Significativas",
+        "content": "Las cifras significativas son los dígitos confiables de una medida, incluyendo el primer dígito dudoso. El número de cifras significativas indica la precisión de la medida.",
+        "formula": "Regla: Todos los dígitos no-cero son significativos; ceros entre dígitos son significativos; ceros a la izquierda no son; ceros a la derecha después del decimal sí son.",
+        "example": "Ejemplo: 0.00450 tiene 3 cifras significativas (4,5,0). 1500 puede tener 2, 3 o 4 dependiendo del contexto (1.5×10³, 1.50×10³, 1.500×10³)."
+      },
+      "rounding": {
+        "title": "🔄 Redondeo Científico",
+        "content": "El redondeo debe realizarse en el resultado final, manteniendo coherencia con la incertidumbre. La incertidumbre generalmente se redondea a 1 o 2 cifras significativas.",
+        "formula": "Regla: Si el dígito a eliminar es <5, se mantiene; si es >5, se redondea al alza; si es =5, se redondea al número par más cercano.",
+        "example": "Ejemplo: 12.345 con 4 cifras → 12.35; 12.345 con 3 cifras → 12.3"
+      }
     }
   }
 }

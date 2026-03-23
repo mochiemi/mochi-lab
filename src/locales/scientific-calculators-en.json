@@ -1,138 +1,192 @@
 {
   "scientificCalculators": {
-    "title": "Experimental Uncertainty Calculator",
-    "subtitle": "Statistical Analysis of Laboratory Measurements",
-    "description": "Add measurement values to calculate statistical parameters including mean, absolute deviation, standard deviation, and measurement uncertainty, following Physical Chemistry laboratory methodology.",
+    "title": "Scientific Calculator: Measurement Analysis",
+    "subtitle": "📊 Statistical Analysis of Experimental Data",
+    "description": "Enter your measurements, visualize statistics, and export your results. Ideal for physics and chemistry labs, and scientific experiments.",
+    "tabs": {
+      "apostila": "📚 Apostila Method",
+      "traditional": "📐 Traditional Method",
+      "theory": "📚 Theoretical Foundations"
+    },
+    "apostilaCalculator": {
+      "title": "Apostila-Based Calculator (Simplified)",
+      "subtitle": "Based on the Experimental Physical Chemistry workbook - UNIFAL-MG"
+    },
+    "traditionalCalculator": {
+      "title": "Traditional Uncertainty Calculator",
+      "subtitle": "Based on established calculation methods"
+    },
+    "theory": {
+      "intro": {
+        "title": "📏 What is Measurement?",
+        "content": "Measurement is comparison. When measuring a quantity using the same instruments, generally, discordant results are obtained. These discrepancies are an inherent characteristic of any experiment because: we perform the measurements and we are human; the precision of the instruments is limited; the environment interferes with the results."
+      },
+      "errors": {
+        "title": "🔬 Classification of Experimental Errors",
+        "content": "<strong>Gross Errors:</strong> resulting from lack of practice and carelessness of the experimenter in readings, calculations, and handling of materials.<br><br><strong>Systematic Errors:</strong> parallax errors, poorly established scales, and instruments not \"zeroed\". These errors affect results always in the same direction.<br><br><strong>Random Errors:</strong> unpredictable errors resulting from variations in environmental conditions (pressure, temperature, etc.). Random factors can lead to errors in both directions."
+      },
+      "definitions": {
+        "title": "📊 Basic Definitions",
+        "content": "<strong>Most probable value (Vmp):</strong> is the arithmetic mean of the series of measurements taken: Vmp = (X₁ + X₂ + ... + Xₙ)/n<br><br><strong>Absolute deviation (δ):</strong> absolute value of the difference between the obtained result and the most probable value: δ = |X - Vmp|<br><br><strong>Mean absolute deviation (δ̄):</strong> arithmetic mean of the absolute deviations: δ̄ = (Σδ)/n<br><br><strong>Mean relative deviation (δᵣ):</strong> δᵣ = δ̄ / Vmp<br><br><strong>Final representation:</strong> X = Vmp ± δ̄",
+        "formula": "Vmp = (ΣXᵢ)/n  |  δ̄ = (Σ|Xᵢ - Vmp|)/n"
+      },
+      "operations": {
+        "title": "➕ Operations Rules with Significant Figures",
+        "content": "<strong>Addition and Subtraction:</strong> The result must have the same number of decimal places as the least precise term.<br><br><strong>Multiplication and Division:</strong> The result must have the same number of significant figures as the least precise measurement.<br><br><strong>Exponentiation and Root Extraction:</strong> The result retains the same number of significant figures as the base or radicand.",
+        "formula": "Rounding rule: ≥ 5 rounds up; < 5 rounds down.",
+        "example": "2.89 kg + 0.5683 kg = 3.46 kg<br>0.20 m × 7.561 m = 1.5 m² (2 S.F.)"
+      }
+    },
+    "apostila": {
+      "mean": {
+        "label": "Mean of Measurements"
+      },
+      "deviation": {
+        "label": "Mean Absolute Deviation"
+      },
+      "finalResult": {
+        "label": "Final Result"
+      }
+    },
     "inputs": {
-      "title": "New Measurement",
-      "value": "Measured Value (xᵢ)",
+      "title": "📏 Enter Measurement",
+      "value": "Measurement Value",
       "valuePlaceholder": "e.g., 10.5",
-      "unit": "Unit",
-      "unitPlaceholder": "e.g., m, kg, s, °C",
+      "unit": "Unit of Measurement",
+      "selectUnit": "Select a unit",
       "significantFigures": "Significant Figures",
-      "sigFigsPlaceholder": "e.g., 4",
+      "precision": "Instrument precision",
       "add": "Add Measurement",
       "clearAll": "Clear All",
-      "delete": "Remove",
-      "instrumentPrecision": "Instrument precision"
-    },
-    "tooltips": {
-      "addValue": "Add new measurement to dataset",
-      "clearAll": "Remove all measurements"
+      "instrumentPrecision": "Estimated Instrument Precision",
+      "delete": "Remove"
     },
     "table": {
-      "header": "Measurement Values Table",
-      "value": "Value (xᵢ)",
+      "title": "📋 Measurements Table",
+      "count": "{count} measurements",
+      "value": "Value",
+      "unit": "Unit",
+      "actions": "Actions",
+      "mean": "Mean",
+      "stdDev": "Standard Deviation",
+      "empty": "No measurements recorded yet.",
+      "emptyHint": "Add measurements using the form above",
       "deviation": "Deviation |xᵢ - x̄|",
       "deviationSquared": "Deviation² (xᵢ - x̄)²",
-      "actions": "Actions",
-      "empty": "No measurements added",
-      "emptyHint": "Add at least 2 values to calculate uncertainty",
       "sum": "Sum",
-      "variance": "Sample variance (s²)"
+      "variance": "Variance",
+      "outlier": "Suspected outlier",
+      "outlierHint": "Value with deviation > 3σ"
     },
     "results": {
       "probableMean": {
-        "label": "Arithmetic Mean (x̄)",
-        "tooltip": "Most probable value: sum of all measurements divided by number of measurements"
+        "label": "Probable Mean",
+        "tooltip": "Arithmetic mean of measured values: sum of all values divided by the number of measurements."
       },
       "meanAbsoluteDeviation": {
-        "label": "Mean Absolute Deviation (Δx)",
-        "tooltip": "Average of absolute deviations from the mean - represents measurement uncertainty"
+        "label": "Mean Absolute Deviation",
+        "tooltip": "Average of absolute deviations from the mean. Represents the average dispersion of data."
       },
       "standardDeviation": {
-        "label": "Sample Standard Deviation (s)",
-        "tooltip": "Square root of variance - measure of data dispersion"
+        "label": "Standard Deviation",
+        "tooltip": "Measure of dispersion indicating how much values deviate from the mean. Higher values indicate more dispersed data."
       },
       "relativeUncertainty": {
-        "label": "Relative Uncertainty (εᵣ)",
-        "tooltip": "Mean absolute deviation expressed as percentage of the mean"
+        "label": "Relative Uncertainty",
+        "tooltip": "Uncertainty expressed as a percentage. Allows comparison of precision across different experiments."
       },
       "finalResult": {
-        "label": "Measured Value with Uncertainty",
-        "tooltip": "Best estimate of true value: mean ± uncertainty"
+        "label": "Final Result",
+        "tooltip": "Result expressed as: mean value ± uncertainty."
       },
-      "significantFigures": "Significant figures",
-      "explanation": {
-        "mean": "x̄ = (Σxᵢ) / n",
-        "mad": "Δx = (Σ|xᵢ - x̄|) / n",
-        "mpd": "ε = (Δx / |x̄|) × 100%",
-        "variance": "s² = Σ(xᵢ - x̄)² / (n-1)",
-        "stdDev": "s = √[Σ(xᵢ - x̄)² / (n-1)]"
-      }
-    },
-    "explanation": {
-      "title": "Theoretical Foundations: Measurements and Uncertainties",
-      "uncertainty": {
-        "title": "What is Measurement Uncertainty?",
-        "content": "Measurement uncertainty quantifies the dispersion of values that could reasonably be attributed to a measured quantity. It is impossible to find the exact value of a quantity, as it can only be measured with an instrument that always has limitations. The true value is unknown, so we represent the measurement by a confidence interval.",
-        "formula": "δx = p/2 = (x_max - x_min)/2",
-        "example": "Example: Millimeter ruler (smallest division = 1 mm) → precision ≈ 0.5 mm. Reading: 7.8 cm → result: 7.80 ± 0.05 cm"
-      },
-      "meanDeviation": {
-        "title": "Mean Absolute Deviation (MAD)",
-        "content": "The mean absolute deviation measures the average distance between each data point and the mean. It provides a robust measure of variability, less sensitive to outliers than standard deviation. It is often used to represent measurement uncertainty (Δx).",
-        "formula": "MAD = Δx = (Σ|xᵢ - x̄|) / n",
-        "example": "Example: Measurements: 10.2, 10.4, 10.3; Mean = 10.3; Deviations: 0.1, 0.1, 0.0; MAD = 0.07"
-      },
-      "standardDeviation": {
-        "title": "Standard Deviation (σ or s)",
-        "content": "Standard deviation is the most important measure of variation, as it considers all sample values. For experimental analysis, we use sample standard deviation (s) when working with a sample of the population. The standard deviation of the mean (σx̄ = s/√n) is used to express final uncertainty.",
-        "formula": "s = √[Σ(xᵢ - x̄)²/(n-1)]",
-        "example": "Example: Measurements: 10.2, 10.4, 10.3; s = √[(0.01+0.01+0.00)/2] = √0.01 = 0.1"
-      },
-      "significantFigures": {
-        "title": "Significant Figures",
-        "content": "These are all digits obtained in the measurement process. Zeros included to locate the decimal point are not significant (leading zeros). Uncertainty should contain only ONE significant figure, and the mean should be rounded to the same decimal place as the uncertainty.",
-        "formula": "Rules: 1) Non-zero digits are always significant. 2) Zeros between non-zero digits are significant. 3) Leading zeros are not significant. 4) Trailing zeros in a number with a decimal point are significant.",
-        "example": "Examples: 1945.1 (5 SF); 0.00034 (2 SF); 1000 (4 SF); 2×10⁵ (1 SF); 4.189×10⁻⁷ (4 SF)"
-      },
-      "rounding": {
-        "title": "Rounding Criteria",
-        "content": "Rounding should only be done at the end of all calculations, as each rounding introduces error that can accumulate. If the digit to the right of the rounding point is 0-4: discard the right part. If it is 5-9: increment the left digit.",
-        "formula": "Example: 0.563729452 → 8 decimals: 0.56372945; → 4 decimals: 0.5637; → 2 decimals: 0.56; → 1 decimal: 0.6",
-        "example": "Measurement: (0.126446 ± 0.0005885) V → Adjusting uncertainty to 1 SF: (0.1264 ± 0.0006) V"
-      },
-      "references": "References",
-      "example": "Example"
+      "significantFigures": "Significant Figures"
     },
     "statistics": {
-      "summary": "Detailed Statistical Summary",
-      "count": "Number of measurements",
-      "min": "Minimum value",
-      "max": "Maximum value",
-      "range": "Total range",
-      "sum": "Sum of values",
-      "mean": "Arithmetic mean",
-      "sumOfDeviations": "Sum of absolute deviations",
-      "sumOfSquaredDeviations": "Sum of squared deviations",
-      "variance": "Sample variance",
-      "median": "Median",
-      "varianceNote": "Sample variance: s² = Σ(xᵢ - x̄)²/(n-1)"
+      "summary": "📊 Statistical Summary",
+      "count": "Number of Measurements",
+      "sum": "Sum of Values",
+      "mean": "Mean",
+      "sumOfDeviations": "Sum of Absolute Deviations",
+      "sumOfSquaredDeviations": "Sum of Squared Deviations",
+      "variance": "Sample Variance",
+      "varianceNote": "Using sample variance (n-1) to estimate population variance",
+      "min": "Minimum Value",
+      "max": "Maximum Value",
+      "range": "Range",
+      "median": "Median"
     },
     "messages": {
-      "valueAdded": "Measurement added successfully",
-      "valueRemoved": "Measurement removed",
-      "allCleared": "All measurements cleared",
-      "invalidValue": "Please enter a valid number",
-      "minValues": "Add at least 2 values to calculate uncertainties",
-      "exported": "Data exported successfully",
-      "copied": "Results copied to clipboard",
-      "copyError": "Failed to copy results"
-    },
-    "siUnits": {
-      "meter": "Meter (m)",
-      "kilogram": "Kilogram (kg)",
-      "second": "Second (s)",
-      "kelvin": "Kelvin (K)",
-      "mole": "Mole (mol)",
-      "candela": "Candela (cd)",
-      "celsius": "Degree Celsius (°C)",
-      "other": "Other unit"
+      "invalidValue": "Please enter a valid numeric value",
+      "valueAdded": "✅ Measurement added successfully!",
+      "valueRemoved": "🗑️ Measurement removed",
+      "confirmClearAll": "Are you sure you want to clear all measurements?",
+      "allCleared": "🧹 All measurements have been removed",
+      "minValues": "⚠️ Add at least 2 measurements to view statistical results",
+      "minValuesApostila": "⚠️ Add at least 1 measurement to view results",
+      "selectUnit": "⚠️ Please select a unit of measurement",
+      "saved": "💾 Data saved successfully!",
+      "loaded": "📂 Data loaded successfully!",
+      "deleted": "🗑️ Data deleted successfully!",
+      "selectDataset": "📁 Select a dataset to load",
+      "exported": "📄 Data exported successfully!",
+      "copied": "📋 Results copied to clipboard!",
+      "copyError": "❌ Error copying results",
+      "confirmDelete": "Are you sure you want to delete this dataset?"
     },
     "actions": {
-      "export": "Export Data (JSON)",
-      "copy": "Copy Results"
+      "add": "Add",
+      "clearAll": "Clear All",
+      "saveData": "💾 Save and Export Data",
+      "datasetName": "Dataset Name",
+      "saveDataset": "Save Dataset",
+      "loadDataset": "Load Dataset",
+      "savedDatasets": "Saved Datasets",
+      "exportJSON": "Export as JSON",
+      "exportCSV": "Export as CSV",
+      "copyResults": "Copy Results",
+      "showTable": "Show Table",
+      "showChart": "Show Chart"
+    },
+    "visualization": {
+      "measurementNumber": "Measurement Number"
+    },
+    "tooltips": {
+      "addValue": "Add new measurement",
+      "clearAll": "Clear all measurements"
+    },
+    "explanation": {
+      "example": "Example",
+      "references": "📚 References",
+      "uncertainty": {
+        "title": "🔬 Measurement Uncertainty (Instrumental)",
+        "content": "Instrumental uncertainty relates to the precision of the measuring instrument. For analog instruments, consider half of the smallest scale division. For digital instruments, consider the display resolution (last significant digit).",
+        "formula": "δx = p/2 = (xₘₐₓ - xₘᵢₙ)/2",
+        "example": "Example: A ruler with millimeter scale has uncertainty of ±0.5 mm. A digital timer showing hundredths has uncertainty of ±0.01 s."
+      },
+      "meanDeviation": {
+        "title": "📈 Mean Absolute Deviation (MAD)",
+        "content": "Mean absolute deviation (also called average absolute error) is the average of absolute deviations of each value from the mean. It represents the average dispersion of data and is a simple measure of experimental uncertainty.",
+        "formula": "DAM = (Σ|xᵢ - x̄|)/n  ou  Δx = (Σ|xᵢ - x̄|)/n",
+        "example": "Example: For measurements [10.2, 10.3, 10.1], mean = 10.2, deviations: [0.0, 0.1, 0.1], MAD = 0.07"
+      },
+      "standardDeviation": {
+        "title": "📊 Standard Deviation (σ)",
+        "content": "Standard deviation is the most commonly used measure of dispersion in statistics. It indicates how much values deviate from the mean. For small samples (n < 30), we use sample variance (n-1) for a better population estimate.",
+        "formula": "σ = √[Σ(xᵢ - x̄)²/(n-1)] (sample)",
+        "example": "Example: For measurements [10.2, 10.3, 10.1], σ ≈ 0.082"
+      },
+      "significantFigures": {
+        "title": "🔢 Significant Figures",
+        "content": "Significant figures are the reliable digits of a measurement, including the first uncertain digit. The number of significant figures indicates the precision of the measurement.",
+        "formula": "Rule: All non-zero digits are significant; zeros between digits are significant; leading zeros are not; trailing zeros after decimal are significant.",
+        "example": "Example: 0.00450 has 3 significant figures (4,5,0). 1500 can have 2, 3 or 4 depending on context (1.5×10³, 1.50×10³, 1.500×10³)."
+      },
+      "rounding": {
+        "title": "🔄 Scientific Rounding",
+        "content": "Rounding should be done on the final result, maintaining consistency with the uncertainty. The uncertainty is typically rounded to 1 or 2 significant figures.",
+        "formula": "Rule: If the digit to be eliminated is <5, keep it; if >5, round up; if =5, round to the nearest even number.",
+        "example": "Example: 12.345 with 4 digits → 12.35; 12.345 with 3 digits → 12.3"
+      }
     }
   }
 }

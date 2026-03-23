@@ -89,7 +89,32 @@ import {
   HiTrash,
   BiSearchHeart,
   MdDonotdisturb,
-  OiChevronUp
+  OiChevronUp,
+  BiCalculator,
+  MdCalculateRound,
+  FaFlask,
+  LaFlaskSolid,
+  GiPoisonBottle,
+  HiEmojiHappy,
+  HiEmojiSad,
+  MdMenubookRound,
+  FaBookDead,
+  OiInfo,
+  IoCloseCircleSharp,
+  RiCake3Line,
+  OiMortarBoard,
+  OiAccessibility,
+  OiPaintbrush,
+  OiQuestion,
+  OiShieldX,
+  LaCapsulesSolid,
+  IoBulbOutline,
+  HiPresentationChartLine,
+  FaCookieBite,
+  LaRulerSolid,
+  FaBook
+
+
 } from "oh-vue-icons/icons"
 
 addIcons(
@@ -181,7 +206,31 @@ addIcons(
   HiTrash,
   BiSearchHeart,
   MdDonotdisturb,
-  OiChevronUp
+  OiChevronUp,
+    BiCalculator,
+  MdCalculateRound,
+  FaFlask,
+  LaFlaskSolid,
+  GiPoisonBottle,
+  HiEmojiHappy,
+  HiEmojiSad,
+  MdMenubookRound,
+  FaBookDead,
+  OiInfo,
+  IoCloseCircleSharp,
+  RiCake3Line,
+  OiMortarBoard,
+  OiAccessibility,
+  OiPaintbrush,
+  OiQuestion,
+  OiShieldX,
+  LaCapsulesSolid,
+  IoBulbOutline,
+  HiPresentationChartLine,
+  FaCookieBite,
+  LaRulerSolid,
+  FaBook
+
 )
 
 export { OhVueIcon }
