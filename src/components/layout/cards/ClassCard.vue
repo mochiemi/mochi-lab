@@ -1,9 +1,9 @@
-<!-- src/components/layout/cards/ClassCard.vue -->
+<!-- components/layout/cards/ClassCard.vue -->
 <template>
   <div
     ref="cardRef"
     class="class-card"
-    :class="{ 'compact': compact }"
+    :class="{ compact: compact }"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
@@ -11,21 +11,26 @@
       <div class="class-header">
         <h4 class="class-code">{{ classItem.code }}</h4>
         <Badge
-          v-if="classItem.practicalClass && classItem.practicalClass !== 'A'"
+          v-if="classItem.practical_class && classItem.practical_class !== 'A'"
           variant="primary"
           size="small"
           class="practical-badge"
         >
-          <OhVueIcon name="gi-erlenmeyer" /> TP {{ classItem.practicalClass }}
+          <OhVueIcon name="gi-erlenmeyer" /> TP {{ classItem.practical_class }}
         </Badge>
       </div>
 
-      <h5 class="class-name">{{ classItem.subject }}</h5>
+      <h5 class="class-name">{{ classItem.title }}</h5>
 
       <div class="class-info">
         <div class="info-item">
           <OhVueIcon name="fa-regular-map-marker-alt" class="info-icon" />
           <span>{{ formatRoom(classItem.room) }}</span>
+        </div>
+        <div v-if="classItem.event_type !== 'class'" class="info-item type-item">
+          <Badge size="small" :variant="classItem.event_type === 'tutoring' ? 'warning' : 'success'">
+            {{ getEventTypeLabel(classItem.event_type) }}
+          </Badge>
         </div>
       </div>
     </div>
@@ -39,17 +44,31 @@
       >
         <div class="tooltip-arrow"></div>
         <div class="tooltip-content">
-          <h4>{{ classItem.code }} - {{ classItem.subject }}</h4>
+          <h4>{{ classItem.code }} - {{ classItem.title }}</h4>
 
           <div class="tooltip-details">
-            <p><strong>Professor(es):</strong> {{ formatProfessors(classItem.professor) }}</p>
+            <p v-if="classItem.professor">
+              <strong>Professor(es):</strong> {{ formatProfessors(classItem.professor) }}
+            </p>
             <p><strong>Sala:</strong> {{ classItem.room }}</p>
-            <p><strong>Horário:</strong> {{ classItem.time }}</p>
-            <p><strong>Período:</strong> {{ classItem.period }}º período</p>
-            <p><strong>Tipo:</strong> {{ getClassTypeLabel(classItem.type) }}</p>
-            <p v-if="classItem.details?.credits"><strong>Créditos:</strong> {{ classItem.details.credits }}</p>
-            <p v-if="classItem.details?.description" class="description">
-              {{ classItem.details.description }}
+            <p><strong>Horario:</strong> {{ classItem.time }}</p>
+            <p v-if="classItem.period">
+              <strong>Periodo:</strong> {{ classItem.period }}o periodo
+            </p>
+            <p v-if="classItem.class_type">
+              <strong>Tipo:</strong> {{ getClassTypeLabel(classItem.class_type) }}
+            </p>
+            <p v-if="classItem.credits">
+              <strong>Creditos:</strong> {{ classItem.credits }}
+            </p>
+            <p v-if="classItem.tutor_name">
+              <strong>Monitor:</strong> {{ classItem.tutor_name }}
+            </p>
+            <p v-if="classItem.subject_target">
+              <strong>Apoio em:</strong> {{ classItem.subject_target }}
+            </p>
+            <p v-if="classItem.description" class="description">
+              {{ classItem.description }}
             </p>
           </div>
         </div>
@@ -58,33 +77,29 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { OhVueIcon } from 'oh-vue-icons'
 import Badge from '@/components/ui/Badge.vue'
+import type { EventItem } from '@/types/events'
 
-const props = defineProps({
-  classItem: {
-    type: Object,
-    required: true
-  },
-  compact: {
-    type: Boolean,
-    default: false
-  }
-})
+const props = defineProps<{
+  classItem: EventItem
+  compact?: boolean
+}>()
 
 const showTooltip = ref(false)
-const tooltipPosition = ref({})
-const cardRef = ref(null)
-const tooltipRef = ref(null)
+const tooltipPosition = ref<Record<string, string>>({})
+const cardRef = ref<HTMLElement | null>(null)
+const tooltipRef = ref<HTMLElement | null>(null)
 
-const formatRoom = (room) => {
+const formatRoom = (room: string): string => {
   if (!room) return ''
-  return room.split('(')[0].trim()
+  const [c = ''] = room.split('(')
+  return c.trim()
 }
 
-const formatProfessors = (professors) => {
+const formatProfessors = (professors: string | undefined): string => {
   if (!professors) return ''
   if (professors.includes('<br>')) {
     return professors.split('<br>').map(p => p.trim()).join(', ')
@@ -92,40 +107,57 @@ const formatProfessors = (professors) => {
   return professors
 }
 
-const getClassTypeLabel = (type) => {
-  const labels = {
-    required: 'Obrigatória',
+const getClassTypeLabel = (type: string | undefined): string => {
+  if (!type) return ''
+  const labels: Record<string, string> = {
+    required: 'Obrigatoria',
     elective: 'Eletiva',
     optional: 'Optativa'
   }
   return labels[type] || type
 }
 
-const updateTooltipPosition = async () => {
+const getEventTypeLabel = (type: string): string => {
+  const labels: Record<string, string> = {
+    class: 'Aula',
+    tutoring: 'Monitoria',
+    study: 'Estudo',
+    exam: 'Prova',
+    other: 'Evento'
+  }
+  return labels[type] || type
+}
+
+const updateTooltipPosition = async (): Promise<void> => {
   if (!showTooltip.value || !cardRef.value) return
 
   await nextTick()
-  if (!tooltipRef.value) return
+  const currentTooltip = tooltipRef.value
+  if (!currentTooltip) return
 
   const cardRect = cardRef.value.getBoundingClientRect()
-  const tooltipRect = tooltipRef.value.getBoundingClientRect()
+  const tooltipRect = currentTooltip.getBoundingClientRect()
   const viewportWidth = window.innerWidth
-  const viewportHeight = window.innerHeight
 
   let top = cardRect.top - tooltipRect.height - 10
   let left = cardRect.left + (cardRect.width / 2) - (tooltipRect.width / 2)
 
-  if (left < 10) {
-    left = 10
-  }
+  if (left < 10) left = 10
   if (left + tooltipRect.width > viewportWidth - 10) {
     left = viewportWidth - tooltipRect.width - 10
   }
+  
   if (top < 10) {
     top = cardRect.bottom + 10
-    tooltipRef.value.classList.add('tooltip-bottom')
+    // Adiciona verificação explícita para o TypeScript
+    if (currentTooltip) {
+      currentTooltip.classList.add('tooltip-bottom')
+    }
   } else {
-    tooltipRef.value.classList.remove('tooltip-bottom')
+    // Adiciona verificação explícita para o TypeScript
+    if (currentTooltip) {
+      currentTooltip.classList.remove('tooltip-bottom')
+    }
   }
 
   tooltipPosition.value = {
@@ -134,19 +166,17 @@ const updateTooltipPosition = async () => {
   }
 }
 
-const handleMouseEnter = () => {
+const handleMouseEnter = (): void => {
   showTooltip.value = true
   updateTooltipPosition()
 }
 
-const handleMouseLeave = () => {
+const handleMouseLeave = (): void => {
   showTooltip.value = false
 }
 
-const handleResize = () => {
-  if (showTooltip.value) {
-    updateTooltipPosition()
-  }
+const handleResize = (): void => {
+  if (showTooltip.value) updateTooltipPosition()
 }
 
 onMounted(() => {

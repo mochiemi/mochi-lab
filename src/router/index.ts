@@ -33,6 +33,12 @@ const router = createRouter({
       component: () => import('@/views/IconsLibraryView.vue'),
       meta: { requiresAuth: true } 
     },
+{
+  path: '/admin/events',
+  name: 'event-manager',
+  component: () => import('@/views/EventManagerView.vue'),
+  meta: { requiresAuth: true }
+},
     {
       path: '/about',
       name: 'about',
@@ -59,23 +65,20 @@ const router = createRouter({
       component: () => import('@/views/GradeHorariaView.vue')
     },
     {
-  path: '/calculators',
-  name: 'scientific-calculators',
-  component: () => import('@/views/ScientificCalculatorsView.vue')
-}
+      path: '/calculators',
+      name: 'scientific-calculators',
+      component: () => import('@/views/ScientificCalculatorsView.vue')
+    }
   ]
 })
 
 router.beforeEach((to, from, next) => {
   const adminStore = useAdminStore()
-
   adminStore.checkAuth()
   
   if (to.meta.requiresAuth && !adminStore.isAuthenticated) {
     next('/admin')
-  } 
-
-  else {
+  } else {
     next() 
   }
 })

@@ -1,4 +1,4 @@
-
+<!-- components/layout/cards/TodayGHCard.vue -->
 <template>
   <Card class="today-gh-card" :variant="variant" :padding="padding">
     <div class="card-header">
@@ -40,7 +40,6 @@
           <ClassCard 
             :classItem="nextClass" 
             :compact="false"
-            :highlighted="true"
             class="next-class-card"
             @click="$emit('class-click', nextClass)"
           />
@@ -107,7 +106,7 @@ import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
 import Loading from '@/components/ui/Loading.vue'
 import ClassCard from './ClassCard.vue'
-import type { ClassItem } from '@/stores/schedule'
+import type { EventItem, EventDay } from '@/types/events'
 import { useLanguageStore } from '@/stores/language'
 
 const props = withDefaults(defineProps<{
@@ -117,7 +116,7 @@ const props = withDefaults(defineProps<{
   padding?: 'none' | 'small' | 'medium' | 'large'
   badge?: string
   badgeVariant?: string
-  classes?: ClassItem[]
+  classes?: EventItem[]
   loading?: boolean
   loadingText?: string
   error?: string | null
@@ -133,14 +132,14 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   (e: 'retry'): void
-  (e: 'class-click', classItem: ClassItem): void
+  (e: 'class-click', classItem: EventItem): void
   (e: 'view-full-schedule'): void
 }>()
 
 const languageStore = useLanguageStore()
 
+const weekDaysMap: EventDay[] = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
 const today = new Date()
-const weekDaysMap = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
 const currentDay = weekDaysMap[today.getDay()]
 
 const formattedCurrentDate = computed(() => {
@@ -165,13 +164,12 @@ const currentTimeStr = computed(() => {
   return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`
 })
 
-const nextClass = computed((): ClassItem | null => {
+const nextClass = computed((): EventItem | null => {
   return sortedTodayClasses.value.find(c => {
     const classStartTime = c.time.split(' - ')[0] || c.time
     return classStartTime > currentTimeStr.value
   }) || null
 })
-
 </script>
 
 <style scoped>
@@ -209,7 +207,6 @@ const nextClass = computed((): ClassItem | null => {
   font-size: 1.1rem;
 }
 
-/* Current Day Header */
 .current-day-header {
   display: flex;
   align-items: baseline;

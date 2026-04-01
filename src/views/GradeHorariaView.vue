@@ -1,3 +1,4 @@
+<!-- views/GradeHorariaView.vue -->
 <template>
   <div class="schedule-view">
     <!-- Header -->
@@ -98,7 +99,7 @@
                 <td v-for="day in weekDays" :key="`${day}-${timeSlot}`" class="schedule-cell" :data-day="day">
                   <template v-if="getClassAtTimeSlot(day, timeSlot)">
                     <ClassCard
-                      :classItem="getClassAtTimeSlot(day, timeSlot)"
+                      :classItem="getClassAtTimeSlot(day, timeSlot)!"
                       :compact="true"
                     />
                   </template>
@@ -116,44 +117,62 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { OhVueIcon } from 'oh-vue-icons'
-import { useScheduleStore } from '@/stores/schedule'
+import { useEventsStore } from '@/stores/events'
 import Badge from '@/components/ui/Badge.vue'
 import Accordion from '@/components/ui/Accordion.vue'
 import ClassCard from '@/components/layout/cards/ClassCard.vue'
-import type { ClassItem } from '@/stores/schedule'
+import type { EventItem, EventDay } from '@/types/events'
 
 const { t } = useI18n()
-const scheduleStore = useScheduleStore()
+const eventsStore = useEventsStore()
 const expandedDays = ref<string[]>([])
 const selectedPeriod = ref<string | number>('all')
 
-const weekDays = scheduleStore.weekDays
+const weekDays: EventDay[] = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
 
-const availablePeriods = computed(() => {
+const availablePeriods = computed<number[]>(() => {
   const periods = new Set<number>()
-  scheduleStore.allClasses.forEach((c: ClassItem) => periods.add(c.period))
-  return Array.from(periods).filter((p: number) => p > 0).sort((a: number, b: number) => a - b)
+  eventsStore.allEvents
+    .filter((e: EventItem) => e.event_type === 'class')
+    .forEach((c: EventItem) => {
+      if (c.period && c.period > 0) periods.add(c.period)
+    })
+  return Array.from(periods).sort((a: number, b: number) => a - b)
 })
 
-const totalSubjects = computed(() => scheduleStore.totalSubjects)
-const totalClasses = computed(() => scheduleStore.totalClasses)
+const totalSubjects = computed<number>(() => {
+  const codes = new Set(eventsStore.allEvents.map((c: EventItem) => c.code))
+  return codes.size
+})
 
-const filteredClasses = computed(() => {
+const totalClasses = computed<number>(() => eventsStore.allEvents.length)
+
+const filteredEvents = computed<EventItem[]>(() => {
+  let result: EventItem[] = eventsStore.allEvents
+  
   if (selectedPeriod.value === 'all') {
-    return scheduleStore.allClasses
+    // mantem tudo
   } else if (selectedPeriod.value === 'elective') {
-    return scheduleStore.getClassesByType('elective')
+    result = result.filter((e: EventItem) => 
+      e.event_type === 'class' && e.class_type === 'elective'
+    )
   } else {
-    return scheduleStore.getClassesByPeriod(Number(selectedPeriod.value))
+    result = result.filter((e: EventItem) => 
+      e.event_type === 'class' && e.period === Number(selectedPeriod.value)
+    )
   }
+  
+  return result
 })
 
-const filteredTimeSlots = computed(() => {
+const filteredTimeSlots = computed<string[]>(() => {
   const slots = new Set<string>()
-  filteredClasses.value.forEach((c: ClassItem) => slots.add(c.time))
+  filteredEvents.value.forEach((c: EventItem) => {
+    if (c.time) slots.add(c.time)
+  })
   return Array.from(slots).sort((a: string, b: string) => {
     const hourA = parseInt(a.split(':')[0] || '0')
     const hourB = parseInt(b.split(':')[0] || '0')
@@ -161,25 +180,27 @@ const filteredTimeSlots = computed(() => {
   })
 })
 
-const filteredClassesByDay = computed(() => {
-  const map = new Map<string, ClassItem[]>()
-  weekDays.forEach((day: string) => map.set(day, []))
+const filteredClassesByDay = computed<Map<EventDay, EventItem[]>>(() => {
+  const map = new Map<EventDay, EventItem[]>()
+  weekDays.forEach((day: EventDay) => map.set(day, []))
 
-  filteredClasses.value.forEach((c: ClassItem) => {
-    if (map.has(c.day)) {
-      map.get(c.day)!.push(c)
+  filteredEvents.value.forEach((c: EventItem) => {
+    const dayKey = c.day as EventDay
+    const dayList = map.get(dayKey)
+    if (dayList) {
+      dayList.push(c)
     }
   })
 
-  map.forEach((list: ClassItem[]) => {
-    list.sort((a: ClassItem, b: ClassItem) => a.time.localeCompare(b.time))
+  map.forEach((list: EventItem[]) => {
+    list.sort((a: EventItem, b: EventItem) => a.time.localeCompare(b.time))
   })
 
   return map
 })
 
 const accordionItems = computed(() => {
-  return weekDays.map((day: string) => ({
+  return weekDays.map((day: EventDay) => ({
     id: day,
     day: day,
     title: `${day} · ${getFilteredClassesByDay(day).length} ${t('schedule.classes')}`,
@@ -188,25 +209,25 @@ const accordionItems = computed(() => {
   }))
 })
 
-const getFilteredClassesByDay = (day: string): ClassItem[] => {
+const getFilteredClassesByDay = (day: EventDay): EventItem[] => {
   return filteredClassesByDay.value.get(day) || []
 }
 
-const filteredClassMatrix = computed(() => {
-  const matrix: Record<string, Record<string, ClassItem | null>> = {}
+const filteredClassMatrix = computed<Record<string, Record<string, EventItem | null>>>(() => {
+  const matrix: Record<string, Record<string, EventItem | null>> = {}
 
-  weekDays.forEach((day: string) => {
+  weekDays.forEach((day: EventDay) => {
     matrix[day] = {}
     filteredTimeSlots.value.forEach((slot: string) => {
       if (matrix[day]) {
-        matrix[day][slot] = null
+        matrix[day]![slot] = null
       }
     })
   })
 
-  filteredClasses.value.forEach((c: ClassItem) => {
+  filteredEvents.value.forEach((c: EventItem) => {
     const dayMatrix = matrix[c.day]
-    if (dayMatrix && dayMatrix[c.time] === null) {
+    if (dayMatrix && c.time && dayMatrix[c.time] === null) {
       dayMatrix[c.time] = c
     }
   })
@@ -214,14 +235,29 @@ const filteredClassMatrix = computed(() => {
   return matrix
 })
 
-const getClassAtTimeSlot = (day: string, timeSlot: string): ClassItem | null => {
-  return filteredClassMatrix.value[day]?.[timeSlot] || null
+const getClassAtTimeSlot = (day: string, timeSlot: string): EventItem | null => {
+  const dayData = filteredClassMatrix.value[day]
+  if (dayData && dayData[timeSlot]) {
+    return dayData[timeSlot]
+  }
+  return null
 }
 
-const getPeriodIcon = (period: number): string => {
-  const icons = ['bi-1-circle', 'bi-2-circle', 'bi-3-circle', 'bi-4-circle', 'bi-5-circle', 'bi-6-circle', 'bi-7-circle', 'bi-8-circle', 'bi-9-circle']
-  return icons[(period - 1) % icons.length] || 'bi-calendar-heart'
+const getPeriodIcon = (period: number | string): string => {
+  if (typeof period === 'string') {
+    return 'bi-calendar-heart'
+  }
+  const icons: string[] = ['bi-1-circle', 'bi-2-circle', 'bi-3-circle', 'bi-4-circle', 'bi-5-circle', 'bi-6-circle']
+  const index = period - 1
+  if (index >= 0 && index < icons.length) {
+    return icons[index] || 'bi-calendar-heart'
+  }
+  return 'bi-calendar-heart'
 }
+
+onMounted(() => {
+  eventsStore.fetchEvents()
+})
 </script>
 
 <style scoped>

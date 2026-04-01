@@ -1,3 +1,4 @@
+<!-- components/layout/cards/FutureGHCard.vue -->
 <template>
   <Card class="future-gh-card" :variant="variant" :padding="padding">
     <div class="card-header">
@@ -92,14 +93,12 @@ import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
 import Loading from '@/components/ui/Loading.vue'
 import ClassCard from './ClassCard.vue'
-import type { ClassItem } from '@/stores/schedule'
+import type { EventItem, EventDay } from '@/types/events'
 import { useLanguageStore } from '@/stores/language'
 
-// Constantes
-const WEEK_DAYS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'] as const
-type WeekDay = typeof WEEK_DAYS[number]
+const WEEK_DAYS: EventDay[] = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
 
-const DAY_ICONS: Record<WeekDay, string> = {
+const DAY_ICONS: Record<EventDay, string> = {
   'Domingo': 'wi-time2',
   'Segunda': 'hi-clock',
   'Terça': 'bi-calendar-heart',
@@ -116,7 +115,7 @@ const props = withDefaults(defineProps<{
   padding?: 'none' | 'small' | 'medium' | 'large'
   badge?: string
   badgeVariant?: string
-  classes?: ClassItem[]
+  classes?: EventItem[]
   loading?: boolean
   loadingText?: string
   error?: string | null
@@ -132,7 +131,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   (e: 'retry'): void
-  (e: 'class-click', classItem: ClassItem): void
+  (e: 'class-click', classItem: EventItem): void
   (e: 'view-full-schedule'): void
 }>()
 
@@ -141,12 +140,8 @@ const languageStore = useLanguageStore()
 const today = new Date()
 const currentDayIndex = today.getDay()
 
-function isValidWeekDay(day: string | undefined): day is WeekDay {
-  return day !== undefined && WEEK_DAYS.includes(day as WeekDay)
-}
-
-const classesByDay = computed((): Map<string, ClassItem[]> => {
-  const map = new Map<string, ClassItem[]>()
+const classesByDay = computed((): Map<EventDay, EventItem[]> => {
+  const map = new Map<EventDay, EventItem[]>()
   
   WEEK_DAYS.forEach(day => map.set(day, []))
   
@@ -171,7 +166,7 @@ const classesByDay = computed((): Map<string, ClassItem[]> => {
   return map
 })
 
-const nextDayWithClass = computed((): WeekDay | undefined => {
+const nextDayWithClass = computed((): EventDay | undefined => {
   for (let i = 1; i <= 7; i++) {
     const nextIndex = (currentDayIndex + i) % 7
     const nextDay = WEEK_DAYS[nextIndex]
@@ -187,7 +182,7 @@ const nextDayWithClass = computed((): WeekDay | undefined => {
 const nextDate = computed((): Date | undefined => {
   const nextDay = nextDayWithClass.value
   
-  if (!isValidWeekDay(nextDay)) {
+  if (!nextDay) {
     return undefined
   }
   
@@ -217,7 +212,7 @@ const formattedNextDate = computed((): string => {
   })
 })
 
-const nextDayClasses = computed((): ClassItem[] => {
+const nextDayClasses = computed((): EventItem[] => {
   const nextDay = nextDayWithClass.value
   
   if (!nextDay) {
@@ -240,11 +235,11 @@ const nextDayClasses = computed((): ClassItem[] => {
 const headerDayIcon = computed((): string => {
   const currentDay = nextDayWithClass.value
   
-  if (!isValidWeekDay(currentDay)) {
+  if (!currentDay) {
     return 'bi-calendar-heart'
   }
   
-  return DAY_ICONS[currentDay as WeekDay] ?? 'bi-calendar-heart'
+  return DAY_ICONS[currentDay] ?? 'bi-calendar-heart'
 })
 
 const nextDayIcon = computed((): string => {

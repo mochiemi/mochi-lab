@@ -51,6 +51,15 @@
           <p>Catálogo de ícones disponíveis</p>
           <span class="arrow">→</span>
         </router-link>
+        <router-link to="/admin/events" class="admin-card">
+          <div class="card-icon">📅</div>
+          <h3>Grade Horária</h3>
+          <p>Gerenciar aulas, monitorias e eventos</p>
+          <Badge v-if="pendingCount > 0" variant="error" class="notification-badge">
+            {{ pendingCount }}
+          </Badge>
+          <span class="arrow">→</span>
+      </router-link>
       </div>
     </div>
   </div>
@@ -60,6 +69,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAdminStore } from '@/stores/admin'
+import Badge from '@/components/ui/Badge.vue'
 
 const router = useRouter()
 const adminStore = useAdminStore()
@@ -72,7 +82,6 @@ onMounted(() => {
 
 const handleLogin = async () => {
   isLoading.value = true
-  const success = adminStore.login(password.value)
   isLoading.value = false
   
 }
@@ -81,6 +90,9 @@ const logout = () => {
   adminStore.logout()
   router.push('/admin')
 }
+
+const pendingCount = ref(0) 
+
 </script>
 
 <style scoped>
@@ -183,6 +195,16 @@ button:disabled {
 
 .admin-dashboard {
   animation: fadeIn 0.3s ease;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 1rem;
+  right: 3rem;
+}
+
+.admin-card {
+  position: relative;
 }
 
 @keyframes fadeIn {
