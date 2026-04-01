@@ -142,6 +142,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useLanguageStore } from '@/stores/language';
 import { useScheduleStore } from '@/stores/schedule';
+import { useEventsStore } from '@/stores/events';
 import Card from '@/components/ui/Card.vue';
 import Button from '@/components/ui/Button.vue';
 import Badge from '@/components/ui/Badge.vue';
@@ -157,11 +158,14 @@ const BLOG_ID = import.meta.env.VITE_BLOGGER_BLOG_ID;
 const router = useRouter();
 const languageStore = useLanguageStore();
 const scheduleStore = useScheduleStore();
+const eventsStore = useEventsStore();
 const today = new Date();
 
 const latestPost = ref(null);
 const loading = ref(true);
 const error = ref(null);
+
+const scheduleClasses = computed(() => scheduleStore.allClasses);
 
 const formattedDate = computed(() => {
   const locale = languageStore.currentLanguage;
@@ -237,9 +241,13 @@ const handleClassClick = (classItem) => {
   console.log('Class clicked:', classItem);
 };
 
-onMounted(() => {
-  fetchLatestPost();
+onMounted(async () => {
+  await Promise.all([
+    fetchLatestPost(),
+    eventsStore.fetchEvents()
+  ]);
 });
+
 </script>
 
 <style scoped>
