@@ -24,7 +24,6 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
 import { useThemeStore } from '@/stores/theme'
-import Alert from '@/components/ui/Alert.vue';
 
 const props = defineProps({
   size: {
@@ -104,7 +103,7 @@ defineExpose({
 }
 
 .alert-info {
-  background: var(--sky-blue-surface);
+  background: var(--inner-surface);
   border: 2px solid var(--border);
   color: var(--text-secondary);
 }

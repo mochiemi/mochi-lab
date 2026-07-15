@@ -80,7 +80,6 @@
             </router-link>
           </div>
 
-          <!-- Accordion para dropdowns no mobile -->
           <Accordion
             :items="accordionItems"
             :multiple="true"
@@ -124,7 +123,7 @@ const { t } = useI18n()
 const route = useRoute()
 const isMobileMenuOpen = ref(false)
 
-// Função para retornar ícones para os links diretos
+
 const getIconForDirectLink = (id) => {
   const icons = {
     home: 'oi-home',
@@ -133,12 +132,11 @@ const getIconForDirectLink = (id) => {
   return icons[id] || 'oi-link'
 }
 
-// Filtra apenas os links diretos (Home e Blog)
+
 const directLinks = computed(() => {
   return navigationConfig.filter(section => section.isDirectLink)
 })
 
-// Filtra apenas as seções com dropdown (que têm items)
 const dropdownSections = computed(() => {
   return navigationConfig.filter(section => !section.isDirectLink && section.items)
 })
@@ -193,7 +191,7 @@ onBeforeUnmount(() => {
   font-size: 1.3em;
   background: var(--bg-navbar);
   padding: 0.1em 0;
-  box-shadow: 0 4px 15px var(--shadow);
+  box-shadow: 0 4px 12px var(--shadow);
   position: sticky;
   top: 0;
   max-height: 90px;
@@ -287,7 +285,6 @@ onBeforeUnmount(() => {
   align-items: center;
   margin-left: 1.5rem;
   padding-left: 1.5rem;
-  border-left: 1px solid var(--border-strong);
   background-color: var(--bg-navbar);
 }
 
@@ -319,7 +316,7 @@ onBeforeUnmount(() => {
   justify-content: space-between;
   width: 40px;
   height: 40px;
-  background: var(--rose-surface);
+  background: var(--sky-blue-surface);
   border: 2px solid var(--border-primary);
   border-radius: 25%;
   cursor: pointer;

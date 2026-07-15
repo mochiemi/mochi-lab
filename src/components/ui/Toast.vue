@@ -155,7 +155,7 @@ defineExpose({
 }
 
 .toast-info {
-  background: var(--sky-blue-surface);
+  background: var(--inner-surface);
   border: 2px solid var(--border);
   color: var(--text-secondary);
 }

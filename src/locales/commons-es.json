@@ -102,7 +102,8 @@
     "writeComment": "Escribe tu comentario...",
     "publishComment": "Publicar comentario",
     "commentSent": "Tu comentario ha sido enviado y está esperando moderación.",
-    "author": "Autor(a)"
+    "author": "Por",
+    "back": "Volver"
   },
   "nav": {
     "home": "Inicio",

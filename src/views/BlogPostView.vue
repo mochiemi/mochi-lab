@@ -22,7 +22,7 @@
         <template #header>
           <Button variant="secondary" size="small" @click="$router.push('/blog')">
             <OhVueIcon name="fa-chevron-circle-left" class="btn-icon" />
-            {{ $t('common.back') }}
+            {{ $t('blog.back') }}
           </Button>
         </template>
 
@@ -30,9 +30,13 @@
           <h1>{{ post.title }}</h1>
 
           <div class="post-meta">
-            <span v-if="post.author">{{ post.author }}</span>
-            <span v-if="post.published">{{ formatDate(post.published) }}</span>
-            <span v-if="readingTime">{{ readingTime }} {{ $t('blog.minRead', { minutes: '' }) }}</span>
+            
+            <span v-if="post.author">
+              <OhVueIcon name="oi-person" class="icon" /> {{ post.author }}</span>
+            <span v-if="post.published">
+              <OhVueIcon name="bi-calendar-heart" class="icon" /> {{ formatDate(post.published) }}</span>
+            <span v-if="readingTime">
+              <OhVueIcon name="hi-clock" class="icon" /> {{ readingTime }} {{ $t('blog.minRead', { minutes: '' }) }}</span>
           </div>
 
           <div class="post-content" v-html="post.content"></div>
@@ -135,7 +139,6 @@ const router = useRouter()
 const languageStore = useLanguageStore()
 const postId = route.params.slug
 
-// Estados
 const post = ref(null)
 const loading = ref(true)
 const error = ref(null)
@@ -143,7 +146,6 @@ const comments = ref([])
 const commentsLoading = ref(false)
 const commentsError = ref(null)
 
-// Form
 const form = ref({ name: '', email: '', content: '' })
 const formErrors = ref({ name: '', email: '', content: '' })
 const submitting = ref(false)
@@ -248,6 +250,7 @@ const formatDate = (date) => {
 }
 
 onMounted(fetchPost)
+
 </script>
 
 <style scoped>
@@ -591,7 +594,7 @@ onMounted(fetchPost)
 
 @media (max-width: 768px) {
   .blog-post {
-    width: 95dvh;
+    width: 95dvw;
     padding: 0.5em;
   }
 
@@ -643,6 +646,10 @@ onMounted(fetchPost)
 }
 
 @media (max-width: 480px) {
+    .blog-post {
+    width: 99dvw;
+    padding: 0.1em;
+  }
   .post-meta {
     gap: 0.5em;
   }

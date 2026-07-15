@@ -605,7 +605,7 @@ onMounted(() => {
   }
 
   .container {
-    padding: 1rem;
+    padding: 0.5rem;
   }
 
   .pagination {
@@ -630,7 +630,8 @@ onMounted(() => {
 
 @media (max-width: 640px) {
   .container {
-    padding: 0.8rem;
+    padding: 0.25rem;
+    width: 95dvw;
   }
 
   .post-meta {
